@@ -1,0 +1,552 @@
+@import "variables.scss";
+@import "spinner.scss";
+@import "icons.scss";
+
+body {
+    background: $darkgrey;
+    color: $white;
+    font-family: 'Segoe UI';
+    margin: 0px;
+}
+
+.container {
+    width: 1280px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.col {
+    float: left;
+
+    &.right {
+        float: right;
+    }
+}
+.clear {
+    clear: both;
+}
+
+.clearfix {
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+#bgr, #mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: url('../images/mask.png');
+}
+#bgr {
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.2;
+    background-position: center center;
+    transition: 0.5s ease-out all;
+}
+button {
+    font-family: 'Segoe UI', sans-serif;
+    border: none;
+    padding: 10px 20px;
+    color: $white;
+    margin: 0px;
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: none;
+}
+
+// header part
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    background: $color7;
+    border-top: 5px solid $cyan;
+    padding: 40px 0 0;
+    transition: 0.3s ease-out all;
+
+    &.scrolled {
+        background: $darkgrey;
+        border-top: 0;
+        padding: 10px 0 0 0;
+    }
+}
+#header-col-1 {
+
+}
+#logo {
+    padding: 15px 50px 15px 0;
+    display: block;
+}
+.loading {
+    transition: 0.3s ease-out all;
+    @include ng-if;
+}
+#connect {
+    background: url('../images/btn-connect-l.png') top left no-repeat;
+    width: 124px;
+    height: 29px;
+}
+
+#header-col-2 {
+    margin-right: 51px;
+}
+#waveform {
+    position: relative;
+
+    .seek-time {
+        position: absolute;
+        z-index: 3;
+        top: 38px;
+        pointer-events: none;
+    }
+    canvas {
+        display: block;
+        pointer-events: none;
+    }
+    &.busy {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+#waveform-canvas-buffer-wrapper,
+#waveform-canvas-seek-wrapper,
+#waveform-canvas-progress-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    height: 100px;
+    pointer-events: none;
+}
+#waveform-canvas-mask {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100px;
+    cursor: not-allowed;
+}
+#waveform-seekbar {
+    height: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+#now-playing {
+    padding-top: 7px;
+    button {
+        background: none;
+        padding: 4px 0;
+        width: 20px;
+    }
+    span {
+        color: $orange;
+    }
+}
+
+#header-col-3 {
+    width: 450px;
+}
+#analyser {
+    position: relative;
+}
+#analyser-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#volume {
+    float: right;
+    padding: 10px 0px 10px 10px;
+
+    input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 100px;
+        height: 10px;
+        margin: 0;
+        background: $darkgrey2;
+        outline: none;
+
+        &::-webkit-slider-thumb {
+            width: 10px;
+            height: 10px;
+            background: $green;
+            cursor: pointer;
+            -webkit-appearance: none;
+        }
+        &::-moz-range-track {
+            background: none;
+        }
+        &::-moz-range-thumb {
+            width: 10px;
+            height: 10px;
+            background: $green;
+            border-radius: 0;
+            border: none;
+            cursor: pointer;
+            -moz-appearance: none;
+        }
+    }
+}
+#settings-wrapper {
+    position: relative;
+    float: right;
+}
+#settings {
+    padding: 0;
+    line-height: 1;
+    background: none;
+    box-sizing: border-box;
+    width: 36px;
+    height: 36px;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s ease-out all;
+    font-size: 16px;
+    &.shown {
+        color: $green;
+    }
+}
+#settings-menu {
+    background: $color7;
+    top: 36px;
+    position: absolute;
+    width: 174px;
+    transition: 0.5s ease-out all;
+    transition-delay: 0;
+    font-size: 16px;
+    line-height: 1;
+    overflow: hidden;
+    &.ng-hide-remove {
+        max-height: 0;
+        display: block !important;
+
+        &.ng-hide-remove-active {
+            max-height: 120px;
+        }
+    }
+
+    &.ng-hide-add {
+        max-height: 120px;
+        display: block !important;
+
+        &.ng-hide-add-active {
+            max-height: 0;
+        }
+    }
+    .user {
+        height: 40px;
+        padding: 10px;
+        box-sizing: border-box;
+
+        img {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    }
+    button {
+        font-size: 16px;
+        height: 40px;
+        width: 174px;
+        text-align: left;
+        padding: 10px;
+        background: none;
+
+        span {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+        }
+    }
+}
+#reposts-toggle {
+    &.reposts {
+        background: $darkgrey2 !important;
+    }
+}
+.scrolled #settings-menu {
+    background: $darkgrey;
+}
+
+#new {
+    background: $magenta;
+    text-align: center;
+    height: 24px;
+    .icon {
+        margin-right: 5px;
+    }
+}
+
+// tiles part
+#tiles {
+    margin: 230px auto 50px;
+
+
+
+    button {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        padding: 10px 10px;
+
+        &.play {
+            background: $green;
+            padding: 10px 20px;
+        }
+        &.pause {
+            background: $orange;
+        }
+        &.toggledesc {
+            background: none;
+            color: $lightgrey;
+            transition: 0.3s ease-out all;
+
+            &.shown {
+                color: $green;
+            }
+        }
+        &.playlist-icon {
+            background: none;
+            transition: 0.3s ease-out all;
+            .icon-view-list {
+                transition: 0.3s ease-out all;
+                @include ng-if;
+            }
+            .plno {
+                font-family: 'Segoe UI';
+                font-size: 18px;
+                vertical-align: top;
+                line-height: 32px;
+            }
+            &.open {
+                color: $green;
+            }
+            .loading {
+                transition: 0.3s ease-out all;
+                @include ng-if;
+                position: absolute;
+                left: 0;
+                top: 17px;
+                .spinner div {
+                    background: $white;
+                }
+            }
+        }
+        &.like {
+            background: none;
+            color: $lightgrey;
+            padding: 18px;
+
+            &.favorite {
+                color: $magenta;
+            }
+        }
+        &#more {
+            width: 600px;
+            text-transform: uppercase;
+            margin: 30px auto;
+            display: block;
+            padding: 5px 20px;
+            background: $purple;
+        }
+    }
+    .dummy {
+        width: 60px;
+        height: 60px;
+    }
+    .buy {
+        font-size: 24px;
+        line-height: 1.5;
+        border: none;
+        padding: 12px 19px;
+        color: $white;
+        margin: 0 0 0 4px;
+        background: $magenta;
+        width: 60px;
+        height: 60px;
+        box-sizing: border-box;
+        text-decoration: none;
+        display: block;
+    }
+    .download {
+        font-size: 24px;
+        line-height: 1.5;
+        border: none;
+        padding: 10px 19px;
+        color: $white;
+        margin: 0 0 0 4px;
+        background: $cyan;
+        width: 60px;
+        height: 60px;
+        box-sizing: border-box;
+        text-decoration: none;
+        display: block;
+    }
+
+    .item {
+        margin-bottom: 4px;
+        -webkit-transition: 0.3s ease-out all;
+        background: $color7;
+        position: relative;
+
+        &.active {
+            background: $color9;
+            margin: 10px 0px;
+        }
+
+        &.new {
+            background: $color11;
+        }
+    }
+
+    .separator {
+        margin: 25px auto;
+        width: 600px;
+        border-bottom: 10px double $cyan;
+        background: none;
+    }
+
+    .title {
+        padding: 0;
+        color: $white;
+        text-decoration: none;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+        line-height: 1;
+        overflow: hidden;
+        max-width: 800px;
+    }
+    .date {
+        padding: 4px 4px 0 0;
+        color: $magenta;
+        font-size: 12px;
+        .created {
+            color: $lightgrey;
+        }
+    }
+    .user-name {
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 12px;
+        color: $orange;
+    }
+    .repost {
+        color: $white;
+        display: block;
+        width: 30px;
+        height: 60px;
+        box-sizing: border-box;
+        line-height: 60px;
+    }
+    .right {
+        img {
+            width: 60px;
+            height: 60px;
+            display: block;
+            margin-left: 4px;
+        }
+        .dummy {
+            margin-left: 4px;
+            background: $darkgrey;
+        }
+    }
+    .duration {
+        color: $lightgrey;
+        margin: 15px 10px 0 0;
+        font-size: 20px;
+    }
+    .track-desc-wrapper {
+        font-size: 12px;
+        transition: 0.5s ease-out all;
+        transition-delay: 0;
+        overflow: hidden;
+        @include ng-show-hide;
+
+        a {
+            color: $orange;
+        }
+    }
+    .track-desc {
+        padding: 20px 120px;
+    }
+    progress {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        padding-left: 60px;
+        box-sizing: border-box;
+        height: 60px;
+        border: 0;
+        pointer-events: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: none;
+        &::-webkit-progress-bar {
+            background: none;
+        }
+        &::-webkit-progress-value {
+            background: $white;
+            opacity: 0.3;
+        }
+        &::-moz-progress-bar {
+            background: $white;
+            opacity: 0.3;
+        }
+    }
+    .playlist-wrapper {
+        transition: 0.5s ease-out all;
+        transition-delay: 0;
+        overflow: hidden;
+        @include ng-show-hide;
+    }
+    .playlist-tracks {
+        padding: 20px 120px;
+
+        .title {
+            max-width: 560px;
+        }
+    }
+}
+#error {
+    color: $magenta;
+    font-size: 20px;
+    text-align: center;
+    a {
+        color: $magenta;
+        text-decoration: none;
+        padding-bottom: 4px;
+        border-bottom: 1px solid $magenta;
+        font-weight: bold;
+    }
+    .icon {
+        font-size: 200px;
+        width: 200px;
+        margin: 0px auto;
+        display: block;
+
+    }
+}
+#osc {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    margin-top: -100px;
+}

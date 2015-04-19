@@ -1,0 +1,39 @@
+.spinner {
+    height: 20px;
+    text-align: center;
+    font-size: 10px;
+    width: 132px;
+
+    & > div {
+        background-color: #fff;
+        height: 100%;
+        width: 4px;
+        margin-right: 2px;
+        float: left;
+        transform-origin: 100% 100%;
+
+        -webkit-animation: stretchdelay 1.0s infinite ease-in-out;
+        animation: stretchdelay 1.0s infinite ease-in-out;
+    }
+    @for $i from 1 through 22 {
+        .rect#{$i} {
+            -webkit-animation-delay: #{(0-$i/20)}s;
+            animation-delay: #{(0-$i/20)}s;
+        }
+    }
+}
+
+@-webkit-keyframes stretchdelay {
+    0%, 100% { -webkit-transform: scaleY(0.2) }
+    50% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes stretchdelay {
+    0%, 100% {
+        transform: scaleY(0.2);
+        -webkit-transform: scaleY(0.2);
+    }  50% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}

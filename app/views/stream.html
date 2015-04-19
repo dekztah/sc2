@@ -1,0 +1,35 @@
+<div ng-controller="streamCtrl">
+    <div id="bgr" ng-if="background" ng-style="{'background-image': 'url(' + background +')'}"></div>
+    <div id="mask"></div>
+
+
+    <header data-ng-include="'views/header.html'"></header>
+    <div id="content">
+        <div id="search" class="clearfix">
+            <span class="icon-search icon col"></span>
+            <input
+                type="text"
+                autocomplete="off"
+                data-ng-model="search.origin.title"
+                data-ng-init="search.origin.title = ''"
+                placeholder="Search for track title"
+                maxlength="8"
+                class="col"/>
+            </div>
+        <div id="tiles" class="container" ng-init="showRepost = true">
+            <div id="error" ng-if="status.error"><span class="icon-warning icon"></span>Error reaching SoundCloud service.<br> Please check the <a target="_blank" href="http://status.soundcloud.com/">official SoundCloud status blog</a> for more info.</div>
+            <audio preload autobuffer id="player" crossorigin="anonymous"></audio>
+
+            <div
+                ng-repeat="track in filtered = (stream | filter:search)"
+                class="{{track.type}} clearfix item"
+                ng-class="{active: helpers.isCurrent([childIndex, parentIndex]), new: track.isNew}"
+                ng-show="showRepost || track.type === 'track' || track.type === 'separator' || track.type === 'playlist'"
+                ng-click="track.isNew = false"
+                ng-include="'views/item.html'"
+                ng-init="parentIndex = $index; childIndex = null">
+            </div>
+            <button id="more" ng-click="getTracks()" ng-show="stream.length">more</button>
+        </div>
+    </div>
+</div>

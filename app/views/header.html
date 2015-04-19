@@ -1,0 +1,87 @@
+<div class="container clearfix">
+    <div id="settings-menu" class="clearfix">
+        <div class="user">
+            <img ng-src="{{user.avatar_url}}"/><span>{{user.username}}</span>
+        </div>
+        <button ng-click="logout()" id="logout" class="icon-switch"></button>
+        <button ng-click="showRepost = !showRepost" id="reposts-toggle" ng-class="{'reposts': showRepost}" class="icon-repost"></button>
+        <div id="fader">
+            <div class="rectangles">
+                <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{$index+1}} rect"></div>
+            </div>
+            <input type="range" min="0" max="100" data-ng-change="helpers.setVolume(gain.value)" data-ng-model="gain.value" data-ng-init="gain.value = 100">
+            <div class="overlay" data-ng-style="{'width': gain.value / 2 + 'px'}">
+                <div class="rectangles">
+                    <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{$index+1}} rect"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <img id="logo" src="images/sc2_logo.png"/>
+        <div class="loading" ng-if="status.loading">
+            <div class="spinner">
+                <div ng-repeat="rect in helpers.getTimes(22) track by $index" class="rect{{$index}}"></div>
+                loading...
+            </div>
+        </div>
+
+    </div>
+    <button id="connect" ng-show="!storedToken" ng-click="connect()"></button>
+
+    <div class="row clearfix">
+        <div id="waveform" data-ng-class="{'busy': playerData.seeking}">
+            <div class="seek-time" data-ng-show="seekCursor.xpos" data-ng-style="{'left': seekCursor.xpos + 'px'}">{{seekCursor.time | duration}}</div>
+            <div id="waveform-canvas-buffer-wrapper" data-ng-style="{'width': (playerData.buffered / playerData.duration) * 100 + '%'}">
+                <div id="waveform-canvas-buffer" canvas-context="waveformBufferContext"></div>
+            </div>
+            <div id="waveform-canvas" canvas-context="waveformContext"></div>
+            <div id="waveform-canvas-progress-wrapper" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'} ">
+                <div id="waveform-canvas-progress" canvas-context="waveformProgressContext"></div>
+            </div>
+            <div id="waveform-seekbar" ng-click="playerData.playingIndex != null && controlAudio.seekTo($event)" ng-mousemove="playerData.playingIndex != null && (seekCursor = controlAudio.seekPreview($event))" ng-mouseleave="seekCursor = {}"></div>
+            <div id="waveform-canvas-mask" data-ng-style="{'width': 100- (playerData.buffered / playerData.duration) * 100 + '%'}"></div>
+            <div id="waveform-canvas-seek-wrapper" ng-style="{'width': seekCursor.xpos + 'px'}"></div>
+        </div>
+        <div class="time">
+            <div class="total">{{playerData.currentTrack.origin.duration | duration}}</div>
+            <div class="current">{{playerData.currentTime * 1000| duration}}</div>
+        </div>
+
+    </div>
+
+    <div class="row clearfix" id="visuals">
+        <div id="osc" canvas-context="oscContext"></div>
+
+        <div id="analyser">
+            <div id="analyser-bottom" canvas-context="analyserBottomContext"></div>
+            <div id="analyser-top" canvas-context="analyserTopContext"></div>
+        </div>
+
+        <div id="now-playing">
+            <div class="left">
+                <div class="playpause">
+                    <button class="play icon-play icon" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"></button>
+                    <button class="pause icon-pause icon" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"></button>
+                </div>
+                <div class="user">
+                    <img class="user-avatar" ng-src="{{playerData.currentTrack.origin.user.avatar_url}}" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="content">
+                <div class="row details">
+                    {{playerData.currentTrack.origin.user.username}}
+                    <span class="date">{{playerData.currentTrack.created_at | customDate: 'MMMM DD YYYY'}}</span>
+                </div>
+                <div class="row main clearfix">
+                    {{playerData.currentTrack.origin.title}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div id="new" data-ng-show="filtered"><span class="icon icon-new"></span><span>{{filtered = (stream | filter: {isNew : true}).length}} new --- last visit: {{user.lastFetch | customDate: 'ago'}}</span></div>
