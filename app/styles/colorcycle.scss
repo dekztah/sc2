@@ -1,0 +1,29 @@
+.colorchanger {
+    animation: colorchange 240s infinite;
+    -webkit-animation: colorchange 240s infinite;
+}
+
+@keyframes colorchange
+{
+    0%    {background: #00aa00;}
+    12.5% {background: #00aaaa;}
+    25%   {background: #0000aa;}
+    37.5% {background: #aa00aa;}
+    50%   {background: #aa0000;}
+    62.5% {background: #aa00aa;}
+    75%   {background: #0000aa;}
+    87.5% {background: #00aaaa;}
+    100%  {background: #00aa00;}
+}
+@-webkit-keyframes colorchange
+{
+    0%    {background: #00aa00;}
+    12.5% {background: #00aaaa;}
+    25%   {background: #0000aa;}
+    37.5% {background: #aa00aa;}
+    50%   {background: #aa0000;}
+    62.5% {background: #aa00aa;}
+    75%   {background: #0000aa;}
+    87.5% {background: #00aaaa;}
+    100%  {background: #00aa00;}
+}

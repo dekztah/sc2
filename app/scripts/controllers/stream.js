@@ -106,9 +106,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     $scope.getTracks = function(){
         $scope.status.loading = true;
-        if (nextPageCursor) {
-            // $scope.stream.push({'type' : 'separator'});
-        }
         soundCloudService.getTracks({limit: 50, cursor: nextPageCursor}).then(function(stream){
             var now = moment().format('YYYY-MM-DD HH:mm:ss');
             var lastFetch = localStorageService.get('lastFetch');

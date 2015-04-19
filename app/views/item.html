@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-1" ng-if="!isPlaylistTrack">
                     <img class="user-avatar" ng-src="{{track.origin.user.avatar_url}}" />
-                    <div ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'" class="icon-repost icon repost"></div>
+                    <div ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'" class="icon-repost icon repost colorchanger"></div>
                 </div>
                 <div class="col-md-13" >
                     <div class="row details" ng-if="!isPlaylistTrack">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="text-right" data-ng-class="isPlaylistTrack ? 'col-md-3' : 'col-md-2'">
                     <span class="duration">{{track.origin.duration | duration}}</span>
-                    <a class="buy  btn btn-default" ng-if="track.origin.purchase_url" ng-href="{{track.origin.purchase_url}}" target="_blank"><span class="icon-cart"></span></a>
+                    <a class="buy btn btn-default" ng-if="track.origin.purchase_url" ng-href="{{track.origin.purchase_url}}" target="_blank"><span class="icon-cart"></span></a>
                     <a class="download  btn btn-default" ng-if="track.origin.downloadable" ng-href="{{helpers.download(track.origin.id)}}"><span class="icon-download"></span></a>
                     <button class="like btn btn-default" ng-click="track.origin.favoriteFlag ? like('delete', [childIndex, parentIndex]) : like('put', [childIndex, parentIndex])" ng-class="{'favorite' : track.origin.favoriteFlag}"><span class="icon-like"></span></button>
                 </div>
@@ -61,5 +61,5 @@
 
     </div>
 </div>
-<div class="track-progress" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent([childIndex, parentIndex]) && track.type !== 'playlist' && track.type !== 'playlist-repost'">
+<div class="track-progress colorchanger" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent([childIndex, parentIndex]) && track.type !== 'playlist' && track.type !== 'playlist-repost'">
 <div class="col-md-16" ng-if="(track.index + 1)%50 === 0">separator dummmy</div>

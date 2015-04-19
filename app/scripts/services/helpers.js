@@ -26,7 +26,7 @@ angular.module('sc2App').service('helperService', function () {
     };
     this.drawAnalyzerBgr = function(canvas, numBars, spacerWidth, spectrumHeight, barWidth) {
         var i,z;
-        canvas.strokeStyle = 'rgba(255,255,255,0.1)';
+        canvas.strokeStyle = 'rgba(255,255,255,0.07)';
         canvas.lineCap = 'round';
         canvas.lineWidth = 4;
         canvas.beginPath();
