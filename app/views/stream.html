@@ -1,6 +1,6 @@
 <div class="row" data-ng-controller="streamCtrl">
-    <header class="col-md-4 sidebar" data-ng-include="'views/header.html'"></header>
-    <div class="col-md-12 col-md-offset-4 main">
+    <header class="sidebar" data-ng-include="'views/header.html'"></header>
+    <div class="col-md-16 main">
         <div class="page-header row">
             <div class="col-md-16">
                 <span class="icon-search"></span>
@@ -12,6 +12,7 @@
                     placeholder="Search for track title"
                     maxlength="8"
                     class="form-control"/>
+                <button class="close" data-ng-show="search.origin.title !== ''" data-ng-click="search.origin.title = ''">&times;</button>
             </div>
         </div>
         <audio preload autobuffer id="player" crossorigin="anonymous"></audio>
@@ -36,5 +37,3 @@
         </div>
     </div>
 </div>
-
-<!-- ng-repeat="track in filtered = (stream | filter:search)" -->

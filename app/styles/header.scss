@@ -1,3 +1,12 @@
+header {
+    color: #fff;
+    width: 510px;
+    padding: 0 30px;
+}
+.sidebar .page-header {
+    margin-top: 0;
+    padding: 15px;
+}
 #waveform {
     position: relative;
 
@@ -41,6 +50,23 @@
     margin-bottom: 30px;
 }
 
+.time {
+    margin-bottom: 30px;
+    .current {
+        float: left;
+    }
+    .total {
+        float: right;
+    }
+}
+#visuals {
+    position: absolute;
+    bottom: 50px;
+}
+#now-playing {
+    position: absolute;
+    bottom: 20px;
+}
 
 @media (min-width: $screen-md) {
     .sidebar {
