@@ -107,7 +107,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     $scope.getTracks = function(){
         $scope.status.loading = true;
         if (nextPageCursor) {
-            $scope.stream.push({'type' : 'separator'});
+            // $scope.stream.push({'type' : 'separator'});
         }
         soundCloudService.getTracks({limit: 50, cursor: nextPageCursor}).then(function(stream){
             var now = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -130,7 +130,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                     if (moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch))) {
                         item.isNew = true;
                     }
-
+                    item.index = i;
                     $scope.stream.push(item);
                 }
             });

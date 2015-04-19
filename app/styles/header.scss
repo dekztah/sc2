@@ -1,0 +1,54 @@
+#waveform {
+    position: relative;
+
+    .seek-time {
+        position: absolute;
+        z-index: 3;
+        top: 38px;
+        pointer-events: none;
+    }
+}
+#waveform-canvas-buffer-wrapper,
+#waveform-canvas-seek-wrapper,
+#waveform-canvas-progress-wrapper {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+}
+#waveform-seekbar {
+    height: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+#waveform-canvas-mask {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100px;
+    cursor: not-allowed;
+}
+#analyser {
+    position: relative;
+    margin-bottom: 30px;
+}
+#analyser-top {
+    position: absolute;
+    top: 0;
+}
+#osc {
+    margin-bottom: 30px;
+}
+
+
+@media (min-width: $screen-md) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient(to bottom, #005151, #001111);
+        display: block;
+    }
+}

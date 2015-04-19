@@ -1,10 +1,11 @@
-<div class="container clearfix">
-    <div id="settings-menu" class="clearfix">
+<!-- row 1 -->
+<div class="row">
+    <div class="col-md-16">
         <div class="user">
-            <img ng-src="{{user.avatar_url}}"/><span>{{user.username}}</span>
+            <img class="user-avatar" ng-src="{{user.avatar_url}}"/><span>{{user.username}}</span>
         </div>
-        <button ng-click="logout()" id="logout" class="icon-switch"></button>
-        <button ng-click="showRepost = !showRepost" id="reposts-toggle" ng-class="{'reposts': showRepost}" class="icon-repost"></button>
+        <button class="btn btn-default" ng-click="logout()" id="logout" class=""><span class="icon-switch"></span></button>
+        <button class="btn btn-default" ng-click="showRepost = !showRepost" id="reposts-toggle" ng-class="{'reposts': showRepost}" ><span class="icon-repost"></span></button>
         <div id="fader">
             <div class="rectangles">
                 <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{$index+1}} rect"></div>
@@ -17,20 +18,27 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="row clearfix">
+<!-- row 2 -->
+<div class="row">
+    <div class="col-md-8">
         <img id="logo" src="images/sc2_logo.png"/>
+    </div>
+    <div class="col-md-8">
         <div class="loading" ng-if="status.loading">
             <div class="spinner">
                 <div ng-repeat="rect in helpers.getTimes(22) track by $index" class="rect{{$index}}"></div>
                 loading...
             </div>
         </div>
-
+        <button id="connect" ng-show="!storedToken" ng-click="connect()"></button>
     </div>
-    <button id="connect" ng-show="!storedToken" ng-click="connect()"></button>
+</div>
 
-    <div class="row clearfix">
+<!-- row 3 -->
+<div class="row">
+    <div class="col-md-16">
         <div id="waveform" data-ng-class="{'busy': playerData.seeking}">
             <div class="seek-time" data-ng-show="seekCursor.xpos" data-ng-style="{'left': seekCursor.xpos + 'px'}">{{seekCursor.time | duration}}</div>
             <div id="waveform-canvas-buffer-wrapper" data-ng-style="{'width': (playerData.buffered / playerData.duration) * 100 + '%'}">
@@ -48,10 +56,12 @@
             <div class="total">{{playerData.currentTrack.origin.duration | duration}}</div>
             <div class="current">{{playerData.currentTime * 1000| duration}}</div>
         </div>
-
     </div>
+</div>
 
-    <div class="row clearfix" id="visuals">
+<!-- row 4 -->
+<div class="row">
+    <div class="col-md-16">
         <div id="osc" canvas-context="oscContext"></div>
 
         <div id="analyser">
@@ -62,8 +72,8 @@
         <div id="now-playing">
             <div class="left">
                 <div class="playpause">
-                    <button class="play icon-play icon" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"></button>
-                    <button class="pause icon-pause icon" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"></button>
+                    <button class="play btn btn-default" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
+                    <button class="pause btn btn-default" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
                 </div>
                 <div class="user">
                     <img class="user-avatar" ng-src="{{playerData.currentTrack.origin.user.avatar_url}}" />
@@ -80,8 +90,5 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
-<div id="new" data-ng-show="filtered"><span class="icon icon-new"></span><span>{{filtered = (stream | filter: {isNew : true}).length}} new --- last visit: {{user.lastFetch | customDate: 'ago'}}</span></div>
