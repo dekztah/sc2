@@ -1,4 +1,5 @@
 #main {
+    background: #fff;
     .page-header {
         position: fixed;
         top: 0;
@@ -9,6 +10,7 @@
         border-bottom: 1px solid #eee;
         z-index: 1;
         display: flex;
+        max-width: 1090px;
 
         .icon-search {
             flex: 30px;
@@ -40,11 +42,11 @@
 }
 #tiles {
     margin-top: 65px;
+    transition: opacity 1s ease-in 1s;
+    @include ng-show-hide;
 }
 // item
 .item {
-    border-bottom: 1px solid #eee;
-    padding: 30px;
     position: relative;
 
     .user-name,
@@ -101,6 +103,10 @@
         height: 4px;
         background: #00dddd;
     }
+}
+.separator {
+    text-align: center;
+    padding: 30px;
 }
 .controls {
     margin-right: 5px;
@@ -188,21 +194,23 @@ button.toggledesc {
             line-height: 20px;
         }
     }
-    .item {
+    .flex {
         border: none;
         background: #eee;
         border-radius: 4px;
         margin-bottom: 2px;
         padding: 10px 0;
-    }
-    .flex .meta {
-        flex: 50px;
+        .meta {
+            flex: 50px;
+        }
     }
 }
 // track item
 .flex {
     display: flex;
     flex-direction: row;
+    padding: 30px;
+    border-bottom: 1px solid #eee;
     .meta {
         flex: 1 130px;
         flex-shrink: 0;
@@ -221,7 +229,7 @@ button.toggledesc {
     .buttons {
         text-align: right;
         margin-right: 10px;
-        flex: 1 120px;
+        flex: 1 130px;
         flex-shrink: 0;
     }
 }

@@ -7,7 +7,6 @@
         data-ng-model="search.origin.title"
         data-ng-init="search.origin.title = ''"
         placeholder="Search for track title"
-        maxlength="8"
         class="form-control"/>
     <button class="close" data-ng-show="search.origin.title !== ''" data-ng-click="search.origin.title = ''">&times;</button>
 </div>
@@ -23,8 +22,15 @@
     Please check the <a target="_blank" href="http://status.soundcloud.com/">official SoundCloud status blog</a> for more info.
 </div>
 
+<div class="loading-overlay" ng-if="status.loading">
+    <div class="spinner">
+        <div ng-repeat="rect in helpers.getTimes(22) track by $index" class="rect{{$index}}"></div>
+        loading...
+    </div>
+</div>
+
 <!-- LIST row -->
-<div class="row" id="tiles">
+<div class="row" id="tiles" ng-show="stream.length > 49"> <!-- should find a way to prevent render problem, ngcloak does not work -->
     <div
         ng-repeat="track in filtered = (stream | filter:search)"
         class="{{track.type}} item row"
@@ -36,5 +42,5 @@
     </div>
 </div>
 <div class="row">
-    <button class="btn" id="more" ng-click="getTracks()" ng-show="stream.length">more</button>
+    <button class="btn" id="more" ng-click="getTracks()" ng-show="stream.length > 49">more</button>
 </div>

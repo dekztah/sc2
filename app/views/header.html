@@ -26,12 +26,7 @@
             <img id="logo" src="images/sc2_logo.png"/>
         </div>
         <div class="">
-            <div class="loading" ng-if="status.loading">
-                <div class="spinner">
-                    <div ng-repeat="rect in helpers.getTimes(22) track by $index" class="rect{{$index}}"></div>
-                    loading...
-                </div>
-            </div>
+
             <button id="connect" ng-show="!storedToken" ng-click="connect()"></button>
         </div>
     </div>

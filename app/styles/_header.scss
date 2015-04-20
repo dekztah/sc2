@@ -122,16 +122,4 @@ header {
     top: 0;
     bottom: 0;
     left: 0;
-    background: #005151;
-
-    &:before {
-        content: '';
-        position: absolute;
-        width: 510px;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9));
-    }
 }
-

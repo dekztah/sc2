@@ -10,26 +10,26 @@ $purple: #AE81FF;
 $lightyellow: #E6DB74;
 $color10: #75715E;
 
-
 $color7: rgba(51,51,51,0.5);
 $color9: rgba(86,86,86,0.5);
 $color11: rgba(160,160,160,0.5);
+
 @mixin ng-show-hide {
     &.ng-hide-remove {
-        max-height: 0;
+        opacity: 0;
         display: block !important;
 
         &.ng-hide-remove-active {
-            max-height: 1000px;
+            opacity: 1;
         }
     }
 
     &.ng-hide-add {
-        max-height: 1000px;
+        opacity: 1;
         display: block !important;
 
         &.ng-hide-add-active {
-            max-height: 0;
+            opacity: 0;
         }
     }
 }
