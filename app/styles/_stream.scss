@@ -156,13 +156,18 @@ button.toggledesc {
 
 }
 .description {
-    margin: 15px 0;
-    padding: 15px 0;
+    display: flex;
+    margin: 15px 0 0;
+    padding: 15px 0 0;
     border-top: 1px solid #eee;
     img {
-        margin-right: 10px;
+        margin: 0 10px 0 30px;
+        height: 100px;
+        flex: 100px;
+        flex-shrink: 0;
     }
     .track-desc {
+        flex: 100%;
 
         font-size: 12px;
         a {
