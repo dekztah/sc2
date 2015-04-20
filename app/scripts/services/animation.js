@@ -12,9 +12,7 @@ angular.module('sc2App').factory('animation', function ($window, audioContext, c
     var oscData = new Uint8Array(audioContext.osc.frequencyBinCount);
 
     canvasService.oscContext.lineWidth = 3;
-    // canvasService.oscContext.strokeStyle = '#00ffff';
     canvasService.oscContext.strokeStyle = 'rgba(255,255,255,0.7)';
-    // canvasService.analyserTopContext.strokeStyle = '#00ffff';
     canvasService.analyserTopContext.strokeStyle = 'rgba(255,255,255,0.7)';
     canvasService.analyserTopContext.lineCap = 'round';
     canvasService.analyserTopContext.lineWidth = 4;

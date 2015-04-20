@@ -1,0 +1,200 @@
+#main {
+    .page-header {
+        position: fixed;
+        top: 0;
+        left: 510px;
+        right: 0;
+        padding: 15px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        z-index: 1;
+        display: flex;
+
+        .icon-search {
+            flex: 30px;
+            flex-shrink: 0;
+            display: block;
+            text-align: center;
+            font-size: 20px;
+            margin-right: 10px;
+            line-height: 34px;
+        }
+        input {
+            flex: 100%;
+            display: inline-block;
+            border: none;
+            box-shadow: none;
+            padding: 0 0 0 10px;
+            outline: none;
+            font-size: 14px;
+            vertical-align: bottom;
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+        .close {
+            font-size: 30px;
+        }
+    }
+}
+#tiles {
+    margin-top: 65px;
+}
+// item
+.item {
+    border-bottom: 1px solid #eee;
+    padding: 30px;
+    position: relative;
+
+    .user-name,
+    .title {
+        color: #000;
+    }
+
+    &.active {
+        background: rgba(0,0,0,0.1);
+        border-bottom: none;
+    }
+
+
+    &:last-child {
+        border: none;
+    }
+    .user-name,
+    .date {
+        font-size: 12px;
+    }
+    .duration {
+        text-align: right;
+        margin-right: 5px;
+    }
+    .icon-repost {
+        width: 30px;
+        height: 30px;
+        margin-top: 5px;
+        text-align: center;
+        line-height: 30px;
+        font-size: 20px;
+        border-radius: 4px;
+        background: #577;
+        color: #fff;
+    }
+    .buy,
+    .like,
+    .download {
+        width: 30px;
+        height: 30px;
+        padding: 6px;
+        background: #999;
+        border: none;
+        color: #fff;
+        vertical-align: middle;
+    }
+    .like.favorite {
+        color: #dd0000;
+    }
+    .track-progress {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 4px;
+        background: #00dddd;
+    }
+}
+.controls {
+    margin-right: 5px;
+    button {
+        width: 65px;
+        height: 65px;
+        font-size: 30px;
+        line-height: 57px;
+        background: #ccc;
+        border: none;
+    }
+}
+.user-avatar {
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    display: block;
+}
+
+.date {
+    color: #ccc;
+    &:before {
+        content: '\0020\2022\0020';
+    }
+}
+.playlist-mark {
+    margin-right: 5px;
+    .btn {
+        width: 65px;
+        height: 65px;
+        font-size: 30px;
+        line-height: 65px;
+        border: none;
+        .plno {
+            font-size: 20px;
+            vertical-align: top;
+            line-height: 62px;
+        }
+    }
+}
+button.toggledesc {
+    padding: 0;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    background: none;
+    width: 20px;
+    height: 20px;
+}
+.playlist-tracks {
+    .controls {
+        button {
+            width: 30px;
+            height: 30px;
+            padding: 5px 8px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            line-height: 30px;
+        }
+    }
+    .item {
+        border: none;
+        background: #eee;
+        border-radius: 4px;
+        margin-bottom: 2px;
+        padding: 10px 0;
+    }
+    .flex .meta {
+        flex: 50px;
+    }
+}
+// track item
+.flex {
+    display: flex;
+    flex-direction: row;
+    .meta {
+        flex: 1 130px;
+        flex-shrink: 0;
+        flex-grow: 0;
+    }
+    .details {
+        flex: 1 100%;
+    }
+}
+.head {
+    display: flex;
+
+    .main {
+        flex: 1 100%;
+    }
+    .buttons {
+        text-align: right;
+        margin-right: 10px;
+        flex: 1 120px;
+    }
+}

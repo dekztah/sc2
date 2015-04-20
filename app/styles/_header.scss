@@ -1,0 +1,132 @@
+header {
+    flex: 1 510px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    color: #fff;
+
+    .page-header {
+        margin-top: 0;
+        padding: 15px;
+        background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.03)),linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border: none;
+        height: 64px;
+        position: relative;
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            width: 100%;
+            background-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.07) 15%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 85%, rgba(0, 0, 0, 0.1) 100%);
+        }
+
+        button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+        }
+    }
+}
+#logo {
+    opacity: 0;
+}
+
+#waveform {
+    position: relative;
+    margin-left: 30px;
+
+    .seek-time {
+        position: absolute;
+        z-index: 3;
+        top: 38px;
+        pointer-events: none;
+    }
+}
+#waveform-canvas-buffer-wrapper,
+#waveform-canvas-seek-wrapper,
+#waveform-canvas-progress-wrapper {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    width: 0;
+}
+#waveform-seekbar {
+    height: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+#waveform-canvas-mask {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100px;
+    cursor: not-allowed;
+}
+#analyser {
+    position: relative;
+    margin-bottom: 30px;
+}
+#analyser-top {
+    position: absolute;
+    top: 0;
+}
+#osc {
+    margin-bottom: 30px;
+}
+
+.time {
+    margin-bottom: 30px;
+    padding: 0 15px;
+    .current {
+        float: left;
+    }
+    .total {
+        float: right;
+    }
+}
+#visuals {
+    position: absolute;
+    bottom: 50px;
+    left: 30px;
+}
+#now-playing {
+    position: absolute;
+    bottom: 20px;
+    padding: 0 30px;
+    font-size: 12px;
+    width: 510px;
+
+    button {
+        width: 30px;
+        height: 30px;
+        padding: 6px;
+    }
+    .user-avatar {
+        margin: 0 10px;
+    }
+}
+#fixed {
+    position: fixed;
+    width: 510px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #005151;
+
+    &:before {
+        content: '';
+        position: absolute;
+        width: 510px;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9));
+    }
+}
+

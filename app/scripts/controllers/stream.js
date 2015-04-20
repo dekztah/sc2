@@ -173,7 +173,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 $http.get(waveformRequestUrl).success(function(waveformData){
                     helperService.drawWaveform(waveformData.samples, canvasService.waveformContext, 'rgba(255,255,255,0.05)');
                     helperService.drawWaveform(waveformData.samples, canvasService.waveformBufferContext, 'rgba(255,255,255,0.15)');
-                    // helperService.drawWaveform(waveformData.samples, canvasService.waveformProgressContext, '#00ffff');
                     helperService.drawWaveform(waveformData.samples, canvasService.waveformProgressContext, '#ffffff');
                 }).error(function(){
 
@@ -219,6 +218,9 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         },
         isCurrent: function(index) {
             return angular.equals(index, $scope.playerData.playingIndex);
+        },
+        toggleReposts: function() {
+            $scope.showReposts = !$scope.showReposts;
         }
     };
 

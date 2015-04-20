@@ -1,41 +1,40 @@
-<div class="row" data-ng-controller="streamCtrl">
-    <header class="sidebar colorchanger" data-ng-include="'views/header.html'" id="teszt"></header>
-
-    <div class="col-md-16 main">
-        <div class="page-header row">
-            <div class="col-md-16">
-                <span class="icon-search"></span>
-                <input
-                    type="text"
-                    autocomplete="off"
-                    data-ng-model="search.origin.title"
-                    data-ng-init="search.origin.title = ''"
-                    placeholder="Search for track title"
-                    maxlength="8"
-                    class="form-control"/>
-                <button class="close" data-ng-show="search.origin.title !== ''" data-ng-click="search.origin.title = ''">&times;</button>
-            </div>
-        </div>
-        <audio preload autobuffer id="player" crossorigin="anonymous"></audio>
-        <div id="new" data-ng-show="filtered"><span class="icon icon-new"></span><span>{{filtered = (stream | filter: {isNew : true}).length}} new --- last visit: {{user.lastFetch | customDate: 'ago'}}</span></div>
-        <div id="error" ng-if="status.error"><span class="icon-warning icon"></span>Error reaching SoundCloud service.<br> Please check the <a target="_blank" href="http://status.soundcloud.com/">official SoundCloud status blog</a> for more info.</div>
-
-        <div class="row" id="tiles" ng-init="showRepost = true">
-            <div class="col-md-16">
-                <div
-                    ng-repeat="track in filtered = (stream | filter:search)"
-                    class="{{track.type}} clearfix item row"
-                    ng-class="{active: helpers.isCurrent([childIndex, parentIndex]), new: track.isNew}"
-                    ng-show="showRepost || track.type === 'track' || track.type === 'separator' || track.type === 'playlist'"
-                    ng-click="track.isNew = false"
-                    ng-include="'views/item.html'"
-                    ng-init="parentIndex = $index; childIndex = null">
-                </div>
-                <div class="row">
-                    <button class="btn btn-default" id="more" ng-click="getTracks()" ng-show="stream.length">more</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- SEARCH bar row -->
+<div class="page-header row">
+    <span class="icon-search"></span>
+    <input
+        type="text"
+        autocomplete="off"
+        data-ng-model="search.origin.title"
+        data-ng-init="search.origin.title = ''"
+        placeholder="Search for track title"
+        maxlength="8"
+        class="form-control"/>
+    <button class="close" data-ng-show="search.origin.title !== ''" data-ng-click="search.origin.title = ''">&times;</button>
 </div>
 
+<!-- INFO bar row -->
+<div class="row" id="new" data-ng-show="filtered">
+    <span class="icon icon-new"></span>
+    <span>{{filtered = (stream | filter: {isNew : true}).length}} new --- last visit: {{user.lastFetch | customDate: 'ago'}}</span>
+</div>
+
+<div class="row" id="error" ng-if="status.error">
+    <span class="icon-warning icon"></span>Error reaching SoundCloud service.<br>
+    Please check the <a target="_blank" href="http://status.soundcloud.com/">official SoundCloud status blog</a> for more info.
+</div>
+
+<!-- LIST row -->
+<div class="row" id="tiles" ng-init="showReposts = true">
+    <div
+        ng-repeat="track in filtered = (stream | filter:search)"
+        class="{{track.type}} item row"
+        ng-class="{active: helpers.isCurrent([childIndex, parentIndex]), new: track.isNew}"
+        ng-show="showReposts || track.type === 'track' || track.type === 'separator' || track.type === 'playlist'"
+        ng-click="track.isNew = false"
+        ng-include="'views/item.html'"
+        ng-init="parentIndex = $index; childIndex = null">
+    </div>
+</div>
+<div class="row">
+    <button class="btn" id="more" ng-click="getTracks()" ng-show="stream.length">more</button>
+</div>

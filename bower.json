@@ -9,8 +9,7 @@
     "angular-sanitize": "^1.3.0",
     "momentjs": "~2.9.0",
     "angular-local-storage": "~0.1.5",
-    "stats.js": "*",
-    "bootstrap-sass-official": "~3.3.4"
+    "stats.js": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.0",
