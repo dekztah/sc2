@@ -26,6 +26,8 @@ button, .btn {
     height: 30px;
     text-align: center;
     border: none;
+    outline: none;
+    cursor: pointer;
 }
 
 .fl {
@@ -33,6 +35,13 @@ button, .btn {
 }
 .fr {
     float: right;
+}
+.clearfix {
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
 }
 #flex {
     display: flex;

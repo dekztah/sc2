@@ -7,6 +7,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     $scope.storedToken = localStorageService.get('accessToken');
     $scope.user = localStorageService.get('user');
+    $scope.showReposts = true;
     $scope.stream = [];
     $scope.playerData = {};
     $scope.status = {

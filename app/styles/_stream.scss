@@ -149,17 +149,38 @@ button.toggledesc {
     background: none;
     width: 20px;
     height: 20px;
+    overflow: hidden;
+    .icon-more {
+        line-height: 10px;
+    }
+
+}
+.description {
+    margin: 15px 0;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+    img {
+        margin-right: 10px;
+    }
+    .track-desc {
+
+        font-size: 12px;
+        a {
+            color: #6bb;
+        }
+    }
 }
 .playlist-tracks {
     .controls {
+        margin-left: 10px;
         button {
             width: 30px;
             height: 30px;
-            padding: 5px 8px;
+            padding: 5px;
             background: none;
             border: none;
             font-size: 20px;
-            line-height: 30px;
+            line-height: 20px;
         }
     }
     .item {
@@ -196,5 +217,6 @@ button.toggledesc {
         text-align: right;
         margin-right: 10px;
         flex: 1 120px;
+        flex-shrink: 0;
     }
 }

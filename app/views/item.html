@@ -38,11 +38,9 @@
                 <button class="like btn" ng-click="track.origin.favoriteFlag ? like('delete', [childIndex, parentIndex]) : like('put', [childIndex, parentIndex])" ng-class="{'favorite' : track.origin.favoriteFlag}"><span class="icon-like"></span></button>
             </div>
         </div>
-        <div class="row description" data-ng-show="desc">
-            <div class="">
-                <img class="" ng-if="track.origin.artwork_url" ng-src="{{::track.origin.artwork_url}}"/>
-                <div class="track-desc" ng-bind-html="track.origin.description | description"></div>
-            </div>
+        <div class="row description clearfix" data-ng-show="desc">
+            <div class="track-desc fl" ng-bind-html="track.origin.description | description"></div>
+            <img class="fr" ng-if="track.origin.artwork_url" ng-src="{{::track.origin.artwork_url}}"/>
         </div>
         <div class="row playlist-tracks" data-ng-if="track.type === 'playlist' || track.type === 'playlist-repost'">
             <div class="">

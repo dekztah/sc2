@@ -37,6 +37,7 @@ header {
 
 #waveform {
     position: relative;
+    width: 450px;
     margin-left: 30px;
 
     .seek-time {
@@ -44,6 +45,10 @@ header {
         z-index: 3;
         top: 38px;
         pointer-events: none;
+        color: #fff;
+        background: #000;
+        padding: 0 4px;
+        border-radius: 4px;
     }
 }
 #waveform-canvas-buffer-wrapper,
