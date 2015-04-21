@@ -1,12 +1,13 @@
 # sc2
+revamped UI for my previous project [sc](https://github.com/dekztah/sc)
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.11.1.
+![alt tag](https://raw.githubusercontent.com/dekztah/sc2/master/sc2_preview.png)
 
-## Build & development
+- spectrum analyser
+- oscilloscope
+- playlist support
+- toggle reposts
+- monokai! :D
+- stuff
 
-Run `grunt` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `grunt test` will run the unit tests with karma.
+> last four bars in spectrum analyser rarely react, due to soundcloud serving 128kbps mp3s
