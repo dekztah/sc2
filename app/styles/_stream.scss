@@ -1,16 +1,32 @@
 #main {
-    background: #fff;
+    // background: $white;
+    button, .btn, .icon {
+        color: $white;
+    }
+
     .page-header {
         position: fixed;
         top: 0;
         left: 510px;
         right: 0;
         padding: 15px;
-        background: #fff;
-        border-bottom: 1px solid #eee;
+        background-image: linear-gradient(to bottom, rgba($white, 0),rgba($white, 0.03)),linear-gradient(to right, rgba($white, 0.05) 0%, rgba($white, 0) 100%);
+        // border-bottom: 1px solid #eee;
         z-index: 1;
         display: flex;
         max-width: 1090px;
+        color: $white;
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            width: 100%;
+            background-image: linear-gradient(to left, transparent 0%, rgba($black, 0.07) 15%, rgba($black, 0.1) 50%, rgba($black, 0.1) 85%, rgba($black, 0.1) 100%);
+        }
 
         .icon-search {
             flex: 30px;
@@ -47,7 +63,7 @@
             margin: auto;
             .new-count {
                 background: #ff0000;
-                color: #fff;
+                color: $white;
                 border-radius: 4px;
                 padding: 0 5px;
             }
@@ -70,12 +86,13 @@
 
 #tiles {
     margin-top: 65px;
-    transition: opacity 1s ease-in 1s;
-    @include ng-show-hide;
+    // transition: opacity 1s ease-in ;
+    // @include ng-show-hide;
 }
 // item
 .item {
     position: relative;
+    // color: $white;
 
     .new {
         color: #ff0000;
@@ -85,11 +102,12 @@
 
     .user-name,
     .title {
-        color: #000;
+        // color: $black;
+        // color: $white;
     }
 
-    &.active {
-        background: rgba(0,0,0,0.1);
+    &.active .flex{
+        background: rgba($white, 0.4);
         border-bottom: none;
     }
 
@@ -113,8 +131,8 @@
         line-height: 30px;
         font-size: 20px;
         border-radius: 4px;
-        background: #577;
-        color: #fff;
+        background: rgba($white, 0.2);
+        // color: $white;
     }
     .buy,
     .like,
@@ -122,9 +140,9 @@
         width: 30px;
         height: 30px;
         padding: 6px;
-        background: #999;
+        // background: #999;
         border: none;
-        color: #fff;
+        color: $white;
         vertical-align: middle;
     }
     .like.favorite {
@@ -149,7 +167,8 @@
         height: 65px;
         font-size: 30px;
         line-height: 57px;
-        background: #ccc;
+        // background: #ccc;
+        background: rgba($white, 0.4);
         border: none;
     }
 }
@@ -161,7 +180,8 @@
 }
 
 .date {
-    color: #ccc;
+    // color: #ccc;
+    color: rgba($white, 0.5);
     &:before {
         content: '\0020\2022\0020';
     }
@@ -232,12 +252,12 @@ button.toggledesc {
         background: none;
 
         .flex {
-            background: #ddd;
+            background: rgba($white, 0.4);
         }
     }
     .flex {
         border: none;
-        background: #eee;
+        // background: #eee;
         border-radius: 4px;
         margin-bottom: 2px;
         padding: 10px 0 0;
@@ -248,7 +268,7 @@ button.toggledesc {
     }
     .description {
         margin-bottom: 20px;
-        border-top: 1px solid #fff;
+        border-top: 1px solid $white;
     }
 }
 // track item
@@ -256,7 +276,9 @@ button.toggledesc {
     display: flex;
     flex-direction: row;
     padding: 30px;
-    border-bottom: 1px solid #eee;
+    background: rgba($white, 0.2);
+    // border-bottom: 1px solid #eee;
+    margin-bottom: 1px;
     .meta {
         flex: 1 130px;
         flex-shrink: 0;

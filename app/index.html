@@ -1,24 +1,30 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" ng-app="sc2App"  ng-class="[theme.bgr, theme.color]" data-theme>
     <head>
         <meta charset="utf-8">
-        <title>sc</title>
+        <title>sc2</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+        <link rel="shortcut icon" href="sc__.png" type="image/png"/>
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
     </head>
-    <body ng-app="sc2App">
+    <body data-ng-controller="streamCtrl" ng-class="{'login': !storedToken}">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
         <!-- Add your site or application content here -->
         <audio preload autobuffer id="player" crossorigin="anonymous"></audio>
-        <div id="flex" data-ng-controller="streamCtrl">
+        <div id="login" ng-show="!storedToken" ng-cloak>
+            <div class="wrapper">
+                <img src="images/sc2_logo.png"/>
+                <button id="connect"  ng-click="connect()">connect with <img src="images/soundcloud_logo_white.png"/></button>
+            </div>
+        </div>
+        <div id="flex" ng-show="storedToken" ng-cloak>
             <header data-ng-include="'views/header.html'"></header>
             <div id="main" ng-include="'views/stream.html'"></div>
         </div>
@@ -63,8 +69,8 @@
         <script src="scripts/filters/customDate.js"></script>
         <script src="scripts/filters/duration.js"></script>
         <script src="scripts/filters/description.js"></script>
-        <script src="scripts/directives/scroller.js"></script>
         <script src="scripts/directives/canvas.js"></script>
+        <script src="scripts/directives/theme.js"></script>
         <script src="scripts/controllers/stream.js"></script>
         <!-- endbuild -->
 

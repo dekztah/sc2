@@ -5,6 +5,11 @@
 @import "fader";
 @import "spinner";
 @import "colorcycle";
+@import "themes";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
 
 *,
 *:before,
@@ -19,24 +24,35 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #fff;;
+    background: #fff;
 }
 
 ::-webkit-scrollbar-thumb {
     background: #ccc;
 }
 html {
-    background: #00bbbb;
+    &:after {
+        content: '';
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
 }
 body {
     margin: 0;
     font-family: 'Segoe UI';
     overflow-y: scroll;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8));
-    background-attachment: fixed;
+    position: relative;
+    z-index: 1;
+    &.login {
+        overflow-y: auto;
+    }
 }
 a {
     text-decoration: none;
+    color: $white;
 }
 button, .btn {
     border-radius: 4px;
@@ -47,6 +63,7 @@ button, .btn {
     border: none;
     outline: none;
     cursor: pointer;
+    background: rgba($white, 0.1);
 }
 
 .fl {
@@ -62,6 +79,37 @@ button, .btn {
         clear: both;
     }
 }
+#login {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 4;
+    display: flex;
+}
+.wrapper {
+    margin: auto;
+    width: 288px;
+}
+#connect {
+    margin-top: 30px;
+    width: 288px;
+    background: none;
+    border: 1px solid $white;
+    height: 50px;
+    color: $white;
+    line-height: 1;
+    transition: 0.3s ease-in background-color;
+
+    &:hover {
+        background-color: rgba($white,0.3);
+    }
+
+    img {
+        vertical-align: bottom;
+    }
+}
 #flex {
     display: flex;
     flex-direction: row;
@@ -70,5 +118,4 @@ button, .btn {
 #main {
     flex: 2 100%;
     max-width: 1090px;
-    min-height: 1080px;
 }

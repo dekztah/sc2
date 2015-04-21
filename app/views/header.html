@@ -2,6 +2,7 @@
     <!-- row 1 -->
     <div class="row page-header clearfix">
         <div class="fl clearfix" id="now-playing" ng-if="playerData.currentTrack">
+            {{playerData.currentTrack.error}}
             <div class="fl">
                 <button class="play btn fl" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
                 <button class="pause btn fl" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
@@ -32,41 +33,43 @@
             <!-- <div class="user">
                 <img class="user-avatar" ng-src="{{user.avatar_url}}"/><span>{{user.username}}</span>
             </div> -->
+
+    <div class="row" id="credits">
+        <img src="images/sc2.png"/>
+        <img src="images/soundcloud_powered_by_large_white.png"/>
+        <div id="theme-changer">
+            <button ng-click="changeTheme('default')" ng-class="{'active': theme.bgr === 'default'}">default</button>
+            <button ng-click="changeTheme('vice')" ng-class="{'active': theme.bgr === 'vice'}">vice</button>
+            <button ng-click="changeTheme('lime')" ng-class="{'active': theme.bgr === 'lime'}">lime</button>
+            <br>
+            <button ng-click="changeTheme('light', 1)" ng-class="{'active': theme.color === 'light'}">light</button>
+            <button ng-click="changeTheme('dark', 1)" ng-class="{'active': theme.color === 'dark'}">dark</button>
+            <button ng-click="changeTheme('transparent', 1)" ng-class="{'active': theme.color === 'transparent'}">transparent</button>
+
+        </div>
+    </div>
     <!-- row 2 -->
     <div class="row">
-        <div class="">
-            <img id="logo" src="images/sc2_logo.png"/>
+        <div id="waveform" data-ng-class="{'busy': playerData.seeking}">
+            <div class="seek-time" data-ng-show="seekCursor.xpos" data-ng-style="{'left': seekCursor.xpos + 'px'}">{{seekCursor.time | duration}}</div>
+            <div id="waveform-canvas-buffer-wrapper" data-ng-style="{'width': (playerData.buffered / playerData.duration) * 100 + '%'}">
+                <div id="waveform-canvas-buffer" canvas-context="waveformBufferContext"></div>
+            </div>
+            <div id="waveform-canvas" canvas-context="waveformContext"></div>
+            <div id="waveform-canvas-progress-wrapper" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'} ">
+                <div id="waveform-canvas-progress" canvas-context="waveformProgressContext"></div>
+            </div>
+            <div id="waveform-seekbar" ng-click="playerData.playingIndex != null && controlAudio.seekTo($event)" ng-mousemove="playerData.playingIndex != null && (seekCursor = controlAudio.seekPreview($event))" ng-mouseleave="seekCursor = {}"></div>
+            <div id="waveform-canvas-mask" data-ng-style="{'width': 100- (playerData.buffered / playerData.duration) * 100 + '%'}"></div>
+            <div id="waveform-canvas-seek-wrapper" ng-style="{'width': seekCursor.xpos + 'px'}"></div>
         </div>
-        <div class="">
-
-            <button id="connect" ng-show="!storedToken" ng-click="connect()"></button>
+        <div class="time" data-ng-if="playerData.currentTrack">
+            <div class="current">{{playerData.currentTime * 1000| duration}}</div>
+            <div class="total">{{playerData.currentTrack.origin.duration | duration}}</div>
         </div>
     </div>
 
     <!-- row 3 -->
-    <div class="row">
-        <div class="">
-            <div id="waveform" data-ng-class="{'busy': playerData.seeking}">
-                <div class="seek-time" data-ng-show="seekCursor.xpos" data-ng-style="{'left': seekCursor.xpos + 'px'}">{{seekCursor.time | duration}}</div>
-                <div id="waveform-canvas-buffer-wrapper" data-ng-style="{'width': (playerData.buffered / playerData.duration) * 100 + '%'}">
-                    <div id="waveform-canvas-buffer" canvas-context="waveformBufferContext"></div>
-                </div>
-                <div id="waveform-canvas" canvas-context="waveformContext"></div>
-                <div id="waveform-canvas-progress-wrapper" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'} ">
-                    <div id="waveform-canvas-progress" canvas-context="waveformProgressContext"></div>
-                </div>
-                <div id="waveform-seekbar" ng-click="playerData.playingIndex != null && controlAudio.seekTo($event)" ng-mousemove="playerData.playingIndex != null && (seekCursor = controlAudio.seekPreview($event))" ng-mouseleave="seekCursor = {}"></div>
-                <div id="waveform-canvas-mask" data-ng-style="{'width': 100- (playerData.buffered / playerData.duration) * 100 + '%'}"></div>
-                <div id="waveform-canvas-seek-wrapper" ng-style="{'width': seekCursor.xpos + 'px'}"></div>
-            </div>
-            <div class="time" data-ng-if="playerData.currentTrack">
-                <div class="current">{{playerData.currentTime * 1000| duration}}</div>
-                <div class="total">{{playerData.currentTrack.origin.duration | duration}}</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- row 4 -->
     <div class="row" id="visuals">
         <div class="">
             <div id="osc" canvas-context="oscContext"></div>
@@ -78,8 +81,7 @@
         </div>
     </div>
 
-    <!-- row 5 -->
-    <div class="row" id="credits">
-        <img src="images/sc_by_wav2.png"/>
-    </div>
+    <!-- row 4 -->
+
+
 </div>

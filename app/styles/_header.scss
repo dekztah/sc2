@@ -2,12 +2,16 @@ header {
     flex: 1 510px;
     flex-shrink: 0;
     flex-grow: 0;
-    color: #fff;
+    color: $white;
+
+    button, .btn, .icon {
+        color: $white;
+    }
 
     .page-header {
         margin-top: 0;
         padding: 15px;
-        background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.03)),linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 100%);
+        background-image: linear-gradient(to bottom, rgba($white,0), rgba($white,0.03)),linear-gradient(to right, rgba($white, 0) 0%, rgba($white, 0.05) 100%);
         border: none;
         height: 64px;
         position: relative;
@@ -20,13 +24,13 @@ header {
             right: 0;
             height: 1px;
             width: 100%;
-            background-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.07) 15%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 85%, rgba(0, 0, 0, 0.1) 100%);
+            background-image: linear-gradient(to right, transparent 0%, rgba($black, 0.07) 15%, rgba($black, 0.1) 50%, rgba($black, 0.1) 85%, rgba($black, 0.1) 100%);
         }
 
         button {
             background: none;
             border: none;
-            color: #fff;
+            color: $white;
             font-size: 20px;
         }
     }
@@ -59,7 +63,7 @@ header {
         width: 340px;
     }
     .date {
-        color: rgba(255,255,255,0.5);
+        color: rgba($white,0.5);
     }
 }
 #logo {
@@ -69,6 +73,7 @@ header {
 #waveform {
     position: relative;
     width: 450px;
+    margin: 30px 30px 0px;
     margin-left: 30px;
 
     .seek-time {
@@ -76,8 +81,8 @@ header {
         z-index: 3;
         top: 38px;
         pointer-events: none;
-        color: #fff;
-        background: #000;
+        color: $white;
+        background: $black;
         padding: 0 4px;
         border-radius: 4px;
     }
@@ -128,13 +133,25 @@ header {
 }
 #visuals {
     margin-left: 30px;
-    // position: absolute;
-    // bottom: 50px;
-    // left: 30px;
 }
 #credits {
     position: absolute;
     bottom: 30px;
     left: 30px;
+    img {
+        vertical-align: middle;
+    }
 }
-
+#theme-changer {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 75px;
+    text-align: right;
+    button {
+        width: auto;
+        margin-top: 4px;
+        &.active {
+            background: rgba($white, 0.5);
+        }
+    }
+}

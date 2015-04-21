@@ -1,0 +1,133 @@
+// colors
+
+// dark
+html.dark {
+    body {
+        color: $white;
+
+        a {
+            color: $white;
+        }
+    }
+    #main {
+        .page-header {
+            background: $grey;
+            border-bottom: 1px solid $black;
+        }
+        button, .btn, .icon {
+            color: $white;
+        }
+        .flex {
+            background: $grey;
+            margin-bottom: 0;
+            border-bottom: 1px solid $black;
+        }
+        .date {
+            color: rgba($white, 0.3);
+        }
+        .playlist-tracks {
+            .flex {
+                background: rgba($white, 0.05);
+                border: 0;
+                margin-bottom: 2px;
+            }
+            .controls button {
+                background: none;
+            }
+            .item.active .flex {
+                background: rgba($white, 0.1);
+            }
+        }
+        .item.active .flex{
+            background: rgba($grey, 0.9);
+        }
+        .buy,
+        .like,
+        .download {
+            background: rgba($white, 0.2);
+            color: $white;
+        }
+        .controls button {
+            background: rgba($white, 0.2);
+        }
+    }
+}
+
+html.light {
+    body {
+        color: $black;
+        a {
+            color: $black;
+        }
+    }
+    #main {
+        .page-header {
+            background: $white;
+            border-bottom: 1px solid #eee;
+        }
+        button, .btn, .icon {
+            color: $black;
+        }
+        .flex {
+            background: $white;
+            margin-bottom: 0;
+            border-bottom: 1px solid #eee;
+        }
+        .date {
+            color: rgba($black, 0.3);
+        }
+        .playlist-tracks {
+            .flex {
+                background: rgba($black, 0.05);
+                border: 0;
+                margin-bottom: 2px;
+            }
+            .controls button {
+                background: none;
+            }
+            .item.active .flex {
+                background: rgba($black, 0.1);
+            }
+        }
+        .item.active .flex{
+            background: rgba($white, 0.9);
+        }
+        .buy,
+        .like,
+        .download {
+            background: rgba($black, 0.2);
+            color: $white;
+        }
+        .controls button {
+            background: rgba($black, 0.2);
+        }
+    }
+}
+
+html.transparent {
+    body {
+        color: $white;
+    }
+}
+
+// backgrounds
+
+// default
+html.default {
+    &:after {
+        background-image: linear-gradient(to top, #65b184, #028793);
+    }
+}
+
+// vice
+html.vice {
+    &:after {
+        background-image: linear-gradient(to top, rgb(224,14,150), rgb(44,141,237));
+    }
+}
+
+html.lime {
+    &:after {
+        background-image: linear-gradient(to bottom, #007c5b, #c0eca6);
+    }
+}
