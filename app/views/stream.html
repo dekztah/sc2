@@ -9,12 +9,17 @@
         placeholder="Search for track title"
         class="form-control"/>
     <button class="close" data-ng-show="search.origin.title !== ''" data-ng-click="search.origin.title = ''">&times;</button>
-</div>
-
-<!-- INFO bar row -->
-<div class="row" id="new" data-ng-show="filtered">
-    <span class="icon icon-new"></span>
-    <span>{{filtered = (stream | filter: {isNew : true}).length}} new --- last visit: {{user.lastFetch | customDate: 'ago'}}</span>
+    <div id="new" data-ng-show="filtered">
+        <span class="new-count">
+            <span class="icon icon-new"></span>
+            <span>{{filtered = (stream | filter: {isNew : true}).length}} new</span>
+        </span><br>
+        <span class="last-visit">last visit: {{user.lastFetch | customDate: 'ago'}}</span>
+    </div>
+    <div id="settings">
+        <button class="btn" ng-click="helpers.toggleReposts()" id="reposts-toggle" ng-class="{'reposts': showReposts}" title="toggle reposts"><span class="icon-repost"></span></button>
+        <button class="btn" ng-click="logout()" id="logout" class="" title="logout"><span class="icon-switch"></span></button>
+    </div>
 </div>
 
 <div class="row" id="error" ng-if="status.error">
@@ -23,9 +28,11 @@
 </div>
 
 <div class="loading-overlay" ng-if="status.loading">
-    <div class="spinner">
-        <div ng-repeat="rect in helpers.getTimes(22) track by $index" class="rect{{$index}}"></div>
-        loading...
+    <div class="loading">
+        <div class="spinner">
+            <div ng-repeat="rect in helpers.getTimes(22) track by $index" class="rect{{$index}}"></div>
+            loading...
+        </div>
     </div>
 </div>
 

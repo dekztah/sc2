@@ -1,9 +1,21 @@
 <div id="fixed" class="colorchanger">
     <!-- row 1 -->
     <div class="row page-header clearfix">
-        <div class="fl">
-            <button class="btn" ng-click="logout()" id="logout" class=""><span class="icon-switch"></span></button>
-            <button class="btn" ng-click="helpers.toggleReposts()" id="reposts-toggle" ng-class="{'reposts': showReposts}" ><span class="icon-repost"></span></button>
+        <div class="fl clearfix" id="now-playing" ng-if="playerData.currentTrack">
+            <div class="fl">
+                <button class="play btn fl" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
+                <button class="pause btn fl" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
+                <img class="user-avatar fl" ng-src="{{playerData.currentTrack.origin.user.avatar_url}}" />
+            </div>
+            <div class="fl">
+                <div class="details">
+                    {{playerData.currentTrack.origin.user.username}}
+                    <span class="date">{{playerData.currentTrack.created_at | customDate: 'MMMM DD YYYY'}}</span>
+                </div>
+                <div class="title">
+                    {{playerData.currentTrack.origin.title}}
+                </div>
+            </div>
         </div>
         <div id="fader" class="fr">
             <div class="rectangles">
@@ -67,20 +79,7 @@
     </div>
 
     <!-- row 5 -->
-    <div class="row clearfix" id="now-playing" ng-if="playerData.currentTrack">
-        <div class="fl">
-            <button class="play btn fl" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
-            <button class="pause btn fl" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
-            <img class="user-avatar fl" ng-src="{{playerData.currentTrack.origin.user.avatar_url}}" />
-        </div>
-        <div class="fl">
-            <div class="details">
-                {{playerData.currentTrack.origin.user.username}}
-                <span class="date">{{playerData.currentTrack.created_at | customDate: 'MMMM DD YYYY'}}</span>
-            </div>
-            <div class="">
-                {{playerData.currentTrack.origin.title}}
-            </div>
-        </div>
+    <div class="row" id="credits">
+        <img src="images/sc_by_wav.png"/>
     </div>
 </div>

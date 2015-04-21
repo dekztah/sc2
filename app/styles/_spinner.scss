@@ -10,16 +10,22 @@
     transition: opacity 1s ease-out;
     @include ng-if;
 }
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -66px;
+    height: 100px;
+    padding-top: 80px;
+    margin-top: -50px;
+    background: url(../images/sc2_small.png) top center no-repeat;
+}
 
 .spinner {
     height: 20px;
     text-align: center;
     font-size: 10px;
     width: 132px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -66px;
 
     & > div {
         background-color: #000;
