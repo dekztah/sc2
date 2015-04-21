@@ -57,4 +57,4 @@
 </div>
 <div class="track-progress colorchanger" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent([childIndex, parentIndex]) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
 <!-- SEPARATOR ITEM -->
-<div class="separator" ng-if="(track.index + 1)%50 === 0">separator dummmy</div>
+<div class="separator" ng-if="(track.index + 1)%50 === 0"><span class="icon-more icon"></span></div>
