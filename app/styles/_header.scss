@@ -28,10 +28,8 @@ header {
         }
 
         button {
-            background: none;
-            border: none;
-            color: $white;
             font-size: 20px;
+            background: none;
         }
     }
 }
@@ -63,13 +61,12 @@ header {
         width: 340px;
     }
     .date {
-        color: rgba($white,0.5);
+        color: rgba($white, 0.5);
     }
 }
-#logo {
-    opacity: 0;
+#visuals {
+    margin-left: 30px;
 }
-
 #waveform {
     position: relative;
     width: 450px;
@@ -109,18 +106,6 @@ header {
     height: 100px;
     cursor: not-allowed;
 }
-#analyser {
-    position: relative;
-    margin-bottom: 30px;
-}
-#analyser-top {
-    position: absolute;
-    top: 0;
-}
-#osc {
-    margin-bottom: 30px;
-}
-
 .time {
     margin-bottom: 30px;
     padding: 0 30px;
@@ -131,9 +116,18 @@ header {
         float: right;
     }
 }
-#visuals {
-    margin-left: 30px;
+#osc {
+    margin-bottom: 30px;
 }
+#analyser {
+    position: relative;
+    margin-bottom: 30px;
+}
+#analyser-top {
+    position: absolute;
+    top: 0;
+}
+
 #credits {
     position: absolute;
     bottom: 30px;

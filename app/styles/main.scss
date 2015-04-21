@@ -87,10 +87,11 @@ button, .btn {
     bottom: 0;
     z-index: 4;
     display: flex;
-}
-.wrapper {
-    margin: auto;
-    width: 288px;
+
+    .wrapper {
+        margin: auto;
+        width: 288px;
+    }
 }
 #connect {
     margin-top: 30px;
@@ -118,4 +119,11 @@ button, .btn {
 #main {
     flex: 2 100%;
     max-width: 1090px;
+}
+
+.user-avatar {
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    display: block;
 }

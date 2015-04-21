@@ -1,5 +1,4 @@
 #main {
-    // background: $white;
     button, .btn, .icon {
         color: $white;
     }
@@ -11,7 +10,6 @@
         right: 0;
         padding: 15px;
         background-image: linear-gradient(to bottom, rgba($white, 0),rgba($white, 0.03)),linear-gradient(to right, rgba($white, 0.05) 0%, rgba($white, 0) 100%);
-        // border-bottom: 1px solid #eee;
         z-index: 1;
         display: flex;
         max-width: 1090px;
@@ -86,13 +84,11 @@
 
 #tiles {
     margin-top: 65px;
-    // transition: opacity 1s ease-in ;
-    // @include ng-show-hide;
 }
+
 // item
 .item {
     position: relative;
-    // color: $white;
 
     .new {
         color: #ff0000;
@@ -100,29 +96,59 @@
         margin-left: 5px;
     }
 
-    .user-name,
-    .title {
-        // color: $black;
-        // color: $white;
-    }
-
     &.active .flex{
         background: rgba($white, 0.4);
         border-bottom: none;
     }
 
-
     &:last-child {
-        border: none;
+        // border: none;
     }
-    .user-name,
-    .date {
-        font-size: 12px;
+
+    .flex {
+        display: flex;
+        flex-direction: row;
+        padding: 30px;
+        background: rgba($white, 0.2);
+        margin-bottom: 1px;
+        .meta {
+            flex: 1 130px;
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+        .details {
+            flex: 1 100%;
+        }
     }
-    .duration {
-        text-align: right;
+
+    .controls {
         margin-right: 5px;
+        button {
+            width: 65px;
+            height: 65px;
+            font-size: 30px;
+            line-height: 57px;
+            background: rgba($white, 0.4);
+            border: none;
+        }
     }
+
+    .playlist-mark {
+        margin-right: 5px;
+        .btn {
+            width: 65px;
+            height: 65px;
+            font-size: 30px;
+            line-height: 65px;
+            border: none;
+            .plno {
+                font-size: 20px;
+                vertical-align: top;
+                line-height: 62px;
+            }
+        }
+    }
+
     .icon-repost {
         width: 30px;
         height: 30px;
@@ -132,15 +158,78 @@
         font-size: 20px;
         border-radius: 4px;
         background: rgba($white, 0.2);
-        // color: $white;
     }
+
+    .head {
+        display: flex;
+
+        .main {
+            flex: 1 100%;
+        }
+        .buttons {
+            text-align: right;
+            margin-right: 10px;
+            flex: 1 130px;
+            flex-shrink: 0;
+        }
+    }
+
+    .user-name,
+    .date {
+        font-size: 12px;
+    }
+    .date {
+        color: rgba($white, 0.5);
+        &:before {
+            content: '\0020\2022\0020';
+        }
+    }
+
+    button.toggledesc {
+        padding: 0;
+        border: none;
+        font-size: 20px;
+        line-height: 1;
+        background: none;
+        width: 20px;
+        height: 20px;
+        overflow: hidden;
+        .icon-more {
+            line-height: 10px;
+        }
+    }
+    .description {
+        display: flex;
+        margin: 15px 0 0;
+        padding: 15px 0 0;
+        border-top: 1px solid #eee;
+        img {
+            margin: 0 10px 0 30px;
+            height: 100px;
+            flex: 100px;
+            flex-shrink: 0;
+        }
+        .track-desc {
+            flex: 100%;
+
+            font-size: 12px;
+            a {
+                color: #6bb;
+            }
+        }
+    }
+
+    .duration {
+        text-align: right;
+        margin-right: 5px;
+    }
+
     .buy,
     .like,
     .download {
         width: 30px;
         height: 30px;
         padding: 6px;
-        // background: #999;
         border: none;
         color: $white;
         vertical-align: middle;
@@ -160,81 +249,7 @@
     text-align: center;
     padding: 30px;
 }
-.controls {
-    margin-right: 5px;
-    button {
-        width: 65px;
-        height: 65px;
-        font-size: 30px;
-        line-height: 57px;
-        // background: #ccc;
-        background: rgba($white, 0.4);
-        border: none;
-    }
-}
-.user-avatar {
-    border-radius: 4px;
-    width: 30px;
-    height: 30px;
-    display: block;
-}
 
-.date {
-    // color: #ccc;
-    color: rgba($white, 0.5);
-    &:before {
-        content: '\0020\2022\0020';
-    }
-}
-.playlist-mark {
-    margin-right: 5px;
-    .btn {
-        width: 65px;
-        height: 65px;
-        font-size: 30px;
-        line-height: 65px;
-        border: none;
-        .plno {
-            font-size: 20px;
-            vertical-align: top;
-            line-height: 62px;
-        }
-    }
-}
-button.toggledesc {
-    padding: 0;
-    border: none;
-    font-size: 20px;
-    line-height: 1;
-    background: none;
-    width: 20px;
-    height: 20px;
-    overflow: hidden;
-    .icon-more {
-        line-height: 10px;
-    }
-
-}
-.description {
-    display: flex;
-    margin: 15px 0 0;
-    padding: 15px 0 0;
-    border-top: 1px solid #eee;
-    img {
-        margin: 0 10px 0 30px;
-        height: 100px;
-        flex: 100px;
-        flex-shrink: 0;
-    }
-    .track-desc {
-        flex: 100%;
-
-        font-size: 12px;
-        a {
-            color: #6bb;
-        }
-    }
-}
 .playlist-tracks {
     .controls {
         margin-left: 10px;
@@ -257,7 +272,6 @@ button.toggledesc {
     }
     .flex {
         border: none;
-        // background: #eee;
         border-radius: 4px;
         margin-bottom: 2px;
         padding: 10px 0 0;
@@ -269,35 +283,5 @@ button.toggledesc {
     .description {
         margin-bottom: 20px;
         border-top: 1px solid $white;
-    }
-}
-// track item
-.flex {
-    display: flex;
-    flex-direction: row;
-    padding: 30px;
-    background: rgba($white, 0.2);
-    // border-bottom: 1px solid #eee;
-    margin-bottom: 1px;
-    .meta {
-        flex: 1 130px;
-        flex-shrink: 0;
-        flex-grow: 0;
-    }
-    .details {
-        flex: 1 100%;
-    }
-}
-.head {
-    display: flex;
-
-    .main {
-        flex: 1 100%;
-    }
-    .buttons {
-        text-align: right;
-        margin-right: 10px;
-        flex: 1 130px;
-        flex-shrink: 0;
     }
 }
