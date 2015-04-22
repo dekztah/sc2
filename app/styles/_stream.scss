@@ -1,6 +1,10 @@
 #main {
     button, .btn, .icon {
         color: $white;
+
+        &.like.favorite {
+            color: #dd0000;
+        }
     }
 
     .page-header {
@@ -237,9 +241,7 @@
         color: $white;
         vertical-align: middle;
     }
-    .like.favorite {
-        color: #dd0000;
-    }
+
     .track-progress {
         position: absolute;
         left: 0;
