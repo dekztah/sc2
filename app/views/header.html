@@ -3,7 +3,6 @@
     <div class="row page-header clearfix">
         <div class="fl clearfix" id="now-playing" ng-if="playerData.currentTrack">
             <div class="fl">
-                {{playerData.lastPlayedIndex}} | {{playerData.playingIndex}}
                 <button class="play btn fl" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
                 <button class="pause btn fl" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
                 <img class="user-avatar fl" ng-src="{{playerData.currentTrack.origin.user.avatar_url}}" />
