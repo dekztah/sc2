@@ -185,17 +185,20 @@
         }
     }
 
-    button.toggledesc {
-        padding: 0;
-        border: none;
-        font-size: 20px;
-        line-height: 1;
-        background: none;
-        width: 20px;
+    .toggledesc {
         height: 20px;
-        overflow: hidden;
-        .icon-more {
-            line-height: 10px;
+        button {
+            padding: 0;
+            border: none;
+            font-size: 20px;
+            line-height: 1;
+            background: none;
+            width: 20px;
+            height: 20px;
+            overflow: hidden;
+            .icon-more {
+                line-height: 10px;
+            }
         }
     }
     .description {

@@ -5,15 +5,15 @@
             <div class="fl">
                 <button class="play btn fl" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
                 <button class="pause btn fl" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
-                <img class="user-avatar fl" ng-src="{{playerData.currentTrack.origin.user.avatar_url}}" />
+                <img class="user-avatar fl" ng-src="{{playerData.currentTrack.avatar}}" />
             </div>
             <div class="fl">
                 <div class="details">
-                    {{playerData.currentTrack.origin.user.username}}
-                    <span class="date">{{playerData.currentTrack.created_at}}</span>
+                    {{playerData.currentTrack.username}}
+                    <span class="date">{{playerData.currentTrack.created}}</span>
                 </div>
                 <div class="title">
-                    {{playerData.currentTrack.origin.title}}
+                    {{playerData.currentTrack.title}}
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
         </div>
         <div class="time" data-ng-if="playerData.currentTrack">
             <div class="current">{{playerData.currentTimeFormatted}}</div>
-            <div class="total">{{playerData.currentTrack.origin.durationFormatted}}</div>
+            <div class="total">{{playerData.currentTrack.durationFormatted}}</div>
         </div>
     </div>
 

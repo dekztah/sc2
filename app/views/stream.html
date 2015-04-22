@@ -4,11 +4,11 @@
     <input
         type="text"
         autocomplete="off"
-        data-ng-model="search.origin.title"
-        data-ng-init="search.origin.title = ''"
+        data-ng-model="search.title"
+        data-ng-minlength="5"
         placeholder="Search for track title"
         class="form-control"/>
-    <button class="close" data-ng-show="search.origin.title !== ''" data-ng-click="search.origin.title = ''">&times;</button>
+    <button class="close" data-ng-show="search.title !== ''" data-ng-click="search.title = ''">&times;</button>
     <div id="new" data-ng-show="filtered">
         <span class="new-count">
             <span class="icon icon-new"></span>
@@ -39,7 +39,7 @@
 <!-- LIST row -->
 <div class="row" id="tiles">
     <div
-        ng-repeat="track in filtered = (stream | filter:search)"
+        ng-repeat="track in stream | filter:search"
         class="{{::track.type}} item row"
         ng-class="{'active': helpers.isCurrent(track.index), 'new': track.isNew}"
         ng-show="showReposts || track.type === 'track' || track.type === 'separator' || track.type === 'playlist'"

@@ -33,8 +33,12 @@ angular.module('sc2App').service('soundCloudService', function ($window, $http, 
         return $http.get(soundcloudConfig.apiBaseUrl + '/me/activities/tracks/affiliated', {params: params});
     };
 
-    self.getPlaylistTracks = function(playlist){
-        return $http.get(soundcloudConfig.apiBaseUrl + '/playlists/' + playlist.origin.id + '/tracks', {params: {oauth_token: self.accessToken }});
+    self.getPlaylistTracks = function(playlists){
+        var playlistTracks = [];
+        for (var i = 0; i < playlists.length; i++) {
+            playlistTracks.push($http.get(soundcloudConfig.apiBaseUrl + '/playlists/' + playlists[i] + '/tracks', {params: {oauth_token: self.accessToken }}));
+        }
+        return $q.all(playlistTracks);
     };
 
     self.like = function(method, trackId) {

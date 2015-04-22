@@ -10,8 +10,8 @@
         <div class="playlist-mark fl" ng-show="track.type === 'playlist' || track.type === 'playlist-repost'">
             <div class="btn"><span class="icon-playlist"></span><span class="plno">{{::track.tracks.length}}</span></div>
         </div>
-        <div class="fl" ng-if="!isPlaylistTrack">
-            <img class="user-avatar" ng-src="{{::track.origin.user.avatar_url}}" />
+        <div class="fl" ng-if="::track.index.length === 1">
+            <img class="user-avatar" ng-src="{{::track.avatar}}" />
             <div ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'" class="icon-repost icon repost colorchanger"></div>
         </div>
         <span class="icon-new new" data-ng-if="track.isNew"></span>
@@ -21,38 +21,38 @@
     <div class="details">
         <div class="row head">
             <div class="main">
-                <div class="row" ng-if="!isPlaylistTrack">
-                    <a class="user-name" ng-href="{{::track.origin.user.permalink_url}}" target="_blank">{{::track.origin.user.username}}</a>
-                    <span class="date">{{::track.created_at}}</span>
+                <div class="row" ng-if="::track.index.length === 1">
+                    <a class="user-name" ng-href="{{::track.userlink}}" target="_blank">{{::track.username}}</a>
+                    <span class="date">{{::track.created}}</span>
                 </div>
                 <div class="row">
-                    <a class="title" ng-href="{{::track.origin.permalink_url}}" target="_blank">{{::track.origin.title}}</a>
+                    <a class="title" ng-href="{{::track.link}}" target="_blank">{{::track.title}}</a>
                 </div>
-                <div class="row">
-                    <button class="toggledesc btn" ng-init="desc = false" ng-click="desc = !desc" ng-show="track.origin.description" ng-class="{'shown': desc}"><span class="icon-more"></span></button>
+                <div class="row toggledesc">
+                    <button class="btn" ng-init="desc = false" ng-click="desc = !desc" ng-show="track.description" ng-class="{'shown': desc}"><span class="icon-more"></span></button>
                 </div>
             </div>
             <div class="buttons">
-                <span class="duration">{{::track.origin.durationFormatted}}</span>
-                <a class="buy btn" ng-if="track.origin.purchase_url" ng-href="{{::track.origin.purchase_url}}" target="_blank"><span class="icon-cart"></span></a>
-                <a class="download btn" ng-if="track.origin.downloadable" ng-href="{{helpers.download(track.origin.id)}}"><span class="icon-download"></span></a>
-                <button class="like btn" ng-click="track.origin.favoriteFlag ? like('delete', track.index) : like('put', track.index)" ng-class="{'favorite' : track.origin.favoriteFlag}"><span class="icon-like"></span></button>
+                <span class="duration">{{::track.durationFormatted}}</span>
+                <a class="buy btn" ng-if="track.buy" ng-href="{{::track.buy}}" target="_blank"><span class="icon-cart"></span></a>
+                <a class="download btn" ng-if="track.downloadable" ng-href="{{helpers.download(track.scid)}}"><span class="icon-download"></span></a>
+                <button class="like btn" ng-click="track.favoriteFlag ? like('delete', track.index) : like('put', track.index)" ng-class="{'favorite' : track.favoriteFlag}"><span class="icon-like"></span></button>
             </div>
         </div>
         <div class="row description" data-ng-show="desc">
-            <div class="track-desc" ng-bind-html="track.origin.description"></div>
-            <img ng-if="track.origin.artwork_url" ng-src="{{::track.origin.artwork_url}}"/>
+            <div class="track-desc" ng-bind-html="track.description"></div>
+            <img ng-if="track.artwork" ng-src="{{::track.artwork}}"/>
         </div>
         <div class="row playlist-tracks" data-ng-if="track.type === 'playlist' || track.type === 'playlist-repost'">
             <div
                 ng-repeat="track in ::track.tracks"
                 ng-include="'views/item.html'"
                 class="item track row"
-                ng-init="isPlaylistTrack = true"
+
                 ng-class="{active: helpers.isCurrent(track.index)}"></div>
         </div>
     </div>
 </div>
 <div class="track-progress colorchanger" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent(track.index) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
 <!-- SEPARATOR ITEM -->
-<div class="separator" ng-if="(track.index + 1)%50 === 0"><span class="icon-more icon"></span></div>
+<div class="separator" ng-if="(track.index[0] + 1)%50 === 0"><span class="icon-more icon"></span></div>
