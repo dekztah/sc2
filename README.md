@@ -1,6 +1,9 @@
-# sc2
-revamped UI for my previous project [sc](https://github.com/dekztah/sc)
+![alt text](https://raw.githubusercontent.com/dekztah/sc2/master/app/images/sc2_small.png)  #sc2
+---
+---
+revamped UI for my previous project [sc](https://github.com/dekztah/sc)  
 soundcloud user stream built with AngularJS using Web Audio API
+
 
 - dark, light, transparent mode
 - 3 different background presets
