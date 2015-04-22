@@ -14,7 +14,7 @@
             <span class="icon icon-new"></span>
             <span>{{filtered = (stream | filter: {isNew : true}).length}} new</span>
         </span><br>
-        <span class="last-visit">last visit: {{user.lastFetch | customDate: 'ago'}}</span>
+        <span class="last-visit">last visit: {{::user.lastFetch}}</span>
     </div>
     <div id="settings">
         <button class="btn" ng-click="helpers.toggleReposts()" id="reposts-toggle" ng-class="{'reposts': showReposts}" title="toggle reposts"><span class="icon-repost"></span></button>
@@ -30,22 +30,21 @@
 <div class="loading-overlay" ng-if="status.loading">
     <div class="loading">
         <div class="spinner">
-            <div ng-repeat="rect in helpers.getTimes(22) track by $index" class="rect{{$index}}"></div>
+            <div ng-repeat="rect in helpers.getTimes(22) track by $index" class="rect{{::$index}}"></div>
             loading...
         </div>
     </div>
 </div>
 
 <!-- LIST row -->
-<div class="row" id="tiles" ng-show="stream.length > 49"> <!-- should find a way to prevent render problem, ngcloak does not work -->
+<div class="row" id="tiles">
     <div
         ng-repeat="track in filtered = (stream | filter:search)"
-        class="{{track.type}} item row"
-        ng-class="{active: helpers.isCurrent([childIndex, parentIndex]), new: track.isNew}"
+        class="{{::track.type}} item row"
+        ng-class="{'active': helpers.isCurrent(track.index), 'new': track.isNew}"
         ng-show="showReposts || track.type === 'track' || track.type === 'separator' || track.type === 'playlist'"
         ng-click="track.isNew = false"
-        ng-include="'views/item.html'"
-        ng-init="parentIndex = $index; childIndex = null">
+        ng-include="'views/item.html'">
     </div>
 </div>
 <div class="row">

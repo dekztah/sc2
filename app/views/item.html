@@ -4,8 +4,8 @@
     <!-- PLAY OR PLAYLIST icon, user and repost icon -->
     <div class="meta">
         <div class="controls fl" ng-if="track.type != 'playlist' && track.type != 'playlist-repost'">
-            <button class="play btn" ng-click="controlAudio.play([childIndex, parentIndex])" ng-hide="helpers.isCurrent([childIndex, parentIndex])"><span class="icon-play"></span></button>
-            <button class="pause btn" ng-click="controlAudio.pause()" ng-show="helpers.isCurrent([childIndex, parentIndex])"><span class="icon-pause"></span></button>
+            <button class="play btn" ng-click="controlAudio.play(track.index)" ng-hide="helpers.isCurrent(track.index)"><span class="icon-play"></span></button>
+            <button class="pause btn" ng-click="controlAudio.pause()" ng-show="helpers.isCurrent(track.index)"><span class="icon-pause"></span></button>
         </div>
         <div class="playlist-mark fl" ng-show="track.type === 'playlist' || track.type === 'playlist-repost'">
             <div class="btn"><span class="icon-playlist"></span><span class="plno">{{::track.tracks.length}}</span></div>
@@ -23,7 +23,7 @@
             <div class="main">
                 <div class="row" ng-if="!isPlaylistTrack">
                     <a class="user-name" ng-href="{{::track.origin.user.permalink_url}}" target="_blank">{{::track.origin.user.username}}</a>
-                    <span class="date">{{::track.created_at | customDate: 'MMMM DD YYYY'}}</span>
+                    <span class="date">{{::track.created_at}}</span>
                 </div>
                 <div class="row">
                     <a class="title" ng-href="{{::track.origin.permalink_url}}" target="_blank">{{::track.origin.title}}</a>
@@ -33,28 +33,26 @@
                 </div>
             </div>
             <div class="buttons">
-                <span class="duration">{{::track.origin.duration | duration}}</span>
+                <span class="duration">{{::track.origin.durationFormatted}}</span>
                 <a class="buy btn" ng-if="track.origin.purchase_url" ng-href="{{::track.origin.purchase_url}}" target="_blank"><span class="icon-cart"></span></a>
                 <a class="download btn" ng-if="track.origin.downloadable" ng-href="{{helpers.download(track.origin.id)}}"><span class="icon-download"></span></a>
-                <button class="like btn" ng-click="track.origin.favoriteFlag ? like('delete', [childIndex, parentIndex]) : like('put', [childIndex, parentIndex])" ng-class="{'favorite' : track.origin.favoriteFlag}"><span class="icon-like"></span></button>
+                <button class="like btn" ng-click="track.origin.favoriteFlag ? like('delete', track.index) : like('put', track.index)" ng-class="{'favorite' : track.origin.favoriteFlag}"><span class="icon-like"></span></button>
             </div>
         </div>
         <div class="row description" data-ng-show="desc">
-            <div class="track-desc" ng-bind-html="track.origin.description | description"></div>
+            <div class="track-desc" ng-bind-html="track.origin.description"></div>
             <img ng-if="track.origin.artwork_url" ng-src="{{::track.origin.artwork_url}}"/>
         </div>
         <div class="row playlist-tracks" data-ng-if="track.type === 'playlist' || track.type === 'playlist-repost'">
-            <div class="">
-                <div
-                    ng-repeat="track in track.tracks"
-                    ng-include="'views/item.html'"
-                    class="item track row"
-                    ng-init="childIndex = $index; isPlaylistTrack = true"
-                    ng-class="{active: helpers.isCurrent([childIndex, parentIndex])}"></div>
-            </div>
+            <div
+                ng-repeat="track in ::track.tracks"
+                ng-include="'views/item.html'"
+                class="item track row"
+                ng-init="isPlaylistTrack = true"
+                ng-class="{active: helpers.isCurrent(track.index)}"></div>
         </div>
     </div>
 </div>
-<div class="track-progress colorchanger" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent([childIndex, parentIndex]) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
+<div class="track-progress colorchanger" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent(track.index) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
 <!-- SEPARATOR ITEM -->
 <div class="separator" ng-if="(track.index + 1)%50 === 0"><span class="icon-more icon"></span></div>

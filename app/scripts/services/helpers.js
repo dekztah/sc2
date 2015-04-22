@@ -1,6 +1,41 @@
 'use strict';
 
-angular.module('sc2App').service('helperService', function () {
+angular.module('sc2App').service('helperService', function ($window) {
+    var moment = $window.moment,
+        scDateFormat = 'YYYY/MM/DD HH:mm:ss ZZ',
+        urlRegex =/((\b(https?):\/\/|www)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+    this.duration = function(duration) {
+        var hours = moment.duration(duration).get('hours');
+        var minutes = moment.duration(duration).get('minutes');
+        var seconds = moment.duration(duration).get('seconds');
+        if ((seconds / 10) < 1) {
+            seconds = '0' + seconds;
+        }
+        if (hours !== 0) {
+            if ((minutes /10) < 1) {
+                minutes = '0' + minutes;
+            }
+            return hours + ':' + minutes + ':' + seconds;
+        }
+        else {
+            return minutes + ':' + seconds;
+        }
+    };
+
+    this.customDate = function(date, format) {
+        return moment(date, scDateFormat).format(format);
+    };
+
+    this.description = function(text) {
+        var formattedDescription = text.replace(/\n/g, '<br>').replace(urlRegex, function(url) {
+            if (url.indexOf('www') === 0) {
+                url = 'http://' + url;
+            }
+            return '<a target="_blank" href="' + url + '">' + url + '</a>';
+        });
+        return formattedDescription;
+    };
 
     this.drawWaveform = function(waveformData, canvas, color) {
         canvas.fillStyle = color;

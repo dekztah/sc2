@@ -3,6 +3,7 @@
     <div class="row page-header clearfix">
         <div class="fl clearfix" id="now-playing" ng-if="playerData.currentTrack">
             <div class="fl">
+                {{playerData.lastPlayedIndex}} | {{playerData.playingIndex}}
                 <button class="play btn fl" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
                 <button class="pause btn fl" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
                 <img class="user-avatar fl" ng-src="{{playerData.currentTrack.origin.user.avatar_url}}" />
@@ -10,7 +11,7 @@
             <div class="fl">
                 <div class="details">
                     {{playerData.currentTrack.origin.user.username}}
-                    <span class="date">{{playerData.currentTrack.created_at | customDate: 'MMMM DD YYYY'}}</span>
+                    <span class="date">{{playerData.currentTrack.created_at}}</span>
                 </div>
                 <div class="title">
                     {{playerData.currentTrack.origin.title}}
@@ -19,12 +20,12 @@
         </div>
         <div id="fader" class="fr">
             <div class="rectangles">
-                <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{$index+1}} rect"></div>
+                <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{::$index+1}} rect"></div>
             </div>
             <input type="range" min="0" max="100" data-ng-change="helpers.setVolume(gain.value)" data-ng-model="gain.value" data-ng-init="gain.value = 100">
             <div class="overlay" data-ng-style="{'width': gain.value / 2 + 'px'}">
                 <div class="rectangles">
-                    <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{$index+1}} rect"></div>
+                    <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{::$index+1}} rect"></div>
                 </div>
             </div>
         </div>
@@ -50,7 +51,7 @@
     <!-- row 2 -->
     <div class="row">
         <div id="waveform" data-ng-class="{'busy': playerData.seeking}">
-            <div class="seek-time" data-ng-show="seekCursor.xpos" data-ng-style="{'left': seekCursor.xpos + 'px'}">{{seekCursor.time | duration}}</div>
+            <div class="seek-time" data-ng-show="seekCursor.xpos" data-ng-style="{'left': seekCursor.xpos + 'px'}">{{seekCursor.time}}</div>
             <div id="waveform-canvas-buffer-wrapper" data-ng-style="{'width': (playerData.buffered / playerData.duration) * 100 + '%'}">
                 <div id="waveform-canvas-buffer" canvas-context="waveformBufferContext"></div>
             </div>
@@ -63,8 +64,8 @@
             <div id="waveform-canvas-seek-wrapper" ng-style="{'width': seekCursor.xpos + 'px'}"></div>
         </div>
         <div class="time" data-ng-if="playerData.currentTrack">
-            <div class="current">{{playerData.currentTime * 1000| duration}}</div>
-            <div class="total">{{playerData.currentTrack.origin.duration | duration}}</div>
+            <div class="current">{{playerData.currentTimeFormatted}}</div>
+            <div class="total">{{playerData.currentTrack.origin.durationFormatted}}</div>
         </div>
     </div>
 
