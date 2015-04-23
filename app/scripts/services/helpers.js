@@ -24,7 +24,11 @@ angular.module('sc2App').service('helperService', function ($window) {
     };
 
     this.customDate = function(date, format) {
-        return moment(date, scDateFormat).format(format);
+        if (format === 'ago') {
+            return moment(date).fromNow();
+        } else {
+            return moment(date, scDateFormat).format(format);
+        }
     };
 
     this.description = function(text) {

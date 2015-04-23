@@ -132,7 +132,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         soundCloudService.getTracks({limit: 50, cursor: nextPageCursor}).then(function(stream){
             var now = moment().format('YYYY-MM-DD HH:mm:ss');
             var lastFetch = localStorageService.get('lastFetch');
-            $scope.user.lastFetch = lastFetch;
+            $scope.user.lastFetch = helperService.customDate(lastFetch, 'ago');
             nextPageCursor = stream.data.next_href.split('cursor=')[1];
 
             // get favorited tracks and flag items before publishing
