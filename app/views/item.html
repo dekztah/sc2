@@ -12,7 +12,7 @@
         </div>
         <div class="fl" ng-if="::track.index.length === 1">
             <img class="user-avatar" ng-src="{{::track.avatar}}" />
-            <div ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'" class="icon-repost icon repost colorchanger"></div>
+            <div ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'" class="icon-repost icon repost"></div>
         </div>
         <span class="icon-new new" data-ng-if="track.isNew"></span>
     </div>
@@ -48,11 +48,11 @@
                 ng-repeat="track in ::track.tracks"
                 ng-include="'views/item.html'"
                 class="item track row"
-
                 ng-class="{active: helpers.isCurrent(track.index)}"></div>
         </div>
     </div>
 </div>
-<div class="track-progress colorchanger" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent(track.index) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
+<div class="track-progress" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent(track.index) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
+
 <!-- SEPARATOR ITEM -->
-<div class="separator" ng-if="(track.index[0] + 1)%50 === 0"><span class="icon-more icon"></span></div>
+<div class="separator" ng-if="(track.index[0] + 1)%50 === 0 && track.index[1] === undefined"><span class="icon-more icon"></span></div>

@@ -90,6 +90,29 @@
     }
 }
 
+#error {
+    color: #ff0000;
+    font-size: 20px;
+    text-align: center;
+    a {
+        color: #ff0000;
+        text-decoration: none;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ff0000;
+        font-weight: bold;
+    }
+    .icon {
+        font-size: 200px;
+        width: 200px;
+        margin: 0px auto;
+        display: block;
+
+    }
+}
+#main #error .icon {
+    color: #ff0000;
+}
+
 #tiles {
     margin-top: 65px;
 }

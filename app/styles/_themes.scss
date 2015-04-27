@@ -114,20 +114,20 @@ html.transparent {
 
 // default
 html.default {
-    &:after {
+    body {
         background-image: linear-gradient(to top, #65b184, #028793);
     }
 }
 
 // vice
 html.vice {
-    &:after {
+    body {
         background-image: linear-gradient(to top, rgb(224,14,150), rgb(44,141,237));
     }
 }
 
 html.lime {
-    &:after {
+    body {
         background-image: linear-gradient(to bottom, #007c5b, #c0eca6);
     }
 }
