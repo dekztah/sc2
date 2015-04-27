@@ -41,11 +41,12 @@ angular.module('sc2App').service('soundCloudService', function ($window, $http, 
         return $q.all(playlistTracks);
     };
 
-    self.like = function(method, trackId) {
+    self.like = function(method, trackId, params) {
+        params.oauth_token = self.accessToken;
         return $http({
             method: method,
             url: soundcloudConfig.apiBaseUrl + '/me/favorites/' + trackId,
-            params: {oauth_token: self.accessToken}
+            params: params
         });
     };
 });

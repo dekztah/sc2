@@ -136,7 +136,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             nextPageCursor = stream.data.next_href.split('cursor=')[1];
 
             // get favorited tracks and flag items before publishing
-            soundCloudService.like('get', '').then(function(likes){
+            soundCloudService.like('get', '', {limit: '200'}).then(function(likes){
                 var likedIds = [];
                 var playlists = [];
                 for (var j = 0; j < likes.data.length; j++) {
@@ -181,7 +181,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     $scope.like = function(method, index) {
         var favorited = getPlaylistOrTrackData(index);
         var trackId = favorited.scid;
-        soundCloudService.like(method, trackId).then(function(response){
+        soundCloudService.like(method, trackId, {}).then(function(response){
             if (response.status === 201) {
                 favorited.favoriteFlag = true;
             } else if (response.status === 200 && method === 'delete') {
