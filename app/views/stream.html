@@ -6,6 +6,7 @@
         autocomplete="off"
         data-ng-model="search.title"
         data-ng-minlength="5"
+        data-ng-init="search.title = ''"
         placeholder="Search for track title"
         class="form-control"/>
     <button class="close" data-ng-show="search.title !== ''" data-ng-click="search.title = ''">&times;</button>
