@@ -23,9 +23,11 @@
     </div>
 </div>
 
-<div class="row" id="error" ng-if="status.error">
-    <span class="icon-warning icon"></span>Error reaching SoundCloud service.<br>
-    Please check the <a target="_blank" href="http://status.soundcloud.com/">official SoundCloud status blog</a> for more info.
+<div class="error-overlay" ng-if="status.error">
+    <div class="row" id="error">
+        <span class="icon-warning icon"></span>Error reaching SoundCloud service.<br>
+        Please check the <a target="_blank" href="http://status.soundcloud.com/">official SoundCloud status blog</a> for more info.
+    </div>
 </div>
 
 <div class="loading-overlay" ng-if="status.loading">

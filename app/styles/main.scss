@@ -127,3 +127,15 @@ button, .btn {
     height: 30px;
     display: block;
 }
+.error-overlay {
+    background: $white;
+    max-width: 1090px;
+    position: fixed;
+    left: 510px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    transition: opacity 1s ease-out 2s;
+    @include ng-if;
+}
