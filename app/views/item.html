@@ -14,7 +14,7 @@
             <img class="user-avatar" ng-src="{{::track.avatar}}" />
             <div ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'" class="icon-repost icon repost"></div>
         </div>
-        <span class="icon-new new" data-ng-if="track.isNew"></span>
+        <span class="icon-new new" data-ng-if="::track.index.length === 1 && track.isNew"></span>
     </div>
 
     <!-- AUTHOR, DATE, TITLE, description and playlist tracks -->
