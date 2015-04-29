@@ -1,10 +1,11 @@
 'use strict';
 
-angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $http, soundcloudConfig, soundCloudService, localStorageService, helperService, audioContext, canvasService, animation) {
+angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $http, $q, soundcloudConfig, soundCloudService, localStorageService, helperService, audioContext, canvasService, animation) {
 
     var moment = $window.moment,
         nextPageCursor,
-        streamItems = [];
+        streamItems = [],
+        likedIds = [];
 
     $scope.storedToken = localStorageService.get('accessToken');
     $scope.user = localStorageService.get('user');
@@ -84,7 +85,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         return data;
     };
 
-    var getTrackProperties = function(item, i, parentIndex, likedIds, lastFetch) {
+    var getTrackProperties = function(item, i, parentIndex, lastFetch) {
         var index = [];
         if (Number.isInteger(parentIndex)) {
             item.origin = item;
@@ -115,10 +116,27 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             username: item.origin.user.username,
             userlink: item.origin.user.permalink_url,
             avatar: item.origin.user.avatar_url,
-            favoriteFlag: likedIds.indexOf(item.origin.id) > -1,
             description: item.origin.description ? helperService.description(item.origin.description) : false,
             favList: (parentIndex < 0)
         };
+    };
+
+    var getFavoritedTracks = function() { // TODO: multiple requests if user favorites exceed 200
+        var deferred = $q.defer();
+
+        // one time only
+        if (likedIds.length === 0) {
+            soundCloudService.like('get', '', {limit: '200'}).then(function(likes){
+                for (var j = 0; j < likes.data.length; j++) {
+                    likedIds.push(likes.data[j].id);
+                    $scope.likedTracks.push(getTrackProperties(likes.data[j], j, -1, 0));
+                }
+                deferred.resolve();
+            });
+        } else {
+            deferred.resolve();
+        }
+        return deferred.promise;
     };
 
     // soundcloud connect
@@ -143,44 +161,51 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         soundCloudService.getTracks({limit: 50, cursor: nextPageCursor}).then(function(stream){
             var now = moment().format('YYYY-MM-DD HH:mm:ss');
             var lastFetch = localStorageService.get('lastFetch');
+            var playlists = [];
+
             $scope.user.lastFetch = helperService.customDate(lastFetch, 'ago');
             nextPageCursor = stream.data.next_href.split('cursor=')[1];
 
-            // get favorited tracks and flag items before publishing
-            soundCloudService.like('get', '', {limit: '200'}).then(function(likes){
-                var likedIds = [];
-                var playlists = [];
-                for (var j = 0; j < likes.data.length; j++) {
-                    likedIds.push(likes.data[j].id);
-                    $scope.likedTracks.push(getTrackProperties(likes.data[j], j, -1, likedIds, lastFetch));
-                }
-                for (var i = 0; i <= stream.data.collection.length - 1; i++) {
-                    var item = stream.data.collection[i];
-                    streamItems[i] = getTrackProperties(item, i, false, likedIds, lastFetch);
+            for (var i = 0; i <= stream.data.collection.length - 1; i++) {
+                var item = stream.data.collection[i];
+                streamItems[i] = getTrackProperties(item, i, false, lastFetch);
 
-                    if (item.type === 'playlist' || item.type === 'playlist-repost') {
-                        streamItems[i].tracks = [];
-                        playlists.push(item.origin.id);
+                if (item.type === 'playlist' || item.type === 'playlist-repost') {
+                    streamItems[i].tracks = [];
+                    playlists.push(item.origin.id);
+                }
+            }
+
+            // and get all playlists at once
+            soundCloudService.getPlaylistTracks(playlists).then(function(result){
+                for (var k = 0; k < streamItems.length; k++) {
+                    var index = playlists.indexOf(streamItems[k].scid);
+                    if (index > -1) {
+                        for (var l = 0; l < result[index].data.length; l++) {
+                            var item = result[index].data[l];
+                            streamItems[k].tracks[l] = getTrackProperties(item, l, k, lastFetch);
+                        }
                     }
                 }
 
-                // and get all playlists at once
-                soundCloudService.getPlaylistTracks(playlists).then(function(result){
-                    for (var k = 0; k < streamItems.length; k++) {
-                        var index = playlists.indexOf(streamItems[k].scid);
-                        if (index > -1) {
-                            for (var l = 0; l < result[index].data.length; l++) {
-                                var item = result[index].data[l];
-                                streamItems[k].tracks[l] = getTrackProperties(item, l, k, likedIds, lastFetch);
+                // wait for favorited tracks before pushing to scope
+                getFavoritedTracks().then(function(){
+                    for (var m = 0; m < streamItems.length; m++) {
+                        streamItems[m].favoriteFlag = likedIds.indexOf(streamItems[m].scid) > -1;
+
+                        if (streamItems[m].tracks) {
+                            for (var n = 0; n < streamItems[m].tracks.length; n++) {
+                                streamItems[m].tracks[n].favoriteFlag = likedIds.indexOf(streamItems[m].tracks[n].scid) > -1;
                             }
                         }
                     }
                     $scope.stream.push.apply($scope.stream, streamItems);
+                    $scope.status.loading = false;
                 });
             });
 
             localStorageService.set('lastFetch', now);
-            $scope.status.loading = false;
+
         }, function(){
             $scope.status = {
                 loading: false,
