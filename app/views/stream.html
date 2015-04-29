@@ -39,8 +39,8 @@
     </div>
 </div>
 <div id="active-stream-switch" class="clearfix" ng-init="activeStream = 'stream'">
-    <button ng-click="activeStream = 'stream'" ng-class="{'active': activeStream === 'stream'}">stream</button>
-    <button ng-click="activeStream = 'favorites'" ng-class="{'active': activeStream === 'favorites'}">favorites ({{likedTracks.length}})</button>
+    <button ng-click="activeStream = 'stream'" ng-class="{'active': activeStream === 'stream'}">stream <span class="count">{{stream.length}}</span></button>
+    <button ng-click="activeStream = 'favorites'" ng-class="{'active': activeStream === 'favorites'}">favorites <span class="count">{{likedTracks.length}}</span></button>
 </div>
 <div class="row" id="favorites" ng-show="activeStream === 'favorites'">
     <div

@@ -121,17 +121,23 @@
 }
 
 #active-stream-switch {
-    background: $white;
     margin-top: 65px;
     button {
         width: 50%;
         float: left;
-        background: rgba($black, 0.1);
         border-radius: 0;
+        height: 40px;
 
         &.active {
-            background: $white;
+            background: rgba($white, 0.2);
         }
+    }
+    .count {
+        font-size: 12px;
+        background: rgba($white, 0.2);
+        color: $white;
+        border-radius: 4px;
+        padding: 1px 5px;
     }
 }
 

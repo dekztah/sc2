@@ -51,6 +51,18 @@ html.dark {
             background: rgba($white, 0.2);
         }
     }
+    #active-stream-switch {
+        background: $grey;
+
+        button {
+            &.active {
+                background: $grey;
+            }
+        }
+        .count {
+            background: rgba($white, 0.2);
+        }
+    }
 }
 
 html.light {
@@ -99,6 +111,19 @@ html.light {
             color: $white;
         }
         .controls button {
+            background: rgba($black, 0.2);
+        }
+    }
+    #active-stream-switch {
+        background: $white;
+
+        button {
+            background: rgba($black, 0.1);
+            &.active {
+                background: $white;
+            }
+        }
+        .count {
             background: rgba($black, 0.2);
         }
     }
