@@ -3,7 +3,7 @@
 angular.module('sc2App').service('helperService', function ($window) {
     var moment = $window.moment,
         scDateFormat = 'YYYY/MM/DD HH:mm:ss ZZ',
-        urlRegex =/((\b(https?):\/\/|www)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+        urlRegex =/((("|>)?\b(https?):\/\/|www)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
     this.duration = function(duration) {
         var hours = moment.duration(duration).get('hours');
@@ -32,13 +32,17 @@ angular.module('sc2App').service('helperService', function ($window) {
     };
 
     this.description = function(text) {
-        var formattedDescription = text.replace(/\n/g, '<br>').replace(urlRegex, function(url) {
+        var formattedDescription = text.replace(urlRegex, function(url) {
+            // if description already contains html links
+            if (url.indexOf('"') > -1 || url.indexOf('>') > -1) {
+                return url;
+            }
             if (url.indexOf('www') === 0) {
                 url = 'http://' + url;
             }
             return '<a target="_blank" href="' + url + '">' + url + '</a>';
         });
-        return formattedDescription;
+        return formattedDescription.replace(/\n/g, '<br>');
     };
 
     this.drawWaveform = function(waveformData, canvas, color) {

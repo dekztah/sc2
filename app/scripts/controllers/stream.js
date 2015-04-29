@@ -10,6 +10,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     $scope.user = localStorageService.get('user');
     $scope.showReposts = true;
     $scope.stream = [];
+    $scope.likedTracks = [];
     $scope.playerData = {
         playingIndex : null
     };
@@ -69,12 +70,16 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     player.addEventListener('seeked', onSeeked, false);
     player.addEventListener('progress', onProgress, false);
 
-    var getPlaylistOrTrackData = function(values) {
+    var getPlaylistOrTrackData = function(values, favorites) {
         var data;
-        if (!isNaN(values[1])) {
-            data = $scope.stream[values[0]].tracks[values[1]];
+        if (favorites) {
+            data = $scope.likedTracks[values[0]];
         } else {
-            data = $scope.stream[values[0]];
+            if (!isNaN(values[1])) {
+                data = $scope.stream[values[0]].tracks[values[1]];
+            } else {
+                data = $scope.stream[values[0]];
+            }
         }
         return data;
     };
@@ -83,7 +88,12 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         var index = [];
         if (Number.isInteger(parentIndex)) {
             item.origin = item;
-            index = [parentIndex, i];
+            if (parentIndex >= 0) {
+                index = [parentIndex, i];
+            } else {
+                index = [i];
+            }
+
         } else {
             index = [i];
         }
@@ -107,6 +117,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             avatar: item.origin.user.avatar_url,
             favoriteFlag: likedIds.indexOf(item.origin.id) > -1,
             description: item.origin.description ? helperService.description(item.origin.description) : false,
+            favList: (parentIndex < 0)
         };
     };
 
@@ -141,6 +152,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 var playlists = [];
                 for (var j = 0; j < likes.data.length; j++) {
                     likedIds.push(likes.data[j].id);
+                    $scope.likedTracks.push(getTrackProperties(likes.data[j], j, -1, likedIds, lastFetch));
                 }
                 for (var i = 0; i <= stream.data.collection.length - 1; i++) {
                     var item = stream.data.collection[i];
@@ -178,8 +190,8 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     };
 
     // add or remove track from your favorites
-    $scope.like = function(method, index) {
-        var favorited = getPlaylistOrTrackData(index);
+    $scope.like = function(method, index, isFavList) {
+        var favorited = getPlaylistOrTrackData(index, isFavList);
         var trackId = favorited.scid;
         soundCloudService.like(method, trackId, {}).then(function(response){
             if (response.status === 201) {
@@ -192,8 +204,8 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     // audio player controls
     $scope.controlAudio = {
-        play: function(index) {
-            $scope.playerData.currentTrack = getPlaylistOrTrackData(index);
+        play: function(index, isFavList) {
+            $scope.playerData.currentTrack = getPlaylistOrTrackData(index, isFavList);
             if (!angular.equals(index, $scope.playerData.lastPlayedIndex)) {
                 var audioUrl = $scope.playerData.currentTrack.stream + '?client_id=' + soundcloudConfig.apiKey;
                 $scope.playerData.lastPlayedIndex = index;
@@ -211,6 +223,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 });
             }
             $scope.playerData.playingIndex = index;
+            $scope.playerData.isFavList = isFavList;
             player.play();
 
             if (!animation.requestId) {
@@ -248,9 +261,9 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         getTimes: function(n) {
             return new Array(n);
         },
-        isCurrent: function(index) {
+        isCurrent: function(index, isFavList) {
             var state;
-            if (Array.isArray($scope.playerData.playingIndex) && Array.isArray(index)) {
+            if (Array.isArray($scope.playerData.playingIndex) && Array.isArray(index) && isFavList === $scope.playerData.isFavList) {
                 state = index[0] === $scope.playerData.playingIndex[0] && index[1] === $scope.playerData.playingIndex[1];
             } else {
                 state = false;

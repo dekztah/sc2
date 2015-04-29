@@ -38,18 +38,28 @@
         </div>
     </div>
 </div>
+<div id="active-stream-switch" class="clearfix" ng-init="activeStream = 'stream'">
+    <button ng-click="activeStream = 'stream'" ng-class="{'active': activeStream === 'stream'}">stream</button>
+    <button ng-click="activeStream = 'favorites'" ng-class="{'active': activeStream === 'favorites'}">favorites ({{likedTracks.length}})</button>
+</div>
+<div class="row" id="favorites" ng-show="activeStream === 'favorites'">
+    <div
+        ng-repeat="track in likedTracks"
+        class="{{::track.type}} item row"
+        ng-class="{'active': helpers.isCurrent(track.index, true), 'new': track.isNew}"
+        ng-include="'views/item.html'"></div>
+</div>
 
-<!-- LIST row -->
-<div class="row" id="tiles">
+<div class="row" id="tiles" ng-show="activeStream === 'stream'">
     <div
         ng-repeat="track in stream | filter:search"
         class="{{::track.type}} item row"
-        ng-class="{'active': helpers.isCurrent(track.index), 'new': track.isNew}"
-        ng-show="showReposts || track.type === 'track' || track.type === 'separator' || track.type === 'playlist'"
+        ng-class="{'active': helpers.isCurrent(track.index, false), 'new': track.isNew}"
+        ng-show="showReposts || track.type === 'track' || track.type === 'playlist'"
         ng-click="track.isNew = false"
         ng-include="'views/item.html'">
     </div>
 </div>
-<div class="row">
+<div class="row" ng-show="activeStream === 'stream'">
     <button class="btn" id="more" ng-click="getTracks()" ng-show="stream.length > 49">more</button>
 </div>
