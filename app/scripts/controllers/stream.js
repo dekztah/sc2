@@ -94,7 +94,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             } else {
                 index = [i];
             }
-
         } else {
             index = [i];
         }
@@ -121,18 +120,34 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         };
     };
 
-    var getFavoritedTracks = function() { // TODO: multiple requests if user favorites exceed 200
+    var getFavoritedTracks = function() {
         var deferred = $q.defer();
+        var promises = [];
 
         // one time only
         if (likedIds.length === 0) {
-            soundCloudService.like('get', '', {limit: '200'}).then(function(likes){
-                for (var j = 0; j < likes.data.length; j++) {
-                    likedIds.push(likes.data[j].id);
-                    $scope.likedTracks.push(getTrackProperties(likes.data[j], j, -1, 0));
-                }
+
+            var get = function(offset) {
+                var request = $q.defer();
+                soundCloudService.like('get', '', {limit: '200', offset: offset}).then(function(likes){
+                    for (var j = 0; j < likes.data.length; j++) {
+                        likedIds.push(likes.data[j].id);
+                        $scope.likedTracks.push(getTrackProperties(likes.data[j], j, -1, 0));
+                    }
+                    request.resolve();
+                });
+                return request.promise;
+            };
+
+            // call service until all favorites are returned
+            for (var i = 0; i < Math.ceil($scope.user.public_favorites_count / 200); i++) {
+                promises.push(get(i*200));
+            }
+
+            $q.all(promises).then(function(){
                 deferred.resolve();
             });
+
         } else {
             deferred.resolve();
         }
