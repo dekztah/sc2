@@ -5,6 +5,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     var moment = $window.moment,
         nextPageCursor,
         streamItems = [],
+        likedItems = [],
         likedIds = [];
 
     $scope.storedToken = localStorageService.get('accessToken');
@@ -85,7 +86,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         return data;
     };
 
-    var getTrackProperties = function(item, i, parentIndex, lastFetch) {
+    var getTrackProperties = function(item, i, parentIndex) {
         var index = [];
         if (Number.isInteger(parentIndex)) {
             item.origin = item;
@@ -100,7 +101,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         return {
             index: index,
             created: helperService.customDate(item.created_at, 'MMMM DD YYYY'),
-            isNew: moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch)),
             type: item.type,
             title: item.origin.title,
             scid: item.origin.id,
@@ -132,8 +132,10 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 soundCloudService.like('get', '', {limit: '200', offset: offset}).then(function(likes){
                     for (var j = 0; j < likes.data.length; j++) {
                         likedIds.push(likes.data[j].id);
-                        $scope.likedTracks.push(getTrackProperties(likes.data[j], j, -1, 0));
+                        likedItems.push(getTrackProperties(likes.data[j], j, -1));
+                        likedItems[j].favoriteFlag = true;
                     }
+                    $scope.likedTracks.push.apply($scope.likedTracks, likedItems);
                     request.resolve();
                 });
                 return request.promise;
@@ -183,7 +185,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
             for (var i = 0; i <= stream.data.collection.length - 1; i++) {
                 var item = stream.data.collection[i];
-                streamItems[i] = getTrackProperties(item, i, false, lastFetch);
+                streamItems[i] = getTrackProperties(item, i, false);
 
                 if (item.type === 'playlist' || item.type === 'playlist-repost') {
                     streamItems[i].tracks = [];
@@ -198,7 +200,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                     if (index > -1) {
                         for (var l = 0; l < result[index].data.length; l++) {
                             var item = result[index].data[l];
-                            streamItems[k].tracks[l] = getTrackProperties(item, l, k, lastFetch);
+                            streamItems[k].tracks[l] = getTrackProperties(item, l, k);
                         }
                     }
                 }
@@ -207,6 +209,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 getFavoritedTracks().then(function(){
                     for (var m = 0; m < streamItems.length; m++) {
                         streamItems[m].favoriteFlag = likedIds.indexOf(streamItems[m].scid) > -1;
+                        streamItems[m].isNew = moment(streamItems[m].created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch));
 
                         if (streamItems[m].tracks) {
                             for (var n = 0; n < streamItems[m].tracks.length; n++) {
