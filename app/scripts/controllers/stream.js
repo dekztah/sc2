@@ -100,6 +100,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         }
         return {
             index: index,
+            scDate: item.created_at,
             created: helperService.customDate(item.created_at, 'MMMM DD YYYY'),
             type: item.type,
             title: item.origin.title,
@@ -209,7 +210,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 getFavoritedTracks().then(function(){
                     for (var m = 0; m < streamItems.length; m++) {
                         streamItems[m].favoriteFlag = likedIds.indexOf(streamItems[m].scid) > -1;
-                        streamItems[m].isNew = moment(streamItems[m].created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch));
+                        streamItems[m].isNew = moment(streamItems[m].scDate, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch));
 
                         if (streamItems[m].tracks) {
                             for (var n = 0; n < streamItems[m].tracks.length; n++) {
