@@ -1,22 +1,23 @@
+<div class="fl clearfix" id="now-playing" data-ng-if="playerData.currentTrack">
+    <div class="fl">
+        <button class="play btn fl" data-ng-click="controlAudio.play(playerData.lastPlayedIndex)" data-ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
+        <button class="pause btn fl" data-ng-click="controlAudio.pause()" data-ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
+        <img class="user-avatar fl" data-ng-src="{{playerData.currentTrack.avatar}}" />
+    </div>
+    <div class="fl">
+        <div class="details">
+            {{playerData.currentTrack.username}}
+            <span class="date">{{playerData.currentTrack.created}}</span>
+        </div>
+        <div class="title">
+            {{playerData.currentTrack.title}}
+        </div>
+    </div>
+</div>
 <div id="fixed">
     <!-- row 1 -->
     <div class="row page-header clearfix">
-        <div class="fl clearfix" id="now-playing" ng-if="playerData.currentTrack">
-            <div class="fl">
-                <button class="play btn fl" ng-click="controlAudio.play(playerData.lastPlayedIndex)" ng-show="playerData.playingIndex === null"><span class="icon-play"></span></button>
-                <button class="pause btn fl" ng-click="controlAudio.pause()" ng-show="playerData.playingIndex != null"><span class="icon-pause"></span></button>
-                <img class="user-avatar fl" ng-src="{{playerData.currentTrack.avatar}}" />
-            </div>
-            <div class="fl">
-                <div class="details">
-                    {{playerData.currentTrack.username}}
-                    <span class="date">{{playerData.currentTrack.created}}</span>
-                </div>
-                <div class="title">
-                    {{playerData.currentTrack.title}}
-                </div>
-            </div>
-        </div>
+
         <div id="fader" class="fr">
             <div class="rectangles">
                 <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{::$index+1}} rect"></div>
@@ -30,20 +31,20 @@
         </div>
     </div>
             <!-- <div class="user">
-                <img class="user-avatar" ng-src="{{user.avatar_url}}"/><span>{{user.username}}</span>
+                <img class="user-avatar" data-ng-src="{{user.avatar_url}}"/><span>{{user.username}}</span>
             </div> -->
 
     <div class="row" id="credits">
         <img src="images/sc2.png"/>
         <img src="images/soundcloud_powered_by_large_white.png"/>
         <div id="theme-changer">
-            <button ng-click="changeTheme('default')" ng-class="{'active': theme.bgr === 'default'}">default</button>
-            <button ng-click="changeTheme('vice')" ng-class="{'active': theme.bgr === 'vice'}">vice</button>
-            <button ng-click="changeTheme('lime')" ng-class="{'active': theme.bgr === 'lime'}">lime</button>
+            <button data-ng-click="changeTheme('default')" data-ng-class="{'active': theme.bgr === 'default'}">default</button>
+            <button data-ng-click="changeTheme('vice')" data-ng-class="{'active': theme.bgr === 'vice'}">vice</button>
+            <button data-ng-click="changeTheme('lime')" data-ng-class="{'active': theme.bgr === 'lime'}">lime</button>
             <br>
-            <button ng-click="changeTheme('light', 1)" ng-class="{'active': theme.color === 'light'}">light</button>
-            <button ng-click="changeTheme('dark', 1)" ng-class="{'active': theme.color === 'dark'}">dark</button>
-            <button ng-click="changeTheme('transparent', 1)" ng-class="{'active': theme.color === 'transparent'}">transparent</button>
+            <button data-ng-click="changeTheme('light', 1)" data-ng-class="{'active': theme.color === 'light'}">light</button>
+            <button data-ng-click="changeTheme('dark', 1)" data-ng-class="{'active': theme.color === 'dark'}">dark</button>
+            <button data-ng-click="changeTheme('transparent', 1)" data-ng-class="{'active': theme.color === 'transparent'}">transparent</button>
 
         </div>
     </div>
@@ -55,12 +56,12 @@
                 <div id="waveform-canvas-buffer" canvas-context="waveformBufferContext"></div>
             </div>
             <div id="waveform-canvas" canvas-context="waveformContext"></div>
-            <div id="waveform-canvas-progress-wrapper" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'} ">
+            <div id="waveform-canvas-progress-wrapper" data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'} ">
                 <div id="waveform-canvas-progress" canvas-context="waveformProgressContext"></div>
             </div>
-            <div id="waveform-seekbar" ng-click="playerData.playingIndex != null && controlAudio.seekTo($event)" ng-mousemove="playerData.playingIndex != null && (seekCursor = controlAudio.seekPreview($event))" ng-mouseleave="seekCursor = {}"></div>
+            <div id="waveform-seekbar" data-ng-click="playerData.playingIndex != null && controlAudio.seekTo($event)" data-ng-mousemove="playerData.playingIndex != null && (seekCursor = controlAudio.seekPreview($event))" data-ng-mouseleave="seekCursor = {}"></div>
             <div id="waveform-canvas-mask" data-ng-style="{'width': 100- (playerData.buffered / playerData.duration) * 100 + '%'}"></div>
-            <div id="waveform-canvas-seek-wrapper" ng-style="{'width': seekCursor.xpos + 'px'}"></div>
+            <div id="waveform-canvas-seek-wrapper" data-ng-style="{'width': seekCursor.xpos + 'px'}"></div>
         </div>
         <div class="time" data-ng-if="playerData.currentTrack">
             <div class="current">{{playerData.currentTimeFormatted}}</div>
@@ -71,7 +72,7 @@
     <!-- row 3 -->
     <div class="row" id="visuals">
         <div class="">
-            <div id="osc" canvas-context="oscContext"></div>
+            <div id="osc" canvas-context="oscContext" data-ng-click="helpers.toggleOsc()"></div>
 
             <div id="analyser">
                 <div id="analyser-bottom" canvas-context="analyserBottomContext"></div>

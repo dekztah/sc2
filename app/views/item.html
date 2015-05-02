@@ -1,18 +1,18 @@
 <!-- LIST ITEM -->
-<div class="flex" ng-class="{'open': open && (track.type === 'playlist' || track.type === 'playlist-repost') || desc}">
+<div class="flex" data-ng-class="{'open': open && (track.type === 'playlist' || track.type === 'playlist-repost') || desc}">
 
     <!-- PLAY OR PLAYLIST icon, user and repost icon -->
     <div class="meta">
-        <div class="controls fl" ng-if="track.type != 'playlist' && track.type != 'playlist-repost'">
-            <button class="play btn" ng-click="controlAudio.play(track.index, track.favList)" ng-hide="helpers.isCurrent(track.index, track.favList)"><span class="icon-play"></span></button>
-            <button class="pause btn" ng-click="controlAudio.pause()" ng-show="helpers.isCurrent(track.index, track.favList)"><span class="icon-pause"></span></button>
+        <div class="controls fl" data-ng-if="track.type != 'playlist' && track.type != 'playlist-repost'">
+            <button class="play btn" data-ng-click="controlAudio.play(track.index, track.favList)" data-ng-hide="helpers.isCurrent(track.index, track.favList)"><span class="icon-play"></span></button>
+            <button class="pause btn" data-ng-click="controlAudio.pause()" data-ng-show="helpers.isCurrent(track.index, track.favList)"><span class="icon-pause"></span></button>
         </div>
-        <div class="playlist-mark fl" ng-show="track.type === 'playlist' || track.type === 'playlist-repost'">
+        <div class="playlist-mark fl" data-ng-show="track.type === 'playlist' || track.type === 'playlist-repost'">
             <div class="btn"><span class="icon-playlist"></span><span class="plno">{{::track.tracks.length}}</span></div>
         </div>
-        <div class="fl" ng-if="::track.index.length === 1">
-            <img class="user-avatar" ng-src="{{::track.avatar}}" />
-            <div ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'" class="icon-repost icon repost"></div>
+        <div class="fl" data-ng-if="::track.index.length === 1">
+            <img class="user-avatar" data-ng-src="{{::track.avatar}}" />
+            <div data-ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'" class="icon-repost icon repost"></div>
         </div>
         <span class="icon-new new" data-ng-if="::track.index.length === 1"></span>
     </div>
@@ -21,38 +21,38 @@
     <div class="details">
         <div class="row head">
             <div class="main">
-                <div class="row" ng-if="::track.index.length === 1">
-                    <a class="user-name" ng-href="{{::track.userlink}}" target="_blank">{{::track.username}}</a>
+                <div class="row" data-ng-if="::track.index.length === 1">
+                    <a class="user-name" data-ng-href="{{::track.userlink}}" target="_blank">{{::track.username}}</a>
                     <span class="date">{{::track.created}}</span>
                 </div>
                 <div class="row">
-                    <a class="title" ng-href="{{::track.link}}" target="_blank">{{::track.title}}</a>
+                    <a class="title" data-ng-href="{{::track.link}}" target="_blank">{{::track.title}}</a>
                 </div>
                 <div class="row toggledesc">
-                    <button class="btn" ng-init="desc = false" ng-click="desc = !desc" ng-show="track.description" ng-class="{'shown': desc}"><span class="icon-more"></span></button>
+                    <button class="btn" data-ng-init="desc = false" data-ng-click="desc = !desc" data-ng-show="track.description" data-ng-class="{'shown': desc}"><span class="icon-more"></span></button>
                 </div>
             </div>
             <div class="buttons">
                 <span class="duration">{{::track.durationFormatted}}</span>
-                <a class="buy btn" ng-if="track.buy" ng-href="{{::track.buy}}" target="_blank"><span class="icon-cart"></span></a>
-                <a class="download btn" ng-if="track.downloadable" ng-href="{{helpers.download(track.scid)}}"><span class="icon-download"></span></a>
-                <button class="like btn" ng-click="track.favoriteFlag ? like('delete', track.index, track.favList) : like('put', track.index, track.favList)" ng-class="{'favorite' : track.favoriteFlag}"><span class="icon-like"></span></button>
+                <a class="buy btn" data-ng-if="track.buy" data-ng-href="{{::track.buy}}" target="_blank"><span class="icon-cart"></span></a>
+                <a class="download btn" data-ng-if="track.downloadable" data-ng-href="{{helpers.download(track.scid)}}"><span class="icon-download"></span></a>
+                <button class="like btn" data-ng-click="track.favoriteFlag ? like('delete', track.index, track.favList) : like('put', track.index, track.favList)" data-ng-class="{'favorite' : track.favoriteFlag}"><span class="icon-like"></span></button>
             </div>
         </div>
         <div class="row description" data-ng-show="desc">
-            <div class="track-desc" ng-bind-html="track.description"></div>
-            <img ng-if="track.artwork" ng-src="{{::track.artwork}}"/>
+            <div class="track-desc" data-ng-bind-html="track.description"></div>
+            <img data-ng-if="track.artwork" data-ng-src="{{::track.artwork}}"/>
         </div>
         <div class="row playlist-tracks" data-ng-if="track.type === 'playlist' || track.type === 'playlist-repost'">
             <div
-                ng-repeat="track in ::track.tracks"
-                ng-include="'views/item.html'"
+                data-ng-repeat="track in ::track.tracks"
+                data-ng-include="'views/item.html'"
                 class="item track row"
-                ng-class="{active: helpers.isCurrent(track.index, track.favList)}"></div>
+                data-ng-class="{active: helpers.isCurrent(track.index, track.favList)}"></div>
         </div>
     </div>
 </div>
-<div class="track-progress" ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" ng-if="helpers.isCurrent(track.index, track.favList) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
+<div class="track-progress" data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" data-ng-if="helpers.isCurrent(track.index, track.favList) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
 
 <!-- SEPARATOR ITEM -->
-<div class="separator" ng-if="(track.index[0] + 1)%50 === 0 && track.index[1] === undefined"><span class="icon-more icon"></span></div>
+<div class="separator" data-ng-if="(track.index[0] + 1)%50 === 0 && track.index[1] === undefined"><span class="icon-more icon"></span></div>

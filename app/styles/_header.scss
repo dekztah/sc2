@@ -26,11 +26,6 @@ header {
             width: 100%;
             background-image: linear-gradient(to right, transparent 0%, rgba($black, 0.07) 15%, rgba($black, 0.1) 50%, rgba($black, 0.1) 85%, rgba($black, 0.1) 100%);
         }
-
-        button {
-            font-size: 20px;
-            background: none;
-        }
     }
 }
 #fixed {
@@ -45,11 +40,17 @@ header {
     font-size: 12px;
     width: 430px;
     line-height: 1;
+    position: fixed;
+    z-index: 11;
+    left: 15px;
+    top: 15px;
 
     button {
         width: 30px;
         height: 30px;
         padding: 6px;
+        font-size: 20px;
+        background: none;
     }
     .user-avatar {
         margin: 0 10px;

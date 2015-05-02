@@ -43,6 +43,9 @@ body {
     &.login {
         overflow-y: auto;
     }
+    &.fs-scope {
+        overflow: hidden;
+    }
 }
 .vbox {
     display: flex;
@@ -115,7 +118,10 @@ button, .btn {
         vertical-align: bottom;
     }
 }
-
+#webGLWrapper {
+    position: fixed;
+    z-index: 10;
+}
 #main {
     flex: 2 100%;
     max-width: 1090px;
