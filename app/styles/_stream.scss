@@ -145,10 +145,16 @@
 .item {
     position: relative;
 
-    .new {
-        color: #ff0000;
-        font-size: 20px;
-        margin-left: 5px;
+    .icon-new {
+        display: none;
+    }
+    &.new {
+        .icon-new {
+            color: #ff0000;
+            font-size: 20px;
+            margin-left: 5px;
+            display: inline;
+        }
     }
 
     &.active .flex{
