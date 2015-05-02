@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app="sc2App"  ng-class="[theme.bgr, theme.color]" data-theme >
+<html class="no-js" data-ng-app="sc2App"  data-ng-class="[theme.bgr, theme.color]" data-theme >
     <head>
         <meta charset="utf-8">
         <title>sc2</title>
@@ -11,22 +11,23 @@
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
     </head>
-    <body data-ng-controller="streamCtrl" ng-class="{'login': !storedToken}" class="vbox">
+    <body data-ng-controller="streamCtrl" data-ng-class="{'login': !storedToken, 'fs-scope': fsScope}" class="vbox">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
         <!-- Add your site or application content here -->
+        <div id="webGLWrapper" data-ng-show="fsScope" data-ng-click="helpers.toggleOsc()"></div>
         <audio preload autobuffer id="player" crossorigin="anonymous"></audio>
-        <div id="login" ng-show="!storedToken" ng-cloak class="hbox">
+        <div id="login" data-ng-show="!storedToken" data-ng-cloak class="hbox">
             <div class="wrapper">
                 <img src="images/sc2_logo.png"/>
-                <button id="connect"  ng-click="connect()">connect with <img src="images/soundcloud_logo_white.png"/></button>
+                <button id="connect" data-ng-click="connect()">connect with <img src="images/soundcloud_logo_white.png"/></button>
             </div>
         </div>
-        <div ng-show="storedToken" ng-cloak class="hbox">
+        <div data-ng-show="storedToken" data-ng-cloak class="hbox">
             <header data-ng-include="'views/header.html'"></header>
-            <div id="main" ng-include="'views/stream.html'"></div>
+            <div id="main" data-ng-include="'views/stream.html'"></div>
         </div>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -56,12 +57,24 @@
         <script src="bower_components/momentjs/moment.js"></script>
         <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
         <!-- endbower -->
+        <script src="bower_components/threejs/build/three.js"></script>
+        <script src="bower_components/threejs/examples/js/postprocessing/EffectComposer.js"></script>
+        <script src="bower_components/threejs/examples/js/postprocessing/RenderPass.js"></script>
+        <script src="bower_components/threejs/examples/js/postprocessing/ShaderPass.js"></script>
+        <script src="bower_components/threejs/examples/js/postprocessing/MaskPass.js"></script>
+        <script src="bower_components/threejs/examples/js/postprocessing/BloomPass.js"></script>
+        <script src="bower_components/threejs/examples/js/shaders/CopyShader.js"></script>
+        <script src="bower_components/threejs/examples/js/shaders/ConvolutionShader.js"></script>
+        <script src="bower_components/threejs/examples/js/shaders/HorizontalBlurShader.js"></script>
+        <script src="bower_components/threejs/examples/js/shaders/VerticalBlurShader.js"></script>
+        <script src="bower_components/threex.badtvpproc/shaders/FilmShader.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/services/audiocontext.js"></script>
         <script src="scripts/services/canvasService.js"></script>
+        <script src="scripts/services/AdditiveBlendShader.js"></script>
         <script src="scripts/services/soundCloud.js"></script>
         <script src="scripts/services/helpers.js"></script>
         <script src="scripts/services/animation.js"></script>
