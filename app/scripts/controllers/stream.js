@@ -181,17 +181,26 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             var now = moment().format('YYYY-MM-DD HH:mm:ss');
             var lastFetch = localStorageService.get('lastFetch');
             var playlists = [];
+            var trackIds = [];
 
             $scope.user.lastFetch = helperService.customDate(lastFetch, 'ago');
             nextPageCursor = stream.data.next_href.split('cursor=')[1];
 
             for (var i = 0; i <= stream.data.collection.length - 1; i++) {
                 var item = stream.data.collection[i];
-                streamItems[i] = getTrackProperties(item, i, false);
+                console.log(i);
 
-                if (item.type === 'playlist' || item.type === 'playlist-repost') {
-                    streamItems[i].tracks = [];
-                    playlists.push(item.origin.id);
+                // dont add reposts of the same track multiple times
+                if (trackIds.indexOf(item.origin.id) > -1) {
+                    stream.data.collection.splice(i, 1);
+                    i = i-1;
+                } else {
+                    streamItems[i] = getTrackProperties(item, i, false);
+                    trackIds[i] = item.origin.id;
+                    if (item.type === 'playlist' || item.type === 'playlist-repost') {
+                        streamItems[i].tracks = [];
+                        playlists.push(item.origin.id);
+                    }
                 }
             }
 
@@ -283,7 +292,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         },
         seekTo: function(event) {
             var xpos = (event.offsetX === undefined ? event.layerX : event.offsetX) / event.target.offsetWidth;
-            player.currentTime = (xpos * player.duration);
+            player.currentTime = (xpos * player.duration).toFixed();
         },
         seekPreview: function(event) {
             var xpos = (event.offsetX === undefined ? event.layerX : event.offsetX);
