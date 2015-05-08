@@ -61,5 +61,5 @@
     </div>
 </div>
 <div class="row" ng-show="activeStream === 'stream'">
-    <button class="btn" id="more" ng-click="getTracks()" ng-show="stream.length > 49">more</button>
+    <button class="btn" id="more" ng-click="getTracks()" ng-show="!status.loading">more</button>
 </div>

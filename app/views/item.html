@@ -55,4 +55,4 @@
 <div class="track-progress" data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" data-ng-if="helpers.isCurrent(track.index, track.favList) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
 
 <!-- SEPARATOR ITEM -->
-<div class="separator" data-ng-if="(track.index[0] + 1)%50 === 0 && track.index[1] === undefined"><span class="icon-more icon"></span></div>
+<div class="separator" data-ng-if="track.last"><span class="icon-more icon"></span></div>

@@ -186,7 +186,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             $scope.user.lastFetch = helperService.customDate(lastFetch, 'ago');
             nextPageCursor = stream.data.next_href.split('cursor=')[1];
 
-            for (var i = 0; i <= stream.data.collection.length - 1; i++) {
+            for (var i = 0; i < stream.data.collection.length; i++) {
                 var item = stream.data.collection[i];
 
                 // dont add reposts of the same track multiple times
@@ -202,6 +202,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                     }
                 }
             }
+            streamItems[streamItems.length - 1].last = true;
 
             // and get all playlists at once
             soundCloudService.getPlaylistTracks(playlists).then(function(result){
