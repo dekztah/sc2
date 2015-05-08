@@ -188,7 +188,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
             for (var i = 0; i <= stream.data.collection.length - 1; i++) {
                 var item = stream.data.collection[i];
-                console.log(i);
 
                 // dont add reposts of the same track multiple times
                 if (trackIds.indexOf(item.origin.id) > -1) {
