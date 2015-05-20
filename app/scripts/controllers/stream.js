@@ -283,6 +283,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                         $scope.status.access = 'Limited access to track, visualizers disabled';
                         player = audioContext.playerNoVis;
                         player.setAttribute('src', audioUrl);
+                        animation.killAnimation();
                         setEvenetListeners();
                         deferredHead.resolve();
                     });
