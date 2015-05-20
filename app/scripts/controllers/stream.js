@@ -66,12 +66,13 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             });
         }
     };
-
-    player.addEventListener('timeupdate', onTimeupdate, false);
-    player.addEventListener('canplay', onCanplay, false);
-    player.addEventListener('seeking', onSeeking, false);
-    player.addEventListener('seeked', onSeeked, false);
-    player.addEventListener('progress', onProgress, false);
+    var setEvenetListeners = function() {
+        player.addEventListener('timeupdate', onTimeupdate, false);
+        player.addEventListener('canplay', onCanplay, false);
+        player.addEventListener('seeking', onSeeking, false);
+        player.addEventListener('seeked', onSeeked, false);
+        player.addEventListener('progress', onProgress, false);
+    };
 
     var getPlaylistOrTrackData = function(values, favorites) {
         var data;
@@ -260,29 +261,56 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     $scope.controlAudio = {
         play: function(index, isFavList) {
             $scope.playerData.currentTrack = getPlaylistOrTrackData(index, isFavList);
-            if (!angular.equals(index, $scope.playerData.lastPlayedIndex)) {
-                var audioUrl = $scope.playerData.currentTrack.stream + '?client_id=' + soundcloudConfig.apiKey;
-                $scope.playerData.lastPlayedIndex = index;
-                $scope.playerData.currentTime = 0;
-                $scope.playerData.buffered = 0;
-                player.setAttribute('src', audioUrl);
-                var png = $scope.playerData.currentTrack.waveform.split('/');
-                var waveformRequestUrl = soundcloudConfig.waveformServiceUrl + png[3];
-                $http.get(waveformRequestUrl).success(function(waveformData){
-                    helperService.drawWaveform(waveformData.samples, canvasService.waveformContext, 'rgba(255,255,255,0.05)');
-                    helperService.drawWaveform(waveformData.samples, canvasService.waveformBufferContext, 'rgba(255,255,255,0.15)');
-                    helperService.drawWaveform(waveformData.samples, canvasService.waveformProgressContext, '#ffffff');
-                }).error(function(){
 
-                });
-            }
-            $scope.playerData.playingIndex = index;
-            $scope.playerData.isFavList = isFavList;
-            player.play();
+            var playable = function() {
+                var deferredHead = $q.defer();
+                if (!angular.equals(index, $scope.playerData.lastPlayedIndex)) {
+                    var audioUrl = $scope.playerData.currentTrack.stream + '?client_id=' + soundcloudConfig.apiKey;
+                    $scope.playerData.lastPlayedIndex = index;
+                    $scope.playerData.currentTime = 0;
+                    $scope.playerData.buffered = 0;
+                    player.pause();
 
-            if (!animation.requestId) {
-                animation.animate();
-            }
+                    // need to check if Access Control headers are present, if not use the secondary player without visualizer
+                    // http://stackoverflow.com/questions/29778721/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header
+                    $http.head(audioUrl).then(function(){
+                        $scope.status.access = false;
+                        player = audioContext.player;
+                        player.setAttribute('src', audioUrl);
+                        setEvenetListeners();
+                        deferredHead.resolve();
+                    }, function(){
+                        $scope.status.access = 'Limited access to track, visualizers disabled';
+                        player = audioContext.playerNoVis;
+                        player.setAttribute('src', audioUrl);
+                        setEvenetListeners();
+                        deferredHead.resolve();
+                    });
+
+                    var png = $scope.playerData.currentTrack.waveform.split('/');
+                    var waveformRequestUrl = soundcloudConfig.waveformServiceUrl + png[3];
+                    $http.get(waveformRequestUrl).success(function(waveformData){
+                        helperService.drawWaveform(waveformData.samples, canvasService.waveformContext, 'rgba(255,255,255,0.05)');
+                        helperService.drawWaveform(waveformData.samples, canvasService.waveformBufferContext, 'rgba(255,255,255,0.15)');
+                        helperService.drawWaveform(waveformData.samples, canvasService.waveformProgressContext, '#ffffff');
+                    }).error(function(){
+
+                    });
+                } else {
+                    deferredHead.resolve();
+                }
+                return deferredHead.promise;
+            };
+
+            playable().then(function(){
+                $scope.playerData.playingIndex = index;
+                $scope.playerData.isFavList = isFavList;
+
+                player.play();
+                if (!animation.requestId && !$scope.status.access) {
+                    animation.animate();
+                }
+            });
         },
         pause: function() {
             $scope.playerData.lastPlayedIndex = $scope.playerData.playingIndex;

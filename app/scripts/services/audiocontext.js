@@ -3,7 +3,8 @@
 angular.module('sc2App').factory('audioContext', function () {
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     var ac = new window.AudioContext(),
-        player = document.getElementById('player');
+        player = document.getElementById('player'),
+        playerNoVis = document.getElementById('playerNoVis');
 
     var analyser = ac.createAnalyser();
     analyser.smoothingTimeConstant = 0.6;
@@ -23,6 +24,7 @@ angular.module('sc2App').factory('audioContext', function () {
 
     var audioEnv = {
         player: player,
+        playerNoVis: playerNoVis,
         analyser: analyser,
         osc: osc,
         gain: gainControl.gain

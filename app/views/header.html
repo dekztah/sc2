@@ -70,7 +70,10 @@
     </div>
 
     <!-- row 3 -->
-    <div class="row" id="visuals">
+    <div class="row" id="visuals" data-ng-class="{'disabled': status.access}">
+        <div class="status" data-ng-if="status.access">
+            {{status.access}}
+        </div>
         <div class="">
             <div id="osc" canvas-context="oscContext" data-ng-click="helpers.toggleOsc()"></div>
 
