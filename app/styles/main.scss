@@ -142,6 +142,6 @@ button, .btn {
     top: 0;
     bottom: 0;
     z-index: 2;
-    transition: opacity 1s ease-out 2s;
+    transition: opacity 1s ease-out;
     @include ng-if;
 }
