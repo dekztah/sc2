@@ -57,7 +57,8 @@
         ng-class="{'active': helpers.isCurrent(track.index, false), 'new': track.isNew}"
         ng-show="showReposts || track.type === 'track' || track.type === 'playlist'"
         ng-click="track.isNew = false"
-        ng-include="'views/item.html'">
+        ng-include="'views/item.html'"
+        data-repeat-finished>
     </div>
 </div>
 <div class="row" ng-show="activeStream === 'stream'">

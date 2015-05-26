@@ -230,7 +230,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                         }
                     }
                     $scope.stream.push.apply($scope.stream, streamItems);
-                    $scope.status.loading = false;
                 });
             });
 
@@ -243,6 +242,10 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             };
         });
     };
+
+    $scope.$on('ngRepeatFinished', function() {
+        $scope.status.loading = false;
+    });
 
     // add or remove track from your favorites
     $scope.like = function(method, index, isFavList) {
