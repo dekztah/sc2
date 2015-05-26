@@ -75,7 +75,7 @@
             {{status.access}}
         </div>
         <div class="">
-            <div id="osc" canvas-context="oscContext" data-ng-click="helpers.toggleOsc()"></div>
+            <div id="osc" canvas-context="oscContext" data-ng-click="!status.access && helpers.toggleOsc()"></div>
 
             <div id="analyser">
                 <div id="analyser-bottom" canvas-context="analyserBottomContext"></div>
