@@ -9,6 +9,7 @@ angular.module('sc2App').constant({
         redirectUri:'http://wavetrip.org/sc2/callback.html',
         waveformServiceUrl: 'http://wis.sndcdn.com/'
     },
+    streamUrlServiceUrl: 'http://wavetrip.org/services/redirecturl.php?callback=JSON_CALLBACK'
 });
 
 angular.module('sc2App').config(function (localStorageServiceProvider) {

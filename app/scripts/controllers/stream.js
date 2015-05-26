@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $http, $q, soundcloudConfig, soundCloudService, localStorageService, helperService, audioContext, canvasService, animation) {
+angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $http, $q, soundcloudConfig, soundCloudService, localStorageService, helperService, audioContext, canvasService, animation, streamUrlServiceUrl) {
 
     var moment = $window.moment,
         nextPageCursor,
@@ -268,7 +268,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             var playable = function() {
                 var deferredHead = $q.defer();
                 if (!angular.equals(index, $scope.playerData.lastPlayedIndex)) {
-                    var audioUrl = $scope.playerData.currentTrack.stream + '?client_id=' + soundcloudConfig.apiKey;
+                    var audioUrl = $scope.playerData.currentTrack.stream.replace('https', 'http') + '?client_id=' + soundcloudConfig.apiKey;
                     $scope.playerData.lastPlayedIndex = index;
                     $scope.playerData.currentTime = 0;
                     $scope.playerData.buffered = 0;
@@ -276,17 +276,16 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
                     // need to check if Access Control headers are present, if not use the secondary player without visualizer
                     // http://stackoverflow.com/questions/29778721/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header
-                    $http.head(audioUrl).then(function(){
-                        $scope.status.access = false;
-                        player = audioContext.player;
-                        player.setAttribute('src', audioUrl);
-                        setEvenetListeners();
-                        deferredHead.resolve();
-                    }, function(){
-                        $scope.status.access = 'Limited access to track, visualizers disabled';
-                        player = audioContext.playerNoVis;
-                        player.setAttribute('src', audioUrl);
-                        animation.killAnimation();
+                    $http.jsonp(streamUrlServiceUrl + '&stream=' + audioUrl).then(function(result){
+                        if (angular.isArray(result.data['access-control-allow-origin'])) {
+                            $scope.status.access = false;
+                            player = audioContext.player;
+                        } else {
+                            $scope.status.access = 'Limited access to track, visualizers disabled';
+                            player = audioContext.playerNoVis;
+                        }
+
+                        player.setAttribute('src', result.data.location.replace('https', 'http'));
                         setEvenetListeners();
                         deferredHead.resolve();
                     });
