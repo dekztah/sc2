@@ -284,10 +284,14 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                             $scope.status.access = 'Limited access to track, visualizers disabled';
                             player = audioContext.playerNoVis;
                         }
-
-                        player.setAttribute('src', result.data.location.replace('https', 'http'));
-                        setEvenetListeners();
-                        deferredHead.resolve();
+                        if (result.data.location) {
+                            player.setAttribute('src', result.data.location.replace('https', 'http'));
+                            setEvenetListeners();
+                            deferredHead.resolve();
+                        } else {
+                            $scope.status.access = 'Unable to access stream';
+                            deferredHead.reject();
+                        }
                     });
 
                     var png = $scope.playerData.currentTrack.waveform.split('/');
