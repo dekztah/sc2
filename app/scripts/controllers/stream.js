@@ -110,6 +110,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             duration: item.origin.duration,
             durationFormatted: helperService.duration(item.origin.duration),
             stream: item.origin.stream_url,
+            streamable: item.origin.streamable,
             waveform: item.origin.waveform_url,
             artwork: item.origin.artwork_url,
             buy: item.origin.purchase_url,

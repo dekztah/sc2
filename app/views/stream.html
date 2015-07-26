@@ -52,7 +52,7 @@
 
 <div class="row" id="tiles" ng-show="activeStream === 'stream'">
     <div
-        ng-repeat="track in stream | filter:search"
+        ng-repeat="track in stream | filter: search track by $index"
         class="{{::track.type}} item row"
         ng-class="{'active': helpers.isCurrent(track.index, false), 'new': track.isNew}"
         ng-show="showReposts || track.type === 'track' || track.type === 'playlist'"

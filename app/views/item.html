@@ -3,7 +3,7 @@
 
     <!-- PLAY OR PLAYLIST icon, user and repost icon -->
     <div class="meta">
-        <div class="controls fl" data-ng-if="track.type != 'playlist' && track.type != 'playlist-repost'">
+        <div class="controls fl" data-ng-if="track.type != 'playlist' && track.type != 'playlist-repost' && track.streamable">
             <button class="play btn" data-ng-click="controlAudio.play(track.index, track.favList)" data-ng-hide="helpers.isCurrent(track.index, track.favList)"><span class="icon-play"></span></button>
             <button class="pause btn" data-ng-click="controlAudio.pause()" data-ng-show="helpers.isCurrent(track.index, track.favList)"><span class="icon-pause"></span></button>
         </div>
