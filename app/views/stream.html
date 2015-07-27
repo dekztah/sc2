@@ -18,7 +18,7 @@
         <span class="last-visit">last visit: {{::user.lastFetch}}</span>
     </div>
     <div id="settings">
-        <button class="btn" ng-click="helpers.toggleReposts()" id="reposts-toggle" ng-class="{'reposts': showReposts}" title="toggle reposts"><span class="icon-repost"></span></button>
+        <button class="btn" ng-click="helpers.toggleReposts()" id="reposts-toggle" ng-class="{'reposts': showReposts}" title="{{showReposts ? 'hide reposts' : 'show reposts'}}"><span class="icon-repost"></span></button>
         <button class="btn" ng-click="logout()" id="logout" class="" title="logout"><span class="icon-switch"></span></button>
     </div>
 </div>

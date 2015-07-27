@@ -90,6 +90,14 @@
     }
 }
 
+#reposts-toggle {
+    opacity: 0.3;
+    transition: opacity 0.3s ease-out;
+    &.reposts {
+        opacity: 1;
+    }
+}
+
 #error {
     width: 600px;
     position: absolute;

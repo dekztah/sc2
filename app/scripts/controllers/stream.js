@@ -9,7 +9,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     $scope.storedToken = localStorageService.get('accessToken');
     $scope.user = localStorageService.get('user');
-    $scope.showReposts = true;
+    $scope.showReposts = localStorageService.get('showReposts');
     $scope.fsScope = false;
     $scope.stream = [];
     $scope.likedTracks = [];
@@ -362,6 +362,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         },
         toggleReposts: function() {
             $scope.showReposts = !$scope.showReposts;
+            localStorageService.set('showReposts', $scope.showReposts);
         },
         toggleOsc: function() {
             animation.x3dscope = !animation.x3dscope;
