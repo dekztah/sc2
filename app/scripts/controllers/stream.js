@@ -4,7 +4,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     var moment = $window.moment,
         nextPageCursor,
-        streamItems = [],
         likedItems = [],
         likedIds = [];
 
@@ -180,6 +179,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     $scope.getTracks = function(){
         $scope.status.loading = true;
         soundCloudService.getTracks({limit: 50, cursor: nextPageCursor}).then(function(stream){
+            var streamItems = [];
             var now = moment().format('YYYY-MM-DD HH:mm:ss');
             var lastFetch = localStorageService.get('lastFetch');
             var playlists = [];
