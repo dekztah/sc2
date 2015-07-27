@@ -196,7 +196,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                     stream.data.collection.splice(i, 1);
                     i = i-1;
                 } else {
-                    streamItems[i] = getTrackProperties(item, i, false);
+                    streamItems[i] = getTrackProperties(item, i + $scope.stream.length, false);
                     trackIds[i] = item.origin.id;
                     if (item.type === 'playlist' || item.type === 'playlist-repost') {
                         streamItems[i].tracks = [];
@@ -213,7 +213,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                     if (index > -1) {
                         for (var l = 0; l < result[index].data.length; l++) {
                             var item = result[index].data[l];
-                            streamItems[k].tracks[l] = getTrackProperties(item, l, k);
+                            streamItems[k].tracks[l] = getTrackProperties(item, l, k + $scope.stream.length);
                         }
                     }
                 }
