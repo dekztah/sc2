@@ -65,7 +65,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             });
         }
     };
-    var setEvenetListeners = function() {
+    var setEventListeners = function() {
         player.addEventListener('timeupdate', onTimeupdate, false);
         player.addEventListener('canplay', onCanplay, false);
         player.addEventListener('seeking', onSeeking, false);
@@ -287,7 +287,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                         }
                         if (result.data.location) {
                             player.setAttribute('src', result.data.location.replace('https', 'http'));
-                            setEvenetListeners();
+                            setEventListeners();
                             deferredHead.resolve();
                         } else {
                             $scope.status.access = 'Unable to access stream';
