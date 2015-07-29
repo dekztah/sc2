@@ -41,3 +41,15 @@ $grey: #212121;
         }
     }
 }
+
+@mixin bg-default {
+    background-image: linear-gradient(to top, #65b184, #028793);
+}
+
+@mixin bg-vice {
+    background-image: linear-gradient(to top, rgb(224,14,150), rgb(44,141,237));
+}
+
+@mixin bg-lime {
+    background-image: linear-gradient(to bottom, #007c5b, #c0eca6);
+}

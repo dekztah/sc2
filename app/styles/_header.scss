@@ -151,16 +151,4 @@ header {
         vertical-align: middle;
     }
 }
-#theme-changer {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 75px;
-    text-align: right;
-    button {
-        width: auto;
-        margin-top: 4px;
-        &.active {
-            background: rgba($white, 0.5);
-        }
-    }
-}
+

@@ -143,19 +143,39 @@ html.transparent {
 // default
 html.default {
     body {
-        background-image: linear-gradient(to top, #65b184, #028793);
+        @include bg-default;
     }
 }
 
 // vice
 html.vice {
     body {
-        background-image: linear-gradient(to top, rgb(224,14,150), rgb(44,141,237));
+        @include bg-vice;
     }
 }
 
 html.lime {
     body {
-        background-image: linear-gradient(to bottom, #007c5b, #c0eca6);
+        @include bg-lime;
     }
+}
+
+.bg-default {
+    @include bg-default;
+}
+.bg-vice {
+    @include bg-vice;
+}
+.bg-lime {
+    @include bg-lime;
+}
+
+.fg-light {
+    background: $white;
+}
+.fg-dark {
+    background: $grey;
+}
+.fg-transparent {
+    background: rgba($white, 0.2);
 }

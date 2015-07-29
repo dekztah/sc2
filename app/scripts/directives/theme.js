@@ -7,6 +7,10 @@ angular.module('sc2App').directive('theme', function (localStorageService) {
 
             $scope.theme = localStorageService.get('theme') || {bgr: 'default', color: 'light'};
 
+            $scope.toggleThemeChanger = function() {
+                $scope.themeChanger = !$scope.themeChanger;
+            };
+
             $scope.changeTheme = function(theme, scheme) {
                 if (scheme) {
                     $scope.theme.color = theme;

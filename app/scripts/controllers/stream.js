@@ -9,7 +9,8 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     $scope.storedToken = localStorageService.get('accessToken');
     $scope.user = localStorageService.get('user');
-    $scope.showReposts = localStorageService.get('showReposts');
+    $scope.showReposts = $scope.$eval(localStorageService.get('showReposts'));
+
     $scope.fsScope = false;
     $scope.stream = [];
     $scope.likedTracks = [];
@@ -364,9 +365,12 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             $scope.showReposts = !$scope.showReposts;
             localStorageService.set('showReposts', $scope.showReposts);
         },
-        toggleOsc: function() {
-            animation.x3dscope = !animation.x3dscope;
-            $scope.fsScope = animation.x3dscope;
+        toggleOsc: function(bool) {
+            if (!$scope.status.access && $scope.playerData.playingIndex && bool) {
+                $scope.fsScope = animation.x3dscope = true;
+            } else {
+                $scope.fsScope = animation.x3dscope = false;
+            }
         }
     };
 

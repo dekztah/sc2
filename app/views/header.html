@@ -37,16 +37,7 @@
     <div class="row" id="credits">
         <img src="images/sc2.png"/>
         <img src="images/soundcloud_powered_by_large_white.png"/>
-        <div id="theme-changer">
-            <button data-ng-click="changeTheme('default')" data-ng-class="{'active': theme.bgr === 'default'}">default</button>
-            <button data-ng-click="changeTheme('vice')" data-ng-class="{'active': theme.bgr === 'vice'}">vice</button>
-            <button data-ng-click="changeTheme('lime')" data-ng-class="{'active': theme.bgr === 'lime'}">lime</button>
-            <br>
-            <button data-ng-click="changeTheme('light', 1)" data-ng-class="{'active': theme.color === 'light'}">light</button>
-            <button data-ng-click="changeTheme('dark', 1)" data-ng-class="{'active': theme.color === 'dark'}">dark</button>
-            <button data-ng-click="changeTheme('transparent', 1)" data-ng-class="{'active': theme.color === 'transparent'}">transparent</button>
 
-        </div>
     </div>
     <!-- row 2 -->
     <div class="row">
@@ -73,7 +64,7 @@
             {{status.access}}
         </div>
         <div class="">
-            <div id="osc" canvas-context="oscContext" data-ng-click="!status.access && helpers.toggleOsc()"></div>
+            <div id="osc" canvas-context="oscContext" data-ng-click="helpers.toggleOsc(true)"></div>
 
             <div id="analyser">
                 <div id="analyser-bottom" canvas-context="analyserBottomContext"></div>

@@ -76,15 +76,49 @@
         }
         #settings {
             margin: auto 0 auto 20px;
-            flex: 80px;
+            flex: 120px;
             flex-shrink: 0;
             text-align: right;
             border-left: 1px solid #eee;
 
-            button {
+            .btn {
                 background: none;
                 font-size: 20px;
                 height: auto;
+            }
+        }
+        #theme-changer {
+            background: rgba($white, 0.2);
+            color: $white;
+            background: $black;
+            padding: 20px;
+            // display: inline-block;
+            // vertical-align: middle;
+            // margin-left: 75px;
+            text-align: left;
+            position: absolute;
+            top: 64px;
+            right: 0;
+            width: 135px;
+            font-size: 12px;
+            span {
+                display: block;
+            }
+            button {
+                color: $black;
+                font-size: 14px;
+                width: auto;
+                // display: block;
+                margin-top: 4px;
+                height: 20px;
+                width: 20px;
+                // margin: 2px;
+                // border: none;
+                &.active {
+                    // background: rgba($white, 0.5);
+                    // margin: 0;
+                    // border: 2px solid rgba($black, 0.5);
+                }
             }
         }
     }
