@@ -272,7 +272,7 @@
         .buttons {
             text-align: right;
             margin-right: 10px;
-            flex: 1 130px;
+            flex: 1 160px;
             flex-shrink: 0;
         }
     }
@@ -320,7 +320,12 @@
 
             font-size: 12px;
             a {
-                color: #6bb;
+                text-decoration: underline;
+                opacity: 0.5;
+
+                &:hover {
+                    opacity: 1;
+                }
             }
         }
     }
