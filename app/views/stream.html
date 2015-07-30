@@ -63,7 +63,7 @@
 
 <div class="row" id="tiles" data-ng-show="activeStream === 'stream'">
     <div
-        data-ng-repeat="track in stream | filter: search track by $index"
+        data-ng-repeat="track in stream | filter:search track by track.index"
         class="{{::track.type}} item row"
         data-ng-class="{'active': helpers.isCurrent(track.index, false), 'new': track.isNew}"
         data-ng-show="showReposts || track.type === 'track' || track.type === 'playlist'"
