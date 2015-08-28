@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="row description" data-ng-show="desc">
-            <div class="track-desc" data-ng-bind-html="track.description"></div>
+            <div class="track-desc" data-ng-bind-html="::track.description"></div>
             <img data-ng-if="track.artwork" data-ng-src="{{::track.artwork}}"/>
         </div>
         <div class="row playlist-tracks" data-ng-if="track.type === 'playlist' || track.type === 'playlist-repost'">
