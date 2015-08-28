@@ -28,8 +28,8 @@
 				"ligatures": "warning"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 2
+			"setId": 6,
+			"iconIdx": 0
 		},
 		{
 			"icon": {
@@ -58,8 +58,8 @@
 				"ligatures": "new_releases"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 22
+			"setId": 6,
+			"iconIdx": 1
 		},
 		{
 			"icon": {
@@ -88,8 +88,8 @@
 				"ligatures": "pause"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 24
+			"setId": 6,
+			"iconIdx": 2
 		},
 		{
 			"icon": {
@@ -118,8 +118,8 @@
 				"ligatures": "play_arrow"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 27
+			"setId": 6,
+			"iconIdx": 3
 		},
 		{
 			"icon": {
@@ -148,8 +148,8 @@
 				"ligatures": "repeat"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 35
+			"setId": 6,
+			"iconIdx": 4
 		},
 		{
 			"icon": {
@@ -178,8 +178,8 @@
 				"ligatures": "clear"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 112
+			"setId": 6,
+			"iconIdx": 5
 		},
 		{
 			"icon": {
@@ -208,8 +208,8 @@
 				"ligatures": "save"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 133
+			"setId": 6,
+			"iconIdx": 6
 		},
 		{
 			"icon": {
@@ -238,8 +238,8 @@
 				"ligatures": "format_list_bulleted"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 219
+			"setId": 6,
+			"iconIdx": 7
 		},
 		{
 			"icon": {
@@ -268,8 +268,8 @@
 				"ligatures": "format_paint"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 221
+			"setId": 6,
+			"iconIdx": 8
 		},
 		{
 			"icon": {
@@ -298,8 +298,8 @@
 				"ligatures": "keyboard_control"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 527
+			"setId": 6,
+			"iconIdx": 9
 		},
 		{
 			"icon": {
@@ -328,8 +328,8 @@
 				"ligatures": "favorite"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 657
+			"setId": 6,
+			"iconIdx": 10
 		},
 		{
 			"icon": {
@@ -358,8 +358,8 @@
 				"ligatures": "power_settings_new"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 704
+			"setId": 6,
+			"iconIdx": 11
 		},
 		{
 			"icon": {
@@ -388,8 +388,8 @@
 				"ligatures": "search"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 714
+			"setId": 6,
+			"iconIdx": 12
 		},
 		{
 			"icon": {
@@ -418,8 +418,8 @@
 				"ligatures": "settings"
 			},
 			"setIdx": 0,
-			"setId": 4,
-			"iconIdx": 715
+			"setId": 6,
+			"iconIdx": 13
 		},
 		{
 			"icon": {
@@ -448,8 +448,38 @@
 				"ligatures": "shopping_cart"
 			},
 			"setIdx": 0,
+			"setId": 6,
+			"iconIdx": 14
+		},
+		{
+			"icon": {
+				"paths": [
+					"M810 426h86v172h-86v-172zM640 768v-512h86v512h-86zM128 598v-172h86v172h-86zM470 938v-852h84v852h-84zM298 768v-512h86v512h-86z"
+				],
+				"attrs": [
+					{}
+				],
+				"isMulticolor": false,
+				"tags": [
+					"graphic_eq"
+				],
+				"defaultCode": 57512,
+				"grid": 24
+			},
+			"attrs": [
+				{}
+			],
+			"properties": {
+				"order": 815,
+				"id": 168,
+				"prevSize": 24,
+				"code": 57512,
+				"name": "track",
+				"ligatures": "graphic_eq"
+			},
+			"setIdx": 2,
 			"setId": 4,
-			"iconIdx": 735
+			"iconIdx": 168
 		}
 	],
 	"height": 1024,
