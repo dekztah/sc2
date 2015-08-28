@@ -179,7 +179,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                         if (followings.data[k].description) {
                             followings.data[k].description = helperService.description(followings.data[k].description);
                         }
-                        // followings.data[k].description = item.origin.description ? helperService.description(item.origin.description) : false,
                         $scope.followings.push(followings.data[k]);
                     }
                     request.resolve();
