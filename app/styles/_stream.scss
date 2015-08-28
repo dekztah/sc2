@@ -39,6 +39,10 @@
             margin-right: 10px;
             line-height: 34px;
         }
+        .search {
+            flex: 100%;
+            display: flex;
+        }
         input {
             flex: 100%;
             display: inline-block;
