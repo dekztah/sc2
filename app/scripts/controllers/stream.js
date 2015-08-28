@@ -14,6 +14,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     $scope.fsScope = false;
     $scope.stream = [];
     $scope.likedTracks = [];
+    $scope.followings = [];
     $scope.playerData = {
         playingIndex : null
     };
@@ -127,13 +128,14 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     var getFavoritedTracks = function() {
         var deferred = $q.defer();
         var promises = [];
+        var limit = 200;
 
         // one time only
         if (likedIds.length === 0) {
 
             var get = function(offset) {
                 var request = $q.defer();
-                soundCloudService.like('get', '', {limit: '200', offset: offset}).then(function(likes){
+                soundCloudService.like('get', '', {limit: limit, offset: offset}).then(function(likes){
                     for (var j = 0; j < likes.data.length; j++) {
                         likedIds.push(likes.data[j].id);
                         likedItems.push(getTrackProperties(likes.data[j], j, -1));
@@ -146,14 +148,47 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             };
 
             // call service until all favorites are returned
-            for (var i = 0; i < Math.ceil($scope.user.public_favorites_count / 200); i++) {
-                promises.push(get(i*200));
+            for (var i = 0; i < Math.ceil($scope.user.public_favorites_count / limit); i++) {
+                promises.push(get(i*limit));
             }
 
             $q.all(promises).then(function(){
                 deferred.resolve();
             });
 
+        } else {
+            deferred.resolve();
+        }
+        return deferred.promise;
+    };
+
+    var getFollowings = function() {
+        var deferred = $q.defer();
+        var promises = [];
+        var limit = 200;
+
+        // one time only
+        if ($scope.followings.length === 0) {
+
+            var get = function(offset) {
+                var request = $q.defer();
+                soundCloudService.follow('get', '', {limit: limit, offset: offset}).then(function(followings){
+                    for (var k = 0; k < followings.data.length; k++) {
+                        $scope.followings.push(followings.data[k]);
+                    }
+                    request.resolve();
+                });
+                return request.promise;
+            };
+
+            // call service until all followings are returned
+            for (var i = 0; i < Math.ceil($scope.user.followings_count / limit); i++) {
+                promises.push(get(i*limit));
+            }
+
+            $q.all(promises).then(function(){
+                deferred.resolve();
+            });
         } else {
             deferred.resolve();
         }
@@ -235,6 +270,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 });
             });
 
+            getFollowings();
             localStorageService.set('lastFetch', now);
 
         }, function(){
@@ -258,6 +294,16 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 favorited.favoriteFlag = true;
             } else if (response.status === 200 && method === 'delete') {
                 favorited.favoriteFlag = false;
+            }
+        });
+    };
+
+    $scope.follow = function(method, userId) {
+        soundCloudService.follow(method, userId, {}).then(function(response) {
+            if (response.status === 201) {
+
+            } else if (response.status === 200 && method === 'delete') {
+
             }
         });
     };

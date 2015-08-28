@@ -1,0 +1,31 @@
+<div class="flex">
+    <!-- <pre>{{user | json}}</pre> -->
+    <div class="meta">
+        <div class="fl">
+            <img class="user-avatar" data-ng-src="{{::user.avatar_url}}" />
+        </div>
+    </div>
+
+    <div class="details">
+        <div class="row head">
+            <div class="main">
+                <div class="row">
+                    <div><a data-ng-href="{{::user.permalink_url}}" target="_blank">{{::user.username}}</a></div>
+                    <div class="website"><a data-ng-href="{{::user.website}}" target="_blank">{{::user.website}}</a></div>
+                </div>
+                <div class="row toggledesc">
+                    <button class="btn" data-ng-init="desc = false" data-ng-click="desc = !desc" data-ng-show="user.description" data-ng-class="{'shown': desc}"><span class="icon-more"></span></button>
+                </div>
+            </div>
+            <div class="buttons">
+                <span><span class="icon-track"></span>{{::user.track_count}}</span>
+                <span><span class="icon-playlist"></span>{{::user.playlist_count}}</span>
+                <button class="follow" data-ng-click="follow('delete', user.id)">unfollow</button>
+            </div>
+        </div>
+        <div class="row description" data-ng-show="desc">
+
+            <div>{{::user.description}}</div>
+        </div>
+    </div>
+</div>

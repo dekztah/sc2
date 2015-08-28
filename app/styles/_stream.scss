@@ -153,7 +153,7 @@
 #active-stream-switch {
     margin-top: 65px;
     button {
-        width: 50%;
+        width: 33.33%;
         float: left;
         border-radius: 0;
         height: 40px;
@@ -399,5 +399,23 @@
 
     &:hover {
         background-color: rgba($white,0.3);
+    }
+}
+
+// tabs
+#followings {
+    .user-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    .website {
+        font-size: 12px;
+    }
+    .head {
+        .buttons {
+            button {
+                width: auto;
+            }
+        }
     }
 }

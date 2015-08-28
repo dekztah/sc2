@@ -52,6 +52,7 @@
 <div id="active-stream-switch" class="clearfix" data-ng-init="activeStream = 'stream'">
     <button data-ng-click="activeStream = 'stream'" data-ng-class="{'active': activeStream === 'stream'}">stream <span class="count">{{stream.length}}</span></button>
     <button data-ng-click="activeStream = 'favorites'" data-ng-class="{'active': activeStream === 'favorites'}">favorites <span class="count">{{likedTracks.length}}</span></button>
+    <button data-ng-click="activeStream = 'followings'" data-ng-class="{'active': activeStream === 'followings'}">following <span class="count">{{followings.length}}</span></button>
 </div>
 <div class="row" id="favorites" data-ng-show="activeStream === 'favorites'">
     <div
@@ -71,6 +72,12 @@
         data-ng-include="'views/item.html'"
         data-repeat-finished>
     </div>
+</div>
+<div class="row" id="followings" data-ng-show="activeStream === 'followings'">
+    <div
+        data-ng-repeat="user in followings"
+        class="item row"
+        data-ng-include="'views/user.html'"></div>
 </div>
 <div class="row" data-ng-show="activeStream === 'stream'">
     <button class="btn" id="more" data-ng-click="getTracks()" data-ng-show="!status.loading">more</button>
