@@ -174,6 +174,8 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 var request = $q.defer();
                 soundCloudService.follow('get', '', {limit: limit, offset: offset}).then(function(followings){
                     for (var k = 0; k < followings.data.length; k++) {
+                        followings.data[k].index = k;
+                        followings.data[k].followingFlag = true;
                         $scope.followings.push(followings.data[k]);
                     }
                     request.resolve();
@@ -298,12 +300,13 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         });
     };
 
-    $scope.follow = function(method, userId) {
+    $scope.follow = function(method, index) {
+        var userId = $scope.followings[index].id;
         soundCloudService.follow(method, userId, {}).then(function(response) {
             if (response.status === 201) {
-
+                $scope.followings[index].followingFlag = true;
             } else if (response.status === 200 && method === 'delete') {
-
+                $scope.followings[index].followingFlag = false;
             }
         });
     };

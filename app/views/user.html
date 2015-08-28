@@ -20,7 +20,7 @@
             <div class="buttons">
                 <span><span class="icon-track"></span>{{::user.track_count}}</span>
                 <span><span class="icon-playlist"></span>{{::user.playlist_count}}</span>
-                <button class="follow" data-ng-click="follow('delete', user.id)">unfollow</button>
+                <button class="follow" data-ng-click="user.followingFlag ? follow('delete', user.index) : follow('put', user.index)">{{user.followingFlag ? 'unfollow' : 'follow'}}</button>
             </div>
         </div>
         <div class="row description" data-ng-show="desc">
