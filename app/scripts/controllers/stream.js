@@ -125,75 +125,37 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         };
     };
 
-    var getFavoritedTracks = function() {
+    // call endpoint until all resources loaded
+    var soundcloudGetAll = function(resource, target, count) {
         var deferred = $q.defer();
         var promises = [];
-        var limit = 200;
+        var limit = 50;
+        var results = [];
 
         // one time only
-        if (likedIds.length === 0) {
+        if (target.length === 0) {
 
             var get = function(offset) {
                 var request = $q.defer();
-                soundCloudService.like('get', '', {limit: limit, offset: offset}).then(function(likes){
-                    for (var j = 0; j < likes.data.length; j++) {
-                        likedIds.push(likes.data[j].id);
-                        likedItems.push(getTrackProperties(likes.data[j], j, -1));
-                        likedItems[j].favoriteFlag = true;
-                    }
-                    $scope.likedTracks.push.apply($scope.likedTracks, likedItems);
-                    request.resolve();
+                soundCloudService.res(resource, 'get', '', {limit: limit, offset: offset}).then(function(response){
+                    request.resolve(response.data);
                 });
                 return request.promise;
             };
 
-            // call service until all favorites are returned
-            for (var i = 0; i < Math.ceil($scope.user.public_favorites_count / limit); i++) {
+            for (var i = 0; i < Math.ceil(count / limit); i++) {
                 promises.push(get(i*limit));
             }
 
-            $q.all(promises).then(function(){
-                deferred.resolve();
-            });
-
-        } else {
-            deferred.resolve();
-        }
-        return deferred.promise;
-    };
-
-    var getFollowings = function() {
-        var deferred = $q.defer();
-        var promises = [];
-        var limit = 200;
-
-        // one time only
-        if ($scope.followings.length === 0) {
-
-            var get = function(offset) {
-                var request = $q.defer();
-                soundCloudService.follow('get', '', {limit: limit, offset: offset}).then(function(followings){
-                    for (var k = 0; k < followings.data.length; k++) {
-                        followings.data[k].index = k;
-                        followings.data[k].followingFlag = true;
-                        if (followings.data[k].description) {
-                            followings.data[k].description = helperService.description(followings.data[k].description);
-                        }
-                        $scope.followings.push(followings.data[k]);
+            $q.all(promises).then(function(response){
+                for (var i = 0; i < response.length; i++) {
+                    for (var j =0; j < response[i].length; j++) {
+                        results.push(response[i][j]);
                     }
-                    request.resolve();
-                });
-                return request.promise;
-            };
-
-            // call service until all followings are returned
-            for (var i = 0; i < Math.ceil($scope.user.followings_count / limit); i++) {
-                promises.push(get(i*limit));
-            }
-
-            $q.all(promises).then(function(){
-                deferred.resolve();
+                }
+                deferred.resolve(results);
             });
+
         } else {
             deferred.resolve();
         }
@@ -219,7 +181,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     $scope.getTracks = function(){
         $scope.status.loading = true;
-        soundCloudService.getTracks({limit: 50, cursor: nextPageCursor}).then(function(stream){
+        soundCloudService.res('activities/tracks/affiliated', 'get', '', {limit: 50, cursor: nextPageCursor}).then(function(stream) {
             var streamItems = [];
             var now = moment().format('YYYY-MM-DD HH:mm:ss');
             var lastFetch = localStorageService.get('lastFetch');
@@ -260,7 +222,16 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 }
 
                 // wait for favorited tracks before pushing to scope
-                getFavoritedTracks().then(function(){
+                soundcloudGetAll('favorites', likedIds, $scope.user.public_favorites_count).then(function(likes){
+                    if (likes) {
+                        for (var j = 0; j < likes.length; j++) {
+                            likedIds.push(likes[j].id);
+                            likedItems.push(getTrackProperties(likes[j], j, -1));
+                            likedItems[j].favoriteFlag = true;
+                        }
+                        $scope.likedTracks.push.apply($scope.likedTracks, likedItems);
+                    }
+
                     for (var m = 0; m < streamItems.length; m++) {
                         streamItems[m].favoriteFlag = likedIds.indexOf(streamItems[m].scid) > -1;
                         streamItems[m].isNew = moment(streamItems[m].scDate, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch));
@@ -275,7 +246,18 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 });
             });
 
-            getFollowings();
+            soundcloudGetAll('followings', $scope.followings, $scope.user.followings_count).then(function(followings){
+                if (followings) {
+                    for (var k = 0; k < followings.length; k++) {
+                        followings[k].index = k;
+                        followings[k].followingFlag = true;
+                        if (followings[k].description) {
+                            followings[k].description = helperService.description(followings[k].description);
+                        }
+                        $scope.followings.push(followings[k]);
+                    }
+                }
+            });
             localStorageService.set('lastFetch', now);
 
         }, function(){
@@ -294,7 +276,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     $scope.like = function(method, index, isFavList) {
         var favorited = getPlaylistOrTrackData(index, isFavList);
         var trackId = favorited.scid;
-        soundCloudService.like(method, trackId, {}).then(function(response){
+        soundCloudService.res('favorites/', method, trackId, {}).then(function(response){
             if (response.status === 201) {
                 favorited.favoriteFlag = true;
             } else if (response.status === 200 && method === 'delete') {
@@ -305,7 +287,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     $scope.follow = function(method, index) {
         var userId = $scope.followings[index].id;
-        soundCloudService.follow(method, userId, {}).then(function(response) {
+        soundCloudService.res('followings/', method, userId, {}).then(function(response) {
             if (response.status === 201) {
                 $scope.followings[index].followingFlag = true;
             } else if (response.status === 200 && method === 'delete') {

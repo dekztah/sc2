@@ -28,11 +28,6 @@ angular.module('sc2App').service('soundCloudService', function ($window, $http, 
         return connectDeferred.promise;
     };
 
-    self.getTracks = function (params) {
-        params.oauth_token = self.accessToken;
-        return $http.get(soundcloudConfig.apiBaseUrl + '/me/activities/tracks/affiliated', {params: params});
-    };
-
     self.getPlaylistTracks = function (playlists) {
         var playlistTracks = [];
         for (var i = 0; i < playlists.length; i++) {
@@ -41,20 +36,11 @@ angular.module('sc2App').service('soundCloudService', function ($window, $http, 
         return $q.all(playlistTracks);
     };
 
-    self.like = function (method, trackId, params) {
+    self.res = function(resource, method, id, params) {
         params.oauth_token = self.accessToken;
         return $http({
             method: method,
-            url: soundcloudConfig.apiBaseUrl + '/me/favorites/' + trackId,
-            params: params
-        });
-    };
-
-    self.follow = function (method, userId, params) {
-        params.oauth_token = self.accessToken;
-        return $http({
-            method: method,
-            url: soundcloudConfig.apiBaseUrl + '/me/followings/' + userId,
+            url: soundcloudConfig.apiBaseUrl + '/me/' + resource + id,
             params: params
         });
     };
