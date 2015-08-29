@@ -1,5 +1,4 @@
 .loading-overlay {
-    background: #fff;
     max-width: 1090px;
     position: fixed;
     left: 510px;
@@ -18,7 +17,7 @@
     height: 100px;
     padding-top: 80px;
     margin-top: -50px;
-    background: url(../images/sc2_small.png) top center no-repeat;
+    background: url(../images/sc2_small_white.png) top center no-repeat;
 }
 
 .spinner {
@@ -28,7 +27,7 @@
     width: 132px;
 
     & > div {
-        background-color: #000;
+        background-color: #fff;
         height: 100%;
         width: 4px;
         margin-right: 2px;

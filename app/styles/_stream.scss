@@ -407,6 +407,13 @@
 }
 
 // tabs
+#tiles {
+    opacity: 0;
+    // transition: 0.3s ease-out opacity; // fucks up ng-show
+    &.loaded {
+        opacity: 1;
+    }
+}
 #followings {
     .user-avatar {
         width: 100px;

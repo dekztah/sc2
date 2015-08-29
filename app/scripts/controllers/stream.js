@@ -3,9 +3,7 @@
 angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $http, $q, soundcloudConfig, soundCloudService, localStorageService, helperService, audioContext, canvasService, animation, streamUrlServiceUrl) {
 
     var moment = $window.moment,
-        nextPageCursor,
-        likedItems = [],
-        likedIds = [];
+        nextPageCursor;
 
     $scope.storedToken = localStorageService.get('accessToken');
     $scope.user = localStorageService.get('user');
@@ -13,7 +11,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     $scope.fsScope = false;
     $scope.stream = [];
-    $scope.likedTracks = [];
+    $scope.favorites = [];
     $scope.followings = [];
     $scope.playerData = {
         playingIndex : null
@@ -21,6 +19,16 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     $scope.status = {
         loading: false,
         error: false
+    };
+
+    var favorites = {
+        ids: [],
+        items: []
+    };
+
+    var followings = {
+        ids: [],
+        items: []
     };
 
     // player and event listeners
@@ -78,7 +86,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     var getPlaylistOrTrackData = function(values, favorites) {
         var data;
         if (favorites) {
-            data = $scope.likedTracks[values[0]];
+            data = $scope.favorites[values[0]];
         } else {
             if (!isNaN(values[1])) {
                 data = $scope.stream[values[0]].tracks[values[1]];
@@ -120,6 +128,8 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             username: item.origin.user.username,
             userlink: item.origin.user.permalink_url,
             avatar: item.origin.user.avatar_url,
+            favoriteFlag: favorites.ids.indexOf(item.origin.id) > -1,
+            followingFlag: followings.ids.indexOf(item.origin.user_id) > -1,
             description: item.origin.description ? helperService.description(item.origin.description) : false,
             favList: (parentIndex < 0)
         };
@@ -132,33 +142,27 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         var limit = 50;
         var results = [];
 
-        // one time only
-        if (target.length === 0) {
-
-            var get = function(offset) {
-                var request = $q.defer();
-                soundCloudService.res(resource, 'get', '', {limit: limit, offset: offset}).then(function(response){
-                    request.resolve(response.data);
-                });
-                return request.promise;
-            };
-
-            for (var i = 0; i < Math.ceil(count / limit); i++) {
-                promises.push(get(i*limit));
-            }
-
-            $q.all(promises).then(function(response){
-                for (var i = 0; i < response.length; i++) {
-                    for (var j =0; j < response[i].length; j++) {
-                        results.push(response[i][j]);
-                    }
-                }
-                deferred.resolve(results);
+        var get = function(offset) {
+            var request = $q.defer();
+            soundCloudService.res(resource, 'get', '', {limit: limit, offset: offset}).then(function(response){
+                request.resolve(response.data);
             });
+            return request.promise;
+        };
 
-        } else {
-            deferred.resolve();
+        for (var i = 0; i < Math.ceil(count / limit); i++) {
+            promises.push(get(i*limit));
         }
+
+        $q.all(promises).then(function(response){
+            for (var i = 0; i < response.length; i++) {
+                for (var j =0; j < response[i].length; j++) {
+                    results.push(response[i][j]);
+                }
+            }
+            deferred.resolve(results);
+        });
+
         return deferred.promise;
     };
 
@@ -169,7 +173,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             localStorageService.set('user', data.user);
             $scope.storedToken = data.token;
             $scope.user = data.user;
-            $scope.getTracks();
+            $scope.loadData();
         });
     };
 
@@ -179,92 +183,92 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         $window.location.reload();
     };
 
-    $scope.getTracks = function(){
+    $scope.loadData = function(){
         $scope.status.loading = true;
-        soundCloudService.res('activities/tracks/affiliated', 'get', '', {limit: 50, cursor: nextPageCursor}).then(function(stream) {
-            var streamItems = [];
-            var now = moment().format('YYYY-MM-DD HH:mm:ss');
-            var lastFetch = localStorageService.get('lastFetch');
-            var playlists = [];
-            var trackIds = [];
+        var now = moment().format('YYYY-MM-DD HH:mm:ss');
+        var lastFetch = localStorageService.get('lastFetch');
 
-            $scope.user.lastFetch = helperService.customDate(lastFetch, 'ago');
+
+        var followingsReq, favoritesReq, streamReq;
+        var streamItems;
+        var playlists = {
+            ids: [],
+            items: []
+        };
+
+        // load followed users and favorites
+        if (followings.items.length === 0) {
+            followingsReq = soundcloudGetAll('followings', followings.items, $scope.user.followings_count).then(function(users){
+                for (var k = 0; k < users.length; k++) {
+                    followings.ids.push(users[k].id);
+                    users[k].followingFlag = true;
+                    if (users[k].description) {
+                        users[k].description = helperService.description(users[k].description);
+                    }
+                    followings.items.push(users[k]);
+                }
+            });
+
+            favoritesReq = soundcloudGetAll('favorites', favorites.items, $scope.user.public_favorites_count).then(function(likes){
+                for (var j = 0; j < likes.length; j++) {
+                    favorites.ids.push(likes[j].id);
+                    favorites.items.push(likes[j]);
+                }
+            });
+        }
+
+        // load tracks
+        streamReq = soundCloudService.res('activities/tracks/affiliated', 'get', '', {limit: 50, cursor: nextPageCursor}).then(function(stream) {
+            var deferred = $q.defer();
             nextPageCursor = stream.data.next_href.split('cursor=')[1];
+            streamItems = [];
 
             for (var i = 0; i < stream.data.collection.length; i++) {
                 var item = stream.data.collection[i];
+                streamItems.push(item);
+                if (item.type === 'playlist' || item.type === 'playlist-repost') {
+                    playlists.ids.push(item.origin.id);
+                }
+            }
 
-                // dont add reposts of the same track multiple times
-                if (trackIds.indexOf(item.origin.id) > -1) {
-                    stream.data.collection.splice(i, 1);
-                    i = i-1;
-                } else {
-                    streamItems[i] = getTrackProperties(item, i + $scope.stream.length, false);
-                    trackIds[i] = item.origin.id;
-                    if (item.type === 'playlist' || item.type === 'playlist-repost') {
-                        streamItems[i].tracks = [];
-                        playlists.push(item.origin.id);
+            // load all tracks from all playlists
+            soundCloudService.getPlaylistTracks(playlists.ids).then(function(results){
+                for (var k = 0; k < results.length; k++) {
+                    playlists.items.push(results[k]);
+                }
+                deferred.resolve();
+            });
+            return deferred.promise;
+        });
+
+        // process raw data
+        $q.all([followingsReq, favoritesReq, streamReq]).then(function(){
+
+            // stream
+            for (var l = 0; l < streamItems.length; l++) {
+                streamItems[l] = getTrackProperties(streamItems[l], l + $scope.stream.length, false);
+                streamItems[l].isNew = moment(streamItems[l].scDate, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch));
+                var indexInPlaylists = playlists.ids.indexOf(streamItems[l].scid);
+                if (indexInPlaylists > -1) {
+                    streamItems[l].tracks = [];
+                    for (var m = 0; m < playlists.items[indexInPlaylists].data.length; m++) {
+                        streamItems[l].tracks[m] = getTrackProperties(playlists.items[indexInPlaylists].data[m], m, l +$scope.stream.length);
                     }
                 }
             }
             streamItems[streamItems.length - 1].last = true;
+            $scope.stream.push.apply($scope.stream, streamItems);
 
-            // and get all playlists at once
-            soundCloudService.getPlaylistTracks(playlists).then(function(result){
-                for (var k = 0; k < streamItems.length; k++) {
-                    var index = playlists.indexOf(streamItems[k].scid);
-                    if (index > -1) {
-                        for (var l = 0; l < result[index].data.length; l++) {
-                            var item = result[index].data[l];
-                            streamItems[k].tracks[l] = getTrackProperties(item, l, k + $scope.stream.length);
-                        }
-                    }
+            // favorites & followings
+            if ($scope.favorites.length === 0) {
+                for (var n = 0; n < favorites.items.length; n++) {
+                    $scope.favorites.push(getTrackProperties(favorites.items[n], n, -1));
                 }
+                $scope.followings = followings.items;
+                console.log($scope.stream);
+            }
 
-                // wait for favorited tracks before pushing to scope
-                soundcloudGetAll('favorites', likedIds, $scope.user.public_favorites_count).then(function(likes){
-                    if (likes) {
-                        for (var j = 0; j < likes.length; j++) {
-                            likedIds.push(likes[j].id);
-                            likedItems.push(getTrackProperties(likes[j], j, -1));
-                            likedItems[j].favoriteFlag = true;
-                        }
-                        $scope.likedTracks.push.apply($scope.likedTracks, likedItems);
-                    }
-
-                    for (var m = 0; m < streamItems.length; m++) {
-                        streamItems[m].favoriteFlag = likedIds.indexOf(streamItems[m].scid) > -1;
-                        streamItems[m].isNew = moment(streamItems[m].scDate, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch));
-
-                        if (streamItems[m].tracks) {
-                            for (var n = 0; n < streamItems[m].tracks.length; n++) {
-                                streamItems[m].tracks[n].favoriteFlag = likedIds.indexOf(streamItems[m].tracks[n].scid) > -1;
-                            }
-                        }
-                    }
-                    $scope.stream.push.apply($scope.stream, streamItems);
-                });
-            });
-
-            soundcloudGetAll('followings', $scope.followings, $scope.user.followings_count).then(function(followings){
-                if (followings) {
-                    for (var k = 0; k < followings.length; k++) {
-                        followings[k].index = k;
-                        followings[k].followingFlag = true;
-                        if (followings[k].description) {
-                            followings[k].description = helperService.description(followings[k].description);
-                        }
-                        $scope.followings.push(followings[k]);
-                    }
-                }
-            });
             localStorageService.set('lastFetch', now);
-
-        }, function(){
-            $scope.status = {
-                loading: false,
-                error: true
-            };
         });
     };
 
@@ -415,6 +419,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     // get tracks if user is already authenticated
     if ($scope.storedToken) {
         soundCloudService.accessToken = $scope.storedToken;
-        $scope.getTracks();
+        $scope.loadData();
     }
 });
