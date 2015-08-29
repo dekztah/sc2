@@ -12,7 +12,8 @@
         top: 0;
         left: 510px;
         right: 0;
-        padding: 15px;
+        // padding: 15px;
+        height: 64px;
         background-image: linear-gradient(to bottom, rgba($white, 0),rgba($white, 0.03)),linear-gradient(to right, rgba($white, 0.05) 0%, rgba($white, 0) 100%);
         z-index: 1;
         display: flex;
@@ -29,7 +30,29 @@
             width: 100%;
             background-image: linear-gradient(to left, transparent 0%, rgba($black, 0.07) 15%, rgba($black, 0.1) 50%, rgba($black, 0.1) 85%, rgba($black, 0.1) 100%);
         }
+        #active-stream-switch {
+            flex: 400px;
+            flex-shrink: 0;
+            button {
+                width: 33.33%;
+                float: left;
+                border-radius: 0;
+                height: 64px;
+                background: none;
 
+                &.active {
+                    // border-bottom: 2px solid $white;
+                    background: rgba($white, 0.2);
+                }
+            }
+            .count {
+                font-size: 12px;
+                background: rgba($white, 0.2);
+                color: $white;
+                border-radius: 4px;
+                padding: 1px 5px;
+            }
+        }
         .icon-search {
             flex: 30px;
             flex-shrink: 0;
@@ -38,10 +61,12 @@
             font-size: 20px;
             margin-right: 10px;
             line-height: 34px;
+            padding: 15px 0 15px 15px;
         }
         .search {
             flex: 100%;
             display: flex;
+            padding: 15px 15px 15px 0;
         }
         input {
             flex: 100%;
@@ -154,27 +179,10 @@
     color: #ff0000;
 }
 
-#active-stream-switch {
+
+.content {
     margin-top: 65px;
-    button {
-        width: 33.33%;
-        float: left;
-        border-radius: 0;
-        height: 40px;
-
-        &.active {
-            background: rgba($white, 0.2);
-        }
-    }
-    .count {
-        font-size: 12px;
-        background: rgba($white, 0.2);
-        color: $white;
-        border-radius: 4px;
-        padding: 1px 5px;
-    }
 }
-
 // item
 .item {
     position: relative;

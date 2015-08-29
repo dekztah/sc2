@@ -187,7 +187,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         $scope.status.loading = true;
         var now = moment().format('YYYY-MM-DD HH:mm:ss');
         var lastFetch = localStorageService.get('lastFetch');
-
+        $scope.user.lastFetch = helperService.customDate(lastFetch, 'ago');
 
         var followingsReq, favoritesReq, streamReq;
         var streamItems;
@@ -265,7 +265,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                     $scope.favorites.push(getTrackProperties(favorites.items[n], n, -1));
                 }
                 $scope.followings = followings.items;
-                console.log($scope.stream);
             }
 
             localStorageService.set('lastFetch', now);

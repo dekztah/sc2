@@ -1,5 +1,10 @@
 <!-- SEARCH bar row -->
 <div class="page-header row">
+    <div id="active-stream-switch" class="clearfix" data-ng-init="activeStream = 'stream'">
+        <button data-ng-click="activeStream = 'stream'" data-ng-class="{'active': activeStream === 'stream'}">stream <span class="count">{{stream.length}}</span></button>
+        <button data-ng-click="activeStream = 'favorites'" data-ng-class="{'active': activeStream === 'favorites'}">favorites <span class="count">{{favorites.length}}</span></button>
+        <button data-ng-click="activeStream = 'followings'" data-ng-class="{'active': activeStream === 'followings'}">following <span class="count">{{followings.length}}</span></button>
+    </div>
     <span class="icon-search icon"></span>
 
     <!-- search stream -->
@@ -80,14 +85,10 @@
         </div>
     </div>
 </div>
-<div id="active-stream-switch" class="clearfix" data-ng-init="activeStream = 'stream'">
-    <button data-ng-click="activeStream = 'stream'" data-ng-class="{'active': activeStream === 'stream'}">stream <span class="count">{{stream.length}}</span></button>
-    <button data-ng-click="activeStream = 'favorites'" data-ng-class="{'active': activeStream === 'favorites'}">favorites <span class="count">{{favorites.length}}</span></button>
-    <button data-ng-click="activeStream = 'followings'" data-ng-class="{'active': activeStream === 'followings'}">following <span class="count">{{followings.length}}</span></button>
-</div>
+
 
 <!-- stream -->
-<div class="row" id="tiles" data-ng-show="activeStream === 'stream'" data-ng-class="{'loaded': !status.loading}">
+<div class="row content" id="tiles" data-ng-show="activeStream === 'stream'" data-ng-class="{'loaded': !status.loading}">
     <div
         data-ng-repeat="track in stream | filter:searchStream track by track.index"
         class="{{::track.type}} item row"
@@ -100,7 +101,7 @@
 </div>
 
 <!-- favorites -->
-<div class="row" id="favorites" data-ng-show="activeStream === 'favorites'">
+<div class="row content" id="favorites" data-ng-show="activeStream === 'favorites'">
     <div
         data-ng-repeat="track in favorites | filter:searchFavorites track by track.index"
         class="{{::track.type}} item row"
@@ -109,7 +110,7 @@
 </div>
 
 <!-- followed users -->
-<div class="row" id="followings" data-ng-show="activeStream === 'followings'">
+<div class="row content" id="followings" data-ng-show="activeStream === 'followings'">
     <div
         data-ng-repeat="user in followings | filter:searchFollowed track by user.id"
         class="item row"
