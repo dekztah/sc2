@@ -1,9 +1,9 @@
 <!-- SEARCH bar row -->
 <div class="page-header row">
     <div id="active-stream-switch" class="clearfix">
-        <button data-ng-click="activeStream = 'stream'" data-ng-class="{'active': activeStream === 'stream'}">stream <span class="count">{{stream.length}}</span></button>
-        <button data-ng-click="activeStream = 'favorites'" data-ng-class="{'active': activeStream === 'favorites'}">favorites <span class="count">{{favorites.length}}</span></button>
-        <button data-ng-click="activeStream = 'followings'" data-ng-class="{'active': activeStream === 'followings'}">following <span class="count">{{followings.length}}</span></button>
+        <button data-ng-click="helpers.setStream('stream')" data-ng-class="{'active': activeStream === 'stream'}">stream <span class="count">{{stream.length}}</span></button>
+        <button data-ng-click="helpers.setStream('favorites')" data-ng-class="{'active': activeStream === 'favorites'}">favorites <span class="count">{{favorites.length}}</span></button>
+        <button data-ng-click="helpers.setStream('followings')" data-ng-class="{'active': activeStream === 'followings'}">following <span class="count">{{followings.length}}</span></button>
     </div>
     <span class="icon-search icon"></span>
 

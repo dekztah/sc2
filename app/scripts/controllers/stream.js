@@ -72,7 +72,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         }
         if (ranges.length) {
             $scope.$apply(function(){
-                $scope.playerData.buffered = ranges[ranges.length-1][1];
+                $scope.playerData.buffered = ranges[ranges.length - 1][1];
             });
         }
     };
@@ -274,8 +274,8 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     });
 
     // add or remove track from your favorites
-    $scope.like = function(method, index, isFavList) {
-        var favorited = getPlaylistOrTrackData(index, isFavList);
+    $scope.like = function(method, index) {
+        var favorited = getPlaylistOrTrackData(index);
         var trackId = favorited.scid;
         soundCloudService.res('favorites/', method, trackId, {}).then(function(response){
             if (response.status === 201) {
@@ -299,7 +299,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
     // audio player controls
     $scope.controlAudio = {
-        play: function(index, isFavList) {
+        play: function(index) {
             if ($scope.playerData.currentTrack) {
                 $scope.playerData.currentTrack.isPlaying = false;
             }
@@ -354,7 +354,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
 
             playable().then(function(){
                 $scope.playerData.playingIndex = index;
-                $scope.playerData.isFavList = isFavList;
                 $scope.playerData.currentTrack.isPlaying = true;
 
                 player.play();
@@ -398,6 +397,9 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         toggleReposts: function() {
             $scope.showReposts = !$scope.showReposts;
             localStorageService.set('showReposts', $scope.showReposts);
+        },
+        setStream: function(stream) {
+            $scope.activeStream = stream;
         },
         toggleOsc: function(bool) {
             if (!$scope.status.access && $scope.playerData.playingIndex && bool) {
