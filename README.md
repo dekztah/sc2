@@ -14,4 +14,5 @@ soundcloud user stream built with AngularJS using Web Audio API
 - list of followed users
 - instant local search
 
+![alt tag](https://raw.githubusercontent.com/dekztah/sc2/master/sc2_preview_2.png)
 ![alt tag](https://raw.githubusercontent.com/dekztah/sc2/master/sc2_preview.png)
