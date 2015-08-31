@@ -47,6 +47,9 @@
         height: 20px;
         pointer-events: none;
         overflow: hidden;
+        &.disabled {
+            opacity: 0.2;
+        }
 
         .rect {
             background: #fff;

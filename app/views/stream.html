@@ -1,6 +1,6 @@
 <!-- SEARCH bar row -->
 <div class="page-header row">
-    <div id="active-stream-switch" class="clearfix" data-ng-init="activeStream = 'stream'">
+    <div id="active-stream-switch" class="clearfix">
         <button data-ng-click="activeStream = 'stream'" data-ng-class="{'active': activeStream === 'stream'}">stream <span class="count">{{stream.length}}</span></button>
         <button data-ng-click="activeStream = 'favorites'" data-ng-class="{'active': activeStream === 'favorites'}">favorites <span class="count">{{favorites.length}}</span></button>
         <button data-ng-click="activeStream = 'followings'" data-ng-class="{'active': activeStream === 'followings'}">following <span class="count">{{followings.length}}</span></button>
@@ -92,7 +92,7 @@
     <div
         data-ng-repeat="track in stream | filter:searchStream track by track.index"
         class="{{::track.type}} item row"
-        data-ng-class="{'active': helpers.isCurrent(track.index, false), 'new': track.isNew}"
+        data-ng-class="{'active': track.isPlaying, 'new': track.isNew}"
         data-ng-show="showReposts || track.type === 'track' || track.type === 'playlist'"
         data-ng-click="track.isNew = false"
         data-ng-include="'views/item.html'"
@@ -105,7 +105,7 @@
     <div
         data-ng-repeat="track in favorites | filter:searchFavorites track by track.index"
         class="{{::track.type}} item row"
-        data-ng-class="{'active': helpers.isCurrent(track.index, true), 'new': track.isNew}"
+        data-ng-class="{'active': track.isPlaying, 'new': track.isNew}"
         data-ng-include="'views/item.html'"></div>
 </div>
 

@@ -22,8 +22,8 @@
             <div class="rectangles">
                 <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{::$index+1}} rect"></div>
             </div>
-            <input type="range" min="0" max="100" data-ng-change="helpers.setVolume(gain.value)" data-ng-model="gain.value" data-ng-init="gain.value = 100">
-            <div class="overlay" data-ng-style="{'width': gain.value / 2 + 'px'}">
+            <input type="range" min="0" max="100" data-ng-change="helpers.setVolume(gain.value)" data-ng-model="gain.value" data-ng-init="gain.value = 100" data-ng-disabled="!playerData.vis">
+            <div class="overlay" data-ng-style="{'width': gain.value / 2 + 'px'}" data-ng-class="{'disabled': !playerData.vis}">
                 <div class="rectangles">
                     <div data-ng-repeat="rect in helpers.getTimes(7) track by $index" class="rect{{::$index+1}} rect"></div>
                 </div>

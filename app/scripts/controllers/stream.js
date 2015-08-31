@@ -20,6 +20,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         loading: false,
         error: false
     };
+    $scope.activeStream = 'stream';
 
     var favorites = {
         ids: [],
@@ -83,16 +84,13 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         player.addEventListener('progress', onProgress, false);
     };
 
-    var getPlaylistOrTrackData = function(values, favorites) {
+    var getPlaylistOrTrackData = function(values) {
         var data;
-        if (favorites) {
-            data = $scope.favorites[values[0]];
+
+        if (!isNaN(values[1])) {
+            data = $scope[$scope.activeStream][values[0]].tracks[values[1]];
         } else {
-            if (!isNaN(values[1])) {
-                data = $scope.stream[values[0]].tracks[values[1]];
-            } else {
-                data = $scope.stream[values[0]];
-            }
+            data = $scope[$scope.activeStream][values[0]];
         }
         return data;
     };
@@ -302,7 +300,11 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
     // audio player controls
     $scope.controlAudio = {
         play: function(index, isFavList) {
-            $scope.playerData.currentTrack = getPlaylistOrTrackData(index, isFavList);
+            if ($scope.playerData.currentTrack) {
+                $scope.playerData.currentTrack.isPlaying = false;
+            }
+
+            $scope.playerData.currentTrack = getPlaylistOrTrackData(index);
 
             var playable = function() {
                 var deferredHead = $q.defer();
@@ -319,9 +321,11 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                         if (angular.isArray(result.data['access-control-allow-origin'])) {
                             $scope.status.access = false;
                             player = audioContext.player;
+                            $scope.playerData.vis = true;
                         } else {
                             $scope.status.access = 'Limited access to track, visualizers disabled';
                             player = audioContext.playerNoVis;
+                            $scope.playerData.vis = false;
                         }
                         if (result.data.location) {
                             player.setAttribute('src', result.data.location.replace('https', 'http'));
@@ -351,6 +355,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             playable().then(function(){
                 $scope.playerData.playingIndex = index;
                 $scope.playerData.isFavList = isFavList;
+                $scope.playerData.currentTrack.isPlaying = true;
 
                 player.play();
                 if (!animation.requestId && !$scope.status.access) {
@@ -359,6 +364,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             });
         },
         pause: function() {
+            $scope.playerData.currentTrack.isPlaying = false;
             $scope.playerData.lastPlayedIndex = $scope.playerData.playingIndex;
             $scope.playerData.playingIndex = null;
             player.pause();
@@ -388,15 +394,6 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         },
         getTimes: function(n) {
             return new Array(n);
-        },
-        isCurrent: function(index, isFavList) {
-            var state;
-            if (Array.isArray($scope.playerData.playingIndex) && Array.isArray(index) && isFavList === $scope.playerData.isFavList) {
-                state = index[0] === $scope.playerData.playingIndex[0] && index[1] === $scope.playerData.playingIndex[1];
-            } else {
-                state = false;
-            }
-            return state;
         },
         toggleReposts: function() {
             $scope.showReposts = !$scope.showReposts;

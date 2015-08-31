@@ -4,8 +4,8 @@
     <!-- PLAY OR PLAYLIST icon, user and repost icon -->
     <div class="meta">
         <div class="controls fl" data-ng-if="track.type != 'playlist' && track.type != 'playlist-repost' && track.streamable">
-            <button class="play btn" data-ng-click="controlAudio.play(track.index, track.favList)" data-ng-hide="helpers.isCurrent(track.index, track.favList)"><span class="icon-play"></span></button>
-            <button class="pause btn" data-ng-click="controlAudio.pause()" data-ng-show="helpers.isCurrent(track.index, track.favList)"><span class="icon-pause"></span></button>
+            <button class="play btn" data-ng-click="controlAudio.play(track.index, track.favList)" data-ng-hide="track.isPlaying"><span class="icon-play"></span></button>
+            <button class="pause btn" data-ng-click="controlAudio.pause()" data-ng-show="track.isPlaying"><span class="icon-pause"></span></button>
         </div>
         <div class="playlist-mark fl" data-ng-show="track.type === 'playlist' || track.type === 'playlist-repost'">
             <div class="btn"><span class="icon-playlist"></span><span class="plno">{{::track.tracks.length}}</span></div>
@@ -48,11 +48,11 @@
                 data-ng-repeat="track in ::track.tracks"
                 data-ng-include="'views/item.html'"
                 class="item track row"
-                data-ng-class="{active: helpers.isCurrent(track.index, track.favList)}"></div>
+                data-ng-class="{active: track.isPlaying}"></div>
         </div>
     </div>
 </div>
-<div class="track-progress" data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" data-ng-if="helpers.isCurrent(track.index, track.favList) && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
+<div class="track-progress" data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}" data-ng-if="track.isPlaying && track.type !== 'playlist' && track.type !== 'playlist-repost'"></div>
 
 <!-- SEPARATOR ITEM -->
 <div class="separator" data-ng-if="track.last"><span class="icon-more icon"></span></div>
