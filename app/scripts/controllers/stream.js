@@ -40,6 +40,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             $scope.playerData.currentTimeFormatted = helperService.duration(player.currentTime * 1000);
             if (player.currentTime === player.duration) {
                 $scope.playerData.playingIndex = null;
+                $scope.playerData.currentTrack.isPlaying = false;
                 $scope.playerData.currentTime = 0;
                 $scope.playerData.currentTrack = false;
                 animation.killAnimation();
