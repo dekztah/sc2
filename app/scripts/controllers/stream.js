@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $http, $q, soundcloudConfig, soundCloudService, localStorageService, helperService, audioContext, canvasService, animation, streamUrlServiceUrl) {
+angular.module('sc2App').controller('streamCtrl', function ($scope, $document, $window, $http, $q, soundcloudConfig, soundCloudService, localStorageService, helperService, audioContext, canvasService, animation, streamUrlServiceUrl, $filter) {
 
     var moment = $window.moment,
         nextPageCursor;
@@ -112,7 +112,8 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             index: index,
             scDate: item.created_at,
             created: helperService.customDate(item.created_at, 'MMMM DD YYYY'),
-            type: item.type,
+            type: item.type || item.kind,
+            repost: item.type ? item.type.indexOf('repost') > -1 : false,
             title: item.origin.title,
             scid: item.origin.id,
             duration: item.origin.duration,
@@ -251,7 +252,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
                 if (indexInPlaylists > -1) {
                     streamItems[l].tracks = [];
                     for (var m = 0; m < playlists.items[indexInPlaylists].data.length; m++) {
-                        streamItems[l].tracks[m] = getTrackProperties(playlists.items[indexInPlaylists].data[m], m, l +$scope.stream.length);
+                        streamItems[l].tracks[m] = getTrackProperties(playlists.items[indexInPlaylists].data[m], m, l + $scope.stream.length);
                     }
                 }
             }
@@ -267,6 +268,8 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             }
 
             localStorageService.set('lastFetch', now);
+            $scope.helpers.getNewCount();
+
         });
     };
 
@@ -398,6 +401,7 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
         toggleReposts: function() {
             $scope.showReposts = !$scope.showReposts;
             localStorageService.set('showReposts', $scope.showReposts);
+            $scope.helpers.getNewCount();
         },
         setStream: function(stream) {
             $scope.activeStream = stream;
@@ -408,6 +412,19 @@ angular.module('sc2App').controller('streamCtrl', function ($scope, $window, $ht
             } else {
                 $scope.fsScope = animation.x3dscope = false;
             }
+        },
+        getNewCount: function() {
+            var filtered = $filter('filter')($scope.stream, {isNew: true});
+            if (!$scope.showReposts) {
+                filtered = $filter('filter')(filtered, {repost: false});
+            }
+            $scope.newCount = filtered.length;
+            if (filtered.length > 0) {
+                $document[0].title = '(' + filtered.length + ') sc2';
+            } else {
+                $document[0].title = 'sc2';
+            }
+
         }
     };
 

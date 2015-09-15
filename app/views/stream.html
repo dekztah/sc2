@@ -46,10 +46,10 @@
         <button class="close" data-ng-show="searchFollowed.username !== ''" data-ng-click="searchFollowed.username = ''">&times;</button>
     </div>
 
-    <div id="new" data-ng-show="filtered">
+    <div id="new" data-ng-show="newCount">
         <span class="new-count">
             <span class="icon icon-new"></span>
-            <span>{{filtered = (stream | filter: {isNew : true}).length}} new</span>
+            <span>{{newCount}} new</span>
         </span><br>
         <span class="last-visit">last visit: {{::user.lastFetch}}</span>
     </div>
@@ -94,7 +94,7 @@
         class="{{::track.type}} item row"
         data-ng-class="{'active': track.isPlaying, 'new': track.isNew}"
         data-ng-show="showReposts || track.type === 'track' || track.type === 'playlist'"
-        data-ng-click="track.isNew = false"
+        data-ng-click="track.isNew = false; helpers.getNewCount()"
         data-ng-include="'views/item.html'"
         data-repeat-finished>
     </div>
@@ -105,7 +105,7 @@
     <div
         data-ng-repeat="track in favorites | filter:searchFavorites track by track.index"
         class="{{::track.type}} item row"
-        data-ng-class="{'active': track.isPlaying, 'new': track.isNew}"
+        data-ng-class="{'active': track.isPlaying}"
         data-ng-include="'views/item.html'"></div>
 </div>
 
