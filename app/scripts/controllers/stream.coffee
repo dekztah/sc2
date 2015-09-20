@@ -24,6 +24,8 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
 
         ContentService.loadContent().then (content) ->
             $scope.content.stream.push.apply $scope.content.stream, content.stream
+            $scope.content.followings = content.followings
+            $scope.content.favorites = content.favorites
 
             $scope.helpers.getNewCount()
 

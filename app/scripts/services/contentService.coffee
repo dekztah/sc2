@@ -2,7 +2,7 @@
 angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudService, HelperService, UserService, localStorageService) ->
     moment = $window.moment
     streamOffset = undefined
-    limit = 5
+    limit = 50
     run = 0
 
     @lastFetch = lastFetch = localStorageService.get('lastFetch')
@@ -95,8 +95,9 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
 
             favoritesReq = soundcloudGetAll('favorites', UserService.userObj.user.public_favorites_count).then (likes) ->
 
-                for like in likes
-                    content.favorites[like.id] = like
+                for like, i in likes
+                    # content.favorites[like.id] = like
+                    content.favorites[like.id] = getTrackProperties(like, i,-1)
 
         streamReq = SoundCloudService.res('activities/tracks/affiliated', 'get', '',
             limit: limit

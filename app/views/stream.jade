@@ -6,10 +6,10 @@
             span.count {{content.stream.length}}
         button(data-ng-click="setTab('favorites')", data-ng-class="{'active': activeTab === 'favorites'}")
             | favorites
-            span.count {{content.favorites.length}}
+            span.count {{user.user.public_favorites_count}}
         button(data-ng-click="setTab('followings')", data-ng-class="{'active': activeTab === 'followings'}")
             | following
-            span.count {{content.followings.length}}
+            span.count {{user.user.followings_count}}
     span.icon-search.icon
     //- search stream
     .search(data-ng-show="activeTab === 'stream'")
@@ -63,9 +63,9 @@
     .item.row(data-ng-repeat='track in content.stream | filter:searchStream track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying, 'new': track.isNew}", data-ng-show="settings.showReposts || track.type === 'track' || track.type === 'playlist'", data-ng-click='track.isNew = false; helpers.getNewCount()', data-ng-include="'views/item.html'" data-repeat-finished)
 //- favorites
 #favorites.row.content(data-ng-show="activeTab === 'favorites'")
-    .item.row(data-ng-repeat='track in favorites | filter:searchFavorites track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying}", data-ng-include="'views/item.html'")
+    .item.row(data-ng-repeat='track in content.favorites | filter:searchFavorites track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying}", data-ng-include="'views/item.html'")
 //- followed users
 #followings.row.content(data-ng-show="activeTab === 'followings'")
-    .item.row(data-ng-repeat='user in followings | filter:searchFollowed track by user.id', data-ng-include="'views/user.html'")
+    .item.row(data-ng-repeat='user in content.followings | filter:searchFollowed track by user.id', data-ng-include="'views/user.html'")
 .row(data-ng-show="activeTab === 'stream'")
     button#more.btn(data-ng-click='loadData()', data-ng-show='!status.loading') more
