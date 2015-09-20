@@ -1,21 +1,7 @@
-#audioplayer(data-player)
-    audio#player(preload='', autobuffer='', crossorigin='anonymous' controls)
-    audio#playerNoVis(preload='', autobuffer='')
 
-#now-playing.fl.clearfix(data-ng-if='playerData.currentTrack')
-    .fl
-        button.play.btn.fl(data-ng-click='controlAudio.play(playerData.lastPlayedIndex)', data-ng-show='playerData.playingIndex === null')
-            span.icon-play
-        button.pause.btn.fl(data-ng-click='controlAudio.pause()', data-ng-show='playerData.playingIndex != null')
-            span.icon-pause
-        img.user-avatar.fl(data-ng-src='{{playerData.currentTrack.avatar}}')
-    .fl
-        .details
-            | {{playerData.currentTrack.username}}
-            span.date {{playerData.currentTrack.created}}
-        .title
-            | {{playerData.currentTrack.title}}
-#fixed
+
+
+#audioplayer(data-player)
     .row.page-header.clearfix
         #fader.fr
             .rectangles
@@ -25,18 +11,33 @@
                 .rectangles
                     .rect(data-ng-repeat='rect in helpers.getTimes(7) track by $index', class='rect{{::$index+1}}')
 
-    .row
-        #waveform(data-ng-class="{'busy': playerData.seeking}")
-            .seek-time(data-ng-show='seekCursor.xpos', data-ng-style="{'left': seekCursor.xpos + 'px'}") {{seekCursor.time}}
-            #waveform-canvas-buffer-wrapper(data-ng-style="{'width': (playerData.buffered / playerData.duration) * 100 + '%'}")
-                #waveform-canvas-buffer(canvas-context='waveformBufferContext')
-            #waveform-canvas(canvas-context='waveformContext')
-            #waveform-canvas-progress-wrapper(data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'} ")
-                #waveform-canvas-progress(canvas-context='waveformProgressContext')
-            #waveform-seekbar(data-ng-click='controlAudio.seekTo($event)', data-ng-mousemove='(seekCursor = controlAudio.seekPreview($event))', data-ng-mouseleave='seekCursor = {}')
-        .time(data-ng-if='playerData.currentTrack')
-            .current {{playerData.currentTimeFormatted}}
-            .total {{playerData.currentTrack.durationFormatted}}
+
+    #now-playing.fl.clearfix(data-ng-if='playerData.currentTrack')
+        .fl
+            button.play.btn.fl(data-ng-click='controlAudio.play(playerData.lastPlayedIndex)', data-ng-show='playerData.playingIndex === null')
+                span.icon-play
+            button.pause.btn.fl(data-ng-click='controlAudio.pause()', data-ng-show='playerData.playingIndex != null')
+                span.icon-pause
+            img.user-avatar.fl(data-ng-src='{{playerData.currentTrack.avatar}}')
+        .fl
+            .details
+                | {{playerData.currentTrack.username}}
+                span.date {{playerData.currentTrack.created}}
+            .title
+                | {{playerData.currentTrack.title}}
+
+    #waveform(data-ng-class="{'busy': playerData.seeking}")
+        .seek-time(data-ng-show='seekCursor.xpos', data-ng-style="{'left': seekCursor.xpos + 'px'}") {{seekCursor.time}}
+        #waveform-canvas-buffer-wrapper(data-ng-style="{'width': (playerData.buffered / playerData.duration) * 100 + '%'}")
+            #waveform-canvas-buffer(canvas-context='waveformBufferContext')
+        #waveform-canvas(canvas-context='waveformContext')
+        #waveform-canvas-progress-wrapper(data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'} ")
+            #waveform-canvas-progress(canvas-context='waveformProgressContext')
+        #waveform-seekbar(data-ng-click='controlAudio.seekTo($event)', data-ng-mousemove='controlAudio.seekPreview($event)', data-ng-mouseleave='seekCursor = {}')
+    .time(data-ng-if='playerData.currentTrack')
+        .current {{playerData.currentTimeFormatted}}
+        .total {{playerData.currentTrack.durationFormatted}}
+
     #visuals.row(data-ng-class="{'disabled': status.access}")
         .status(data-ng-if='status.access')
             | {{status.access}}

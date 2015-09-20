@@ -1,14 +1,9 @@
 'use strict'
 
-angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, SoundCloudService) ->
+angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, SoundCloudService, animation) ->
     {
         restrict: 'A'
         link: (scope, element, attrs) ->
-            pl1 = element[0].children[0]
-            pl2 = element[0].children[1]
-            audioContext.register pl1.id, pl1
-            audioContext.register pl2.id, pl2
-
             player = audioContext.player
 
             onTimeupdate = ->
@@ -79,5 +74,10 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 animation.killAnimation()
 
             scope.$on 'seekTrack', (evt, data) ->
-                player.currentTime = data
+                player.currentTime = (data * player.duration).toFixed()
+
+            scope.$on 'seekPreview', (evt, data) ->
+                scope.seekCursor =
+                    xpos: data.xpos
+                    time: HelperService.duration(data.xpos * player.duration * 1000 / data.width)
     }

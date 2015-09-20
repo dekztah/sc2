@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $http, $q, soundcloudConfig, SoundCloudService, localStorageService, HelperService, audioContext, CanvasService, streamUrlServiceUrl, $filter, contentService, UserService) ->
+angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $http, $q, soundcloudConfig, SoundCloudService, localStorageService, HelperService, audioContext, CanvasService, streamUrlServiceUrl, $filter, contentService, UserService, animation) ->
     moment = $window.moment
     $scope.fsScope = false
     $scope.playerData = playingIndex: null
@@ -59,20 +59,21 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $
         play: (index) ->
             currentTrack = getPlaylistOrTrackData(index)
             currentTrack.isPlaying = true
-            $scope.$emit 'playTrack', currentTrack
+            $scope.$broadcast 'playTrack', currentTrack
         pause: (index) ->
             currentTrack = getPlaylistOrTrackData(index)
             currentTrack.isPlaying = false
-            $scope.$emit 'pauseTrack'
+            $scope.$broadcast 'pauseTrack'
         seekTo: (event) ->
             xpos = (if event.offsetX == undefined then event.layerX else event.offsetX) / event.target.offsetWidth
-            $scope.$emit 'seekTrack', (xpos * player.duration).toFixed()
+            $scope.$broadcast 'seekTrack', xpos
         seekPreview: (event) ->
             xpos = if event.offsetX == undefined then event.layerX else event.offsetX
-            cursor =
-                xpos: xpos
-                time: HelperService.duration(xpos * player.duration * 1000 / event.target.clientWidth)
-            cursor
+            $scope.$broadcast 'seekPreview', {xpos: xpos, width: event.target.clientWidth}
+            # cursor =
+            #     xpos: xpos
+            #     time: HelperService.duration(xpos * player.duration * 1000 / event.target.clientWidth)
+            # cursor
 
     # generic helper functions
     $scope.helpers =
