@@ -13,6 +13,7 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.loadNpmTasks('grunt-contrib-jade');
+    grunt.loadNpmTasks('grunt-coffeelint');
 
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
@@ -48,7 +49,7 @@ module.exports = function (grunt) {
             // },
             coffee: {
                 files: ['<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
-                tasks: ['newer:coffee:dist']
+                tasks: ['newer:coffeelint:all','newer:coffee:dist']
             },
             coffeeTest: {
                 files: ['test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
@@ -143,6 +144,19 @@ module.exports = function (grunt) {
             //     },
             //     src: ['test/spec/{,*/}*.js']
             // }
+        },
+
+        coffeelint: {
+            options: {
+                configFile: 'coffeelint.json'
+            },
+            all: {
+                files: {
+                    src: [
+                        '<%= yeoman.app %>/scripts/{,*/}*.coffee'
+                    ]
+                }
+            },
         },
 
         // Empties folders to start fresh
