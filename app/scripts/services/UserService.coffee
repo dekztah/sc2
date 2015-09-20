@@ -8,4 +8,7 @@ angular.module('sc2App').service 'UserService', (localStorageService, $rootScope
         self.userObj = credentials
         $rootScope.$broadcast 'userStateChanged'
 
+    self.logout = ->
+        localStorageService.remove('userObj')
+
     self

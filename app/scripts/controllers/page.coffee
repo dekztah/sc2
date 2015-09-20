@@ -1,7 +1,8 @@
 'use strict'
-angular.module('sc2App').controller 'pageCtrl', ($scope, UserService, SoundCloudService, localStorageService) ->
+angular.module('sc2App').controller 'pageCtrl', ($scope, UserService, SoundCloudService, contentService, localStorageService, HelperService) ->
 
     $scope.user = UserService.userObj
+    $scope.user.lastFetch = HelperService.customDate(contentService.lastFetch, 'ago')
 
     $scope.$on 'userStateChanged', ->
         $scope.user = UserService.userObj
@@ -11,8 +12,7 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, UserService, SoundCloud
             $scope.$broadcast 'connected'
 
     $scope.logout = ->
-        # localStorageService.remove 'accessToken'
-        # localStorageService.remove 'user'
+        UserService.logout()
         $window.location.reload()
 
     localStorageService.bind($scope, 'settings.showReposts')
@@ -22,5 +22,10 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, UserService, SoundCloud
             $scope.settings.showReposts = !$scope.settings.showReposts
             # $scope.helpers.getNewCount()
 
+    $scope.setTab = (tab) ->
+        $scope.activeTab = tab
+
     $scope.getTimes = (n) ->
         new Array(n)
+
+    $scope.setTab 'stream'

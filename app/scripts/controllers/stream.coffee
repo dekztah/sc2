@@ -1,20 +1,19 @@
 'use strict'
-angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $http, $q, soundcloudConfig, SoundCloudService, localStorageService, HelperService, audioContext, CanvasService, $filter, contentService, UserService, animation) ->
-    moment = $window.moment
-    $scope.fsScope = false
+angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $http, $q, soundcloudConfig, SoundCloudService, localStorageService, HelperService, audioContext, CanvasService, $filter, contentService, UserService, animation) ->
+
     $scope.status =
         loading: false
         error: false
-    $scope.activeStream = 'stream'
+
     $scope.content =
         stream: []
 
     getPlaylistOrTrackData = (values) ->
         data = undefined
         if !isNaN(values[1])
-            data = $scope.content[$scope.activeStream][values[0]].tracks[values[1]]
+            data = $scope.content[$scope.activeTab][values[0]].tracks[values[1]]
         else
-            data = $scope.content[$scope.activeStream][values[0]]
+            data = $scope.content[$scope.activeTab][values[0]]
         data
 
     $scope.$on 'connected', ->
@@ -22,14 +21,10 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $
 
     $scope.loadData = ->
         $scope.status.loading = true
-        now = moment().format('YYYY-MM-DD HH:mm:ss')
-        # lastFetch = localStorageService.get('lastFetch')
-        # $scope.user.lastFetch = helperService.customDate(lastFetch, 'ago')
 
         contentService.loadContent().then (content) ->
             $scope.content.stream.push.apply $scope.content.stream, content.stream
 
-        #     localStorageService.set 'lastFetch', now
             $scope.helpers.getNewCount()
 
     $scope.$on 'ngRepeatFinished', ->
@@ -74,8 +69,7 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $
     $scope.helpers =
         download: (url) ->
             soundcloudConfig.apiBaseUrl + '/tracks/' + url + '/download?client_id=' + soundcloudConfig.apiKey
-        setStream: (stream) ->
-            $scope.activeStream = stream
+
         getNewCount: ->
             filtered = $filter('filter')($scope.content.stream, isNew: true)
             if !$scope.showReposts

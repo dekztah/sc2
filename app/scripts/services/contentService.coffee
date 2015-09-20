@@ -1,8 +1,12 @@
 'use strict'
-angular.module('sc2App').service 'contentService', ($q, SoundCloudService, HelperService, UserService) ->
+angular.module('sc2App').service 'contentService', ($q, $window, SoundCloudService, HelperService, UserService, localStorageService) ->
+    moment = $window.moment
     streamOffset = undefined
     limit = 5
     run = 0
+
+    @lastFetch = lastFetch = localStorageService.get('lastFetch')
+    now = moment().format('YYYY-MM-DD HH:mm:ss')
 
     @loadContent = () ->
 
@@ -29,6 +33,7 @@ angular.module('sc2App').service 'contentService', ($q, SoundCloudService, Helpe
                 index = [ i ]
             {
                 index: index
+                isNew: moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch))
                 scDate: item.created_at
                 created: HelperService.customDate(item.created_at, 'MMMM DD YYYY')
                 type: item.type or item.kind
@@ -128,6 +133,7 @@ angular.module('sc2App').service 'contentService', ($q, SoundCloudService, Helpe
             favoritesReq
             streamReq
         ]).then ->
+            localStorageService.set 'lastFetch', now
             content
 
     return

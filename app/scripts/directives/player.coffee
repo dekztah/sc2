@@ -6,6 +6,7 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
         link: (scope, element, attrs) ->
             player = audioContext.player
             scope.playerData = {}
+            scope.fsScope = false
 
             onTimeupdate = ->
                 scope.$apply ->
