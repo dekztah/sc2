@@ -1,3 +1,7 @@
+#audioplayer(data-player)
+    audio#player(preload='', autobuffer='', crossorigin='anonymous' controls)
+    audio#playerNoVis(preload='', autobuffer='')
+
 #now-playing.fl.clearfix(data-ng-if='playerData.currentTrack')
     .fl
         button.play.btn.fl(data-ng-click='controlAudio.play(playerData.lastPlayedIndex)', data-ng-show='playerData.playingIndex === null')
@@ -12,7 +16,6 @@
         .title
             | {{playerData.currentTrack.title}}
 #fixed
-    // row 1
     .row.page-header.clearfix
         #fader.fr
             .rectangles
@@ -21,14 +24,7 @@
             .overlay(data-ng-style="{'width': gain.value / 2 + 'px'}", data-ng-class="{'disabled': !playerData.vis}")
                 .rectangles
                     .rect(data-ng-repeat='rect in helpers.getTimes(7) track by $index', class='rect{{::$index+1}}')
-    //
-        <div class="user">
-        <img class="user-avatar" data-ng-src="{{user.avatar_url}}"/><span>{{user.username}}</span>
-        </div>
-    #credits.row
-        img(src='images/sc2.png')
-        img(src='images/soundcloud_powered_by_large_white.png')
-    // row 2
+
     .row
         #waveform(data-ng-class="{'busy': playerData.seeking}")
             .seek-time(data-ng-show='seekCursor.xpos', data-ng-style="{'left': seekCursor.xpos + 'px'}") {{seekCursor.time}}
@@ -37,11 +33,10 @@
             #waveform-canvas(canvas-context='waveformContext')
             #waveform-canvas-progress-wrapper(data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'} ")
                 #waveform-canvas-progress(canvas-context='waveformProgressContext')
-            #waveform-seekbar(data-ng-click='playerData.playingIndex != null && controlAudio.seekTo($event)', data-ng-mousemove='playerData.playingIndex != null && (seekCursor = controlAudio.seekPreview($event))', data-ng-mouseleave='seekCursor = {}')
+            #waveform-seekbar(data-ng-click='controlAudio.seekTo($event)', data-ng-mousemove='(seekCursor = controlAudio.seekPreview($event))', data-ng-mouseleave='seekCursor = {}')
         .time(data-ng-if='playerData.currentTrack')
             .current {{playerData.currentTimeFormatted}}
             .total {{playerData.currentTrack.durationFormatted}}
-    // row 3
     #visuals.row(data-ng-class="{'disabled': status.access}")
         .status(data-ng-if='status.access')
             | {{status.access}}
@@ -50,3 +45,7 @@
             #analyser
                 #analyser-bottom(canvas-context='analyserBottomContext')
                 #analyser-top(canvas-context='analyserTopContext')
+
+#credits.row
+    img(src='images/sc2.png')
+    img(src='images/soundcloud_powered_by_large_white.png')

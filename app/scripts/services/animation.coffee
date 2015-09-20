@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').factory 'animation', ($window, audioContext, canvasService, AdditiveBlendShader) ->
+angular.module('sc2App').factory 'animation', ($window, audioContext, CanvasService, AdditiveBlendShader) ->
     self = this
     spacerWidth = 30
     barWidth = 28
@@ -20,11 +20,12 @@ angular.module('sc2App').factory 'animation', ($window, audioContext, canvasServ
     self.requestId = null
     analyserData = new Uint8Array(audioContext.analyser.frequencyBinCount)
     oscData = new Uint8Array(audioContext.osc.frequencyBinCount)
-    canvasService.oscContext.lineWidth = 3
-    canvasService.oscContext.strokeStyle = '#ffffff'
-    canvasService.analyserTopContext.strokeStyle = '#ffffff'
-    canvasService.analyserTopContext.lineCap = 'round'
-    canvasService.analyserTopContext.lineWidth = 4
+    canvases = CanvasService.canvases()
+    canvases.oscContext.lineWidth = 3
+    canvases.oscContext.strokeStyle = '#ffffff'
+    canvases.analyserTopContext.strokeStyle = '#ffffff'
+    canvases.analyserTopContext.lineCap = 'round'
+    canvases.analyserTopContext.lineWidth = 4
     self.x3dscope = false
 
     self.animate = ->
@@ -38,8 +39,8 @@ angular.module('sc2App').factory 'animation', ($window, audioContext, canvasServ
         if self.requestId
             $window.cancelAnimationFrame self.requestId
             self.requestId = undefined
-            # canvasService.analyserTopContext.clearRect(0, 0, 450, 100);
-            # canvasService.oscContext.clearRect(0, 0, canvasService.oscContext.canvas.width, 300);
+            # CanvasService.analyserTopContext.clearRect(0, 0, 450, 100);
+            # CanvasService.oscContext.clearRect(0, 0, CanvasService.oscContext.canvas.width, 300);
 
     init3D = ->
         screenWidth = 800
@@ -124,9 +125,9 @@ angular.module('sc2App').factory 'animation', ($window, audioContext, canvasServ
 
     animLoop = ->
         # analyser
-        canvasService.analyserTopContext.clearRect 0, 0, 450, 100
+        canvases.analyserTopContext.clearRect 0, 0, 450, 100
         audioContext.analyser.getByteFrequencyData analyserData
-        canvasService.analyserTopContext.beginPath()
+        canvases.analyserTopContext.beginPath()
 
         i = 0
         while i < numBars
@@ -134,20 +135,20 @@ angular.module('sc2App').factory 'animation', ($window, audioContext, canvasServ
 
             y = 0
             while y < magnitude / 6
-                canvasService.analyserTopContext.moveTo i * spacerWidth + 2, 104 - (y * 6)
-                canvasService.analyserTopContext.lineTo i * spacerWidth - 2 + barWidth, 104 - (y * 6)
+                canvases.analyserTopContext.moveTo i * spacerWidth + 2, 104 - (y * 6)
+                canvases.analyserTopContext.lineTo i * spacerWidth - 2 + barWidth, 104 - (y * 6)
                 ++y
             ++i
-        canvasService.analyserTopContext.stroke()
+        canvases.analyserTopContext.stroke()
         # oscilloscope
-        canvasService.oscContext.clearRect 0, 0, canvasService.oscContext.canvas.width, 100
+        canvases.oscContext.clearRect 0, 0, canvases.oscContext.canvas.width, 100
         audioContext.osc.getByteTimeDomainData oscData
-        canvasService.oscContext.beginPath()
+        canvases.oscContext.beginPath()
 
         i = 0
-        while i < canvasService.oscContext.canvas.width / 2
-            canvasService.oscContext.lineTo i * 2, oscData[i] / 2.56
+        while i < canvases.oscContext.canvas.width / 2
+            canvases.oscContext.lineTo i * 2, oscData[i] / 2.56
             i++
-        canvasService.oscContext.stroke()
+        canvases.oscContext.stroke()
 
     self

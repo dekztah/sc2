@@ -1,8 +1,6 @@
 'use strict'
-angular.module('sc2App').service 'soundCloudService', ($window, $http, $q, soundcloudConfig) ->
-    self = this
-
-    self.connect = ->
+angular.module('sc2App').service 'SoundCloudService', ($window, $http, $q, soundcloudConfig, UserService, streamUrlServiceUrl) ->
+    @connect = ->
         connectDeferred = $q.defer()
         SC = $window.SC
         credentials = {}
@@ -11,28 +9,38 @@ angular.module('sc2App').service 'soundCloudService', ($window, $http, $q, sound
             redirect_uri: soundcloudConfig.redirectUri
             scope: 'non-expiring'
         SC.connect ->
-            self.accessToken = SC.accessToken()
-            credentials.token = self.accessToken
-            $http.get(soundcloudConfig.apiBaseUrl + '/me', params: oauth_token: self.accessToken).success (me) ->
+            credentials.token = SC.accessToken()
+            $http.get(soundcloudConfig.apiBaseUrl + '/me', params: oauth_token: credentials.token).success (me) ->
                 credentials.user = me
                 connectDeferred.resolve credentials
+                UserService.setUser credentials
 
         connectDeferred.promise
 
-    self.getPlaylistTracks = (playlists) ->
+    @getPlaylistTracks = (playlists) ->
         playlistTracks = []
 
-        i = 0
-        while i < playlists.length
-            playlistTracks.push $http.get(soundcloudConfig.apiBaseUrl + '/playlists/' + playlists[i] + '/tracks', params: oauth_token: self.accessToken)
-            i++
+        for playlist in playlists
+            playlistTracks.push $http.get(soundcloudConfig.apiBaseUrl + '/playlists/' + playlist + '/tracks', params: oauth_token: UserService.userObj.token)
+
         $q.all playlistTracks
 
-    self.res = (resource, method, id, params) ->
-        params.oauth_token = self.accessToken
+    @res = (resource, method, id, params) ->
+        params.oauth_token = UserService.userObj.token
         $http
             method: method
             url: soundcloudConfig.apiBaseUrl + '/me/' + resource + id
             params: params
+
+    # need to check if Access Control headers are present, if not use the secondary player without visualizer
+    # http://stackoverflow.com/questions/29778721/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header
+    @checkHeaders = (streamUrl) ->
+        $http.jsonp(streamUrlServiceUrl + '&stream=' + streamUrl + '?client_id=' + soundcloudConfig.apiKey).then (response) ->
+            canplay =
+                vis: angular.isArray response.data['access-control-allow-origin']
+                url: response.data.location
+
+    @getWaveformData = (waveformUrl) ->
+        $http.get(waveformUrl)
 
     return

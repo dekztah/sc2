@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sc2App').service 'canvasService', ->
+angular.module('sc2App').service 'CanvasService', ->
     analyserBottomCanvas = document.createElement('canvas')
     analyserBottomCanvas.width = 450
     analyserBottomCanvas.height = 100
@@ -26,4 +26,30 @@ angular.module('sc2App').service 'canvasService', ->
         waveformContext: waveformCanvas.getContext('2d')
         waveformProgressContext: waveformProgressCanvas.getContext('2d')
         waveformBufferContext: waveformBufferCanvas.getContext('2d')
-    canvases
+
+    @canvases = ->
+        canvases
+
+    @drawWaveform = (waveformData, canvas, color) ->
+        canvas.fillStyle = color
+        canvas.clearRect 0, 0, canvas.canvas.width, 100
+        length = Math.floor(canvas.canvas.width / 6)
+        nth = Math.floor(1800 / length)
+        v = undefined
+        canvas.strokeStyle = color
+        canvas.lineCap = 'round'
+        canvas.lineWidth = 4
+        canvas.beginPath()
+
+        i = 0
+        while i < length
+            if waveformData
+                v = (waveformData[i * nth] * 0.7).toFixed()
+            else
+                v = 1
+            canvas.moveTo i * 6 + 2, 50 - (0.5 * v)
+            canvas.lineTo i * 6 + 2, 50 + 0.5 * v
+            i++
+        canvas.stroke()
+
+    return

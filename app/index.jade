@@ -11,24 +11,22 @@ html.no-js(data-ng-app='sc2App', data-ng-class='[theme.bgr, theme.color]', data-
         link(rel='stylesheet', href='styles/main.css')
         // endbuild
 
-    body.vbox(data-ng-controller='streamCtrl', data-ng-class="{'login': !storedToken, 'fs-scope': fsScope}")
+    body.vbox(data-ng-controller='pageCtrl', data-ng-class="{'login': !user, 'fs-scope': fsScope}")
         <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
         #webGLWrapper(data-ng-show='fsScope', data-ng-click='helpers.toggleOsc()')
-        audio#player(preload='', autobuffer='', crossorigin='anonymous')
-        audio#playerNoVis(preload='', autobuffer='')
 
-        #login.hbox(data-ng-show='!storedToken', data-ng-cloak='')
+        #login.hbox(data-ng-show='!user', data-ng-cloak='')
             .wrapper
                 img(src='images/sc2_logo.png')
                 button#connect(data-ng-click='connect()')
                     | connect with
                     img(src='images/soundcloud_logo_white.png')
 
-        .hbox(data-ng-show='storedToken', data-ng-cloak='')
-            header(data-ng-include="'views/header.html'")
+        .hbox(data-ng-show='user', data-ng-cloak='' data-ng-controller='streamCtrl')
+            aside(data-ng-include="'views/sidebar.html'")
             #main(data-ng-include="'views/stream.html'")
 
         // Google Analytics: change UA-XXXXX-X to be your site's ID
@@ -62,15 +60,19 @@ html.no-js(data-ng-app='sc2App', data-ng-class='[theme.bgr, theme.color]', data-
         // endbuild
         // build:js({.tmp,app}) scripts/scripts.js
         script(src='scripts/app.js')
+        script(src='scripts/services/UserService.js')
         script(src='scripts/services/audiocontext.js')
         script(src='scripts/services/canvasService.js')
         script(src='scripts/services/AdditiveBlendShader.js')
         script(src='scripts/services/soundCloud.js')
+        script(src='scripts/services/contentService.js')
         script(src='scripts/services/helpers.js')
-        script(src='scripts/services/animation.js')
+        //- script(src='scripts/services/animation.js')
+        script(src='scripts/directives/player.js')
         script(src='scripts/directives/canvas.js')
         script(src='scripts/directives/theme.js')
         script(src='scripts/directives/repeatfinished.js')
+        script(src='scripts/controllers/page.js')
         script(src='scripts/controllers/stream.js')
         // endbuild
         // build:js({.tmp,app}) scripts/config.js
