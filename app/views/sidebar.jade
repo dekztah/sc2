@@ -1,15 +1,12 @@
-
-
-
 #audioplayer(data-player)
     .row.page-header.clearfix
         #fader.fr
             .rectangles
-                .rect(data-ng-repeat='rect in helpers.getTimes(7) track by $index', class='rect{{::$index+1}}')
+                .rect(data-ng-repeat='rect in getTimes(7) track by $index', class='rect{{::$index+1}}')
             input(type='range', min='0', max='100', data-ng-change='helpers.setVolume(gain.value)', data-ng-model='gain.value', data-ng-init='gain.value = 100', data-ng-disabled='!playerData.vis')
             .overlay(data-ng-style="{'width': gain.value / 2 + 'px'}", data-ng-class="{'disabled': !playerData.vis}")
                 .rectangles
-                    .rect(data-ng-repeat='rect in helpers.getTimes(7) track by $index', class='rect{{::$index+1}}')
+                    .rect(data-ng-repeat='rect in getTimes(7) track by $index', class='rect{{::$index+1}}')
 
 
     #now-playing.fl.clearfix(data-ng-if='playerData.currentTrack')

@@ -21,3 +21,6 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, UserService, SoundCloud
         toggleReposts: ->
             $scope.settings.showReposts = !$scope.settings.showReposts
             # $scope.helpers.getNewCount()
+
+    $scope.getTimes = (n) ->
+        new Array(n)

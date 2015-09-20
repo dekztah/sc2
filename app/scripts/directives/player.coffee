@@ -5,6 +5,7 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
         restrict: 'A'
         link: (scope, element, attrs) ->
             player = audioContext.player
+            scope.playerData = {}
 
             onTimeupdate = ->
                 scope.$apply ->
@@ -49,14 +50,19 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 player.addEventListener 'seeked', onSeeked, false
                 player.addEventListener 'progress', onProgress, false
 
+
+
             scope.$on 'playTrack', (evt, data) ->
                 SoundCloudService.checkHeaders(data.stream).then (response) ->
-                    console.log response
                     if !response.vis
                         player = audioContext.playerNoVis
+
                     else
                         player = audioContext.player
 
+                    setEventListeners()
+                    scope.playerData.currentTrack = data
+                    scope.playerData.vis = response.vis
                     player.src = response.url
                     player.play()
                     if !animation.requestId
@@ -80,4 +86,13 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 scope.seekCursor =
                     xpos: data.xpos
                     time: HelperService.duration(data.xpos * player.duration * 1000 / data.width)
+
+            scope.helpers =
+                setVolume: (value) ->
+                    audioContext.gain.value = value * value / 10000
+                toggleOsc: (bool) ->
+                    if !scope.status.access and scope.playerData.playingIndex and bool
+                        scope.fsScope = animation.x3dscope = true
+                    else
+                        scope.fsScope = animation.x3dscope = false
     }

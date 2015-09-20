@@ -56,7 +56,7 @@
 .loading-overlay(data-ng-if='status.loading')
     .loading
         .spinner
-            div(data-ng-repeat='rect in helpers.getTimes(22) track by $index', class='rect{{::$index}}')
+            div(data-ng-repeat='rect in getTimes(22) track by $index', class='rect{{::$index}}')
             | loading...
 //- stream
 #tiles.row.content(data-ng-show="activeStream === 'stream'", data-ng-class="{'loaded': !status.loading}")

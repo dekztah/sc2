@@ -1,8 +1,7 @@
 'use strict'
-angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $http, $q, soundcloudConfig, SoundCloudService, localStorageService, HelperService, audioContext, CanvasService, streamUrlServiceUrl, $filter, contentService, UserService, animation) ->
+angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $http, $q, soundcloudConfig, SoundCloudService, localStorageService, HelperService, audioContext, CanvasService, $filter, contentService, UserService, animation) ->
     moment = $window.moment
     $scope.fsScope = false
-    $scope.playerData = playingIndex: null
     $scope.status =
         loading: false
         error: false
@@ -70,26 +69,13 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $window, $
         seekPreview: (event) ->
             xpos = if event.offsetX == undefined then event.layerX else event.offsetX
             $scope.$broadcast 'seekPreview', {xpos: xpos, width: event.target.clientWidth}
-            # cursor =
-            #     xpos: xpos
-            #     time: HelperService.duration(xpos * player.duration * 1000 / event.target.clientWidth)
-            # cursor
 
     # generic helper functions
     $scope.helpers =
         download: (url) ->
             soundcloudConfig.apiBaseUrl + '/tracks/' + url + '/download?client_id=' + soundcloudConfig.apiKey
-        setVolume: (value) ->
-            audioContext.gain.value = value * value / 10000
-        getTimes: (n) ->
-            new Array(n)
         setStream: (stream) ->
             $scope.activeStream = stream
-        toggleOsc: (bool) ->
-            if !$scope.status.access and $scope.playerData.playingIndex and bool
-                $scope.fsScope = animation.x3dscope = true
-            else
-                $scope.fsScope = animation.x3dscope = false
         getNewCount: ->
             filtered = $filter('filter')($scope.content.stream, isNew: true)
             if !$scope.showReposts
