@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $http, $q, soundcloudConfig, SoundCloudService, localStorageService, HelperService, audioContext, CanvasService, $filter, contentService, UserService, animation) ->
+angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloudService, $filter, ContentService, UserService) ->
 
     $scope.status =
         loading: false
@@ -22,7 +22,7 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $http, $q,
     $scope.loadData = ->
         $scope.status.loading = true
 
-        contentService.loadContent().then (content) ->
+        ContentService.loadContent().then (content) ->
             $scope.content.stream.push.apply $scope.content.stream, content.stream
 
             $scope.helpers.getNewCount()
@@ -67,9 +67,6 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $http, $q,
 
     # generic helper functions
     $scope.helpers =
-        download: (url) ->
-            soundcloudConfig.apiBaseUrl + '/tracks/' + url + '/download?client_id=' + soundcloudConfig.apiKey
-
         getNewCount: ->
             filtered = $filter('filter')($scope.content.stream, isNew: true)
             if !$scope.showReposts
@@ -79,10 +76,6 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, $http, $q,
                 $document[0].title = '(' + filtered.length + ') sc2'
             else
                 $document[0].title = 'sc2'
-
-    # draw empty waveform and analyzer background
-    # HelperService.drawAnalyzerBgr CanvasService.analyserBottomContext, 15, 30, 100, 28
-    CanvasService.drawWaveform null, CanvasService.canvases().waveformContext, 'rgba(255,255,255,0.2)'
 
     # get tracks if user is already authenticated
     if UserService.userObj

@@ -51,8 +51,6 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 player.addEventListener 'seeked', onSeeked, false
                 player.addEventListener 'progress', onProgress, false
 
-
-
             scope.$on 'playTrack', (evt, data) ->
                 SoundCloudService.checkHeaders(data.stream).then (response) ->
                     if !response.vis

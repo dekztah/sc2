@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').service 'contentService', ($q, $window, SoundCloudService, HelperService, UserService, localStorageService) ->
+angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudService, HelperService, UserService, localStorageService) ->
     moment = $window.moment
     streamOffset = undefined
     limit = 5
@@ -47,7 +47,7 @@ angular.module('sc2App').service 'contentService', ($q, $window, SoundCloudServi
                 waveform: item.origin.waveform_url
                 artwork: item.origin.artwork_url
                 buy: item.origin.purchase_url
-                downloadable: item.origin.downloadable
+                downloadlink: if item.origin.downloadable then SoundCloudService.downloadUrl(item.origin.id) else false
                 link: item.origin.permalink_url
                 username: item.origin.user.username
                 userlink: item.origin.user.permalink_url

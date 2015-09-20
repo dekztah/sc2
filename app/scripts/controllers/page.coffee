@@ -1,14 +1,14 @@
 'use strict'
-angular.module('sc2App').controller 'pageCtrl', ($scope, UserService, SoundCloudService, contentService, localStorageService, HelperService) ->
+angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, SoundCloudService, ContentService, localStorageService, HelperService) ->
 
     $scope.user = UserService.userObj
-    $scope.user.lastFetch = HelperService.customDate(contentService.lastFetch, 'ago')
+    $scope.user.lastFetch = HelperService.customDate(ContentService.lastFetch, 'ago')
 
     $scope.$on 'userStateChanged', ->
         $scope.user = UserService.userObj
 
     $scope.connect = ->
-        soundCloudService.connect().then (data) ->
+        SoundCloudService.connect().then (data) ->
             $scope.$broadcast 'connected'
 
     $scope.logout = ->
