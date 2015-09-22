@@ -84,7 +84,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             )
             deferred.promise
 
-        if angular.equals content.followings, {}
+        if angular.equals(content.followings, {})
             followingsReq = soundcloudGetAll('followings', UserService.userObj.user.followings_count).then (users) ->
 
                 for user in users
@@ -96,13 +96,12 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             favoritesReq = soundcloudGetAll('favorites', UserService.userObj.user.public_favorites_count).then (likes) ->
 
                 for like, likeIndex in likes
-                    # content.favorites[like.id] = like
                     content.favorites[like.id] = getTrackProperties(like, likeIndex, -1)
+                    content.favorites[like.id].favoriteFlag = true
 
         streamReq = SoundCloudService.res('activities/tracks/affiliated', 'get', '',
             limit: limit
-            cursor: streamOffset
-        )
+            cursor: streamOffset)
 
         $q.all([
             followingsReq
