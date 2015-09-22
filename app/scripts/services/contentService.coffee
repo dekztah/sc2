@@ -52,8 +52,8 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                 username: item.origin.user.username
                 userlink: item.origin.user.permalink_url
                 avatar: item.origin.user.avatar_url
-                favoriteFlag: favorites.hasOwnProperty(item.origin.id)
-                followingFlag: followings.hasOwnProperty(item.origin.user_id)
+                favoriteFlag: content.favorites.hasOwnProperty(item.origin.id)
+                followingFlag: content.followings.hasOwnProperty(item.origin.user_id)
                 description: if item.origin.description then HelperService.description(item.origin.description) else false
                 favList: parentIndex < 0
             }
@@ -95,19 +95,26 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
 
             favoritesReq = soundcloudGetAll('favorites', UserService.userObj.user.public_favorites_count).then (likes) ->
 
-                for like, i in likes
+                for like, likeIndex in likes
                     # content.favorites[like.id] = like
-                    content.favorites[like.id] = getTrackProperties(like, i,-1)
+                    content.favorites[like.id] = getTrackProperties(like, likeIndex, -1)
 
         streamReq = SoundCloudService.res('activities/tracks/affiliated', 'get', '',
             limit: limit
             cursor: streamOffset
-        ).then((stream) ->
+        )
+
+        $q.all([
+            followingsReq
+            favoritesReq
+            streamReq
+        ]).then (result) ->
+            stream = result[2]
             streamOffset = stream.data.next_href.split('cursor=')[1]
             content.stream = []
 
-            for streamItem, i in stream.data.collection
-                streamItem = getTrackProperties(streamItem, i + run * limit, false)
+            for streamItem, streamItemIndex in stream.data.collection
+                streamItem = getTrackProperties(streamItem, streamItemIndex + run * limit, false)
                 content.stream.push streamItem
 
                 if streamItem.type == 'playlist' or streamItem.type == 'playlist-repost'
@@ -121,19 +128,17 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
 
                 for streamItem in content.stream
                     indexInPlaylists = content.playlists.ids.indexOf(streamItem.scid)
+
                     if indexInPlaylists > -1
-                        streamItem.tracks = content.playlists.items[indexInPlaylists].data
+                        streamItem.tracks = []
+
+                        for playlistTrack, playlistTrackIndex in content.playlists.items[indexInPlaylists].data
+                            playlistTrack = getTrackProperties(playlistTrack, playlistTrackIndex, streamItem.index[0])
+                            streamItem.tracks.push playlistTrack
 
                 content.stream[content.stream.length - 1].last = true
 
             run++
-        )
-
-        $q.all([
-            followingsReq
-            favoritesReq
-            streamReq
-        ]).then ->
             localStorageService.set 'lastFetch', now
             content
 
