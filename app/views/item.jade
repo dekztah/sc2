@@ -5,7 +5,7 @@
         .controls.fl(data-ng-if="track.type != 'playlist' && track.type != 'playlist-repost' && track.streamable")
             button.play.btn(data-ng-click='controlAudio.play(track.index, track.favList)', data-ng-hide='track.isPlaying')
                 span.icon-play
-            button.pause.btn(data-ng-click='controlAudio.pause(track.index)', data-ng-show='track.isPlaying')
+            button.pause.btn(data-ng-click='controlAudio.pause()', data-ng-show='track.isPlaying')
                 span.icon-pause
         .playlist-mark.fl(data-ng-show="track.type === 'playlist' || track.type === 'playlist-repost'")
             .btn

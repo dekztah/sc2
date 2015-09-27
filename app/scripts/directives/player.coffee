@@ -51,32 +51,43 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 player.addEventListener 'seeked', onSeeked, false
                 player.addEventListener 'progress', onProgress, false
 
-            scope.$on 'playTrack', (evt, data) ->
-                SoundCloudService.checkHeaders(data.stream).then (response) ->
-                    if !response.vis
-                        player = audioContext.playerNoVis
+            play = ->
+                player.play()
+                if !animation.requestId
+                    animation.animate()
 
-                    else
-                        player = audioContext.player
-
-                    setEventListeners()
-                    scope.playerData.currentTrack = data
-                    scope.playerData.vis = response.vis
-                    player.src = response.url
-                    player.play()
-                    if !animation.requestId
-                        animation.animate()
-
-                SoundCloudService.getWaveformData(data.waveform).then (response) ->
-                    # make it 1
-                    CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformContext, 'rgba(255,255,255,0.05)'
-                    CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformBufferContext, 'rgba(255,255,255,0.15)'
-                    CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformProgressContext, '#ffffff'
-
-
-            scope.$on 'pauseTrack', ->
+            pause = ->
                 player.pause()
                 animation.killAnimation()
+
+            scope.$on 'playTrack', (evt, data) ->
+                if data.replay
+                    play()
+                else
+                    if data.previous
+                        pause()
+                        data.previous.isPlaying = false
+                    SoundCloudService.checkHeaders(data.current.stream).then (response) ->
+
+                        if !response.vis
+                            player = audioContext.playerNoVis
+                        else
+                            player = audioContext.player
+
+                        setEventListeners()
+                        scope.playerData.currentTrack = data.current
+                        scope.playerData.vis = response.vis
+                        player.src = response.url
+                        play()
+
+                    SoundCloudService.getWaveformData(data.current.waveform).then (response) ->
+                        # make it 1
+                        CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformContext, 'rgba(255,255,255,0.05)'
+                        CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformBufferContext, 'rgba(255,255,255,0.15)'
+                        CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformProgressContext, '#ffffff'
+
+            scope.$on 'pauseTrack', ->
+                pause()
 
             scope.$on 'seekTrack', (evt, data) ->
                 player.currentTime = (data * player.duration).toFixed()

@@ -8,6 +8,10 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
     $scope.content =
         stream: []
 
+    currentTrack = undefined
+    previousTrack = undefined
+    prevIndex = undefined
+
     getPlaylistOrTrackData = (values) ->
         data = undefined
         if !isNaN(values[1])
@@ -53,11 +57,13 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
     # audio player controls
     $scope.controlAudio =
         play: (index) ->
+            replay = angular.equals(prevIndex, index)
+            prevIndex = index
             currentTrack = getPlaylistOrTrackData(index)
             currentTrack.isPlaying = true
-            $scope.$broadcast 'playTrack', currentTrack
-        pause: (index) ->
-            currentTrack = getPlaylistOrTrackData(index)
+            $scope.$broadcast 'playTrack', {current: currentTrack, previous: previousTrack, replay: replay}
+            previousTrack = currentTrack
+        pause: ->
             currentTrack.isPlaying = false
             $scope.$broadcast 'pauseTrack'
         seekTo: (event) ->
