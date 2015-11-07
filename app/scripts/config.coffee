@@ -12,4 +12,3 @@ angular.module('sc2App').constant
 
 angular.module('sc2App').config (localStorageServiceProvider) ->
     localStorageServiceProvider.setPrefix 'sc2'
-

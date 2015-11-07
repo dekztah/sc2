@@ -71,8 +71,10 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
 
                         if !response.vis
                             player = audioContext.playerNoVis
+                            scope.status.access = 'Limited access to track, visualizers disabled'
                         else
                             player = audioContext.player
+                            scope.status.access = false
 
                         setEventListeners()
                         scope.playerData.currentTrack = data.current

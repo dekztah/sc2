@@ -185,28 +185,10 @@ module.exports = function (grunt) {
                 src: ['.tmp/index.html'],
                 ignorePath:  /\.\.\//
             },
-            test: {
-                devDependencies: true,
-                src: '<%= karma.unit.configFile %>',
-                ignorePath:  /\.\.\//,
-                fileTypes:{
-                    coffee: {
-                        block: /(([\s\t]*)#\s*?bower:\s*?(\S*))(\n|\r|.)*?(#\s*endbower)/gi,
-                        detect: {
-                            js: /'(.*\.js)'/gi,
-                            coffee: /'(.*\.coffee)'/gi
-                        },
-                        replace: {
-                            js: '\'{{filePath}}\'',
-                            coffee: '\'{{filePath}}\''
-                        }
-                    },
-                    sass: {
-                        src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                        ignorePath: /(\.\.\/){1,2}bower_components\//
-                    }
-                },
-            },
+            sass: {
+                src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+                ignorePath: /(\.\.\/){1,2}bower_components\//
+            }
         },
 
         // Compiles CoffeeScript to JavaScript
@@ -480,7 +462,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', [
         'clean:server',
-        'wiredep',
         'concurrent:test',
         'postcss',
         'connect:test',
