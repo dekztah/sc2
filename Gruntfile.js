@@ -440,7 +440,7 @@ module.exports = function (grunt) {
             dist: [
                 'coffee',
                 'sass',
-                // 'imagemin',
+                'imagemin',
                 'svgmin'
             ]
         },
