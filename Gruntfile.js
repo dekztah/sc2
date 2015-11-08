@@ -12,10 +12,6 @@ module.exports = function (grunt) {
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
 
-    // grunt.loadNpmTasks('grunt-contrib-jade');
-    // grunt.loadNpmTasks('grunt-postcss');
-    // grunt.loadNpmTasks('grunt-build-control');
-
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
@@ -444,7 +440,7 @@ module.exports = function (grunt) {
             dist: [
                 'coffee',
                 'sass',
-                'imagemin',
+                // 'imagemin',
                 'svgmin'
             ]
         },
@@ -525,8 +521,7 @@ module.exports = function (grunt) {
         'uglify',
         'filerev',
         'usemin',
-        'htmlmin',
-        'buildcontrol:pages'
+        'htmlmin'
     ]);
 
     grunt.registerTask('default', [
