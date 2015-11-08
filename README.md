@@ -1,3 +1,5 @@
+:warning: project is moving to github pages with custom domain, please be patient
+
 ![alt text](https://raw.githubusercontent.com/dekztah/sc2/master/app/images/sc2_small.png)  #sc2
 ---
 ---
