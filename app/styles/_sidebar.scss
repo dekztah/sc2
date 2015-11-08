@@ -1,4 +1,4 @@
-header {
+aside {
     flex: 1 510px;
     flex-shrink: 0;
     flex-grow: 0;
@@ -28,7 +28,7 @@ header {
         }
     }
 }
-#fixed {
+#audioplayer {
     position: fixed;
     width: 510px;
     top: 0;

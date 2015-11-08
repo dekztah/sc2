@@ -1,10 +1,12 @@
 'use strict'
 
 angular.module('sc2App').factory 'audioContext', ->
+
     window.AudioContext = window.AudioContext or window.webkitAudioContext
     ac = new (window.AudioContext)
-    player = document.getElementById('player')
-    playerNoVis = document.getElementById('playerNoVis')
+    player = document.createElement('audio')
+    player.crossOrigin = 'anonymous'
+    playerNoVis = document.createElement('audio')
     analyser = ac.createAnalyser()
     analyser.smoothingTimeConstant = 0.6
     analyser.fftSize = 256

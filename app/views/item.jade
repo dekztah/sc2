@@ -31,7 +31,7 @@
                 span.duration {{::track.durationFormatted}}
                 a.buy.btn(data-ng-if='track.buy', data-ng-href='{{::track.buy}}', target='_blank')
                     span.icon-cart
-                a.download.btn(data-ng-if='track.downloadable', data-ng-href='{{helpers.download(track.scid)}}')
+                a.download.btn(data-ng-if='track.downloadlink', data-ng-href='{{track.downloadlink}}')
                     span.icon-download
                 button.like.btn(data-ng-click="track.favoriteFlag ? like('delete', track.index, track.favList) : like('put', track.index, track.favList)", data-ng-class="{'favorite' : track.favoriteFlag}")
                     span.icon-like

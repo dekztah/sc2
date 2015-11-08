@@ -1,26 +1,26 @@
-// SEARCH bar row
+//- SEARCH bar row
 .page-header.row
     #active-stream-switch.clearfixx
-        button(data-ng-click="helpers.setStream('stream')", data-ng-class="{'active': activeStream === 'stream'}")
+        button(data-ng-click="setTab('stream')", data-ng-class="{'active': activeTab === 'stream'}")
             | stream
-            span.count {{stream.length}}
-        button(data-ng-click="helpers.setStream('favorites')", data-ng-class="{'active': activeStream === 'favorites'}")
+            span.count {{content.stream.length}}
+        button(data-ng-click="setTab('favorites')", data-ng-class="{'active': activeTab === 'favorites'}")
             | favorites
-            span.count {{favorites.length}}
-        button(data-ng-click="helpers.setStream('followings')", data-ng-class="{'active': activeStream === 'followings'}")
+            span.count {{user.user.public_favorites_count}}
+        button(data-ng-click="setTab('followings')", data-ng-class="{'active': activeTab === 'followings'}")
             | following
-            span.count {{followings.length}}
+            span.count {{user.user.followings_count}}
     span.icon-search.icon
-    // search stream
-    .search(data-ng-show="activeStream === 'stream'")
+    //- search stream
+    .search(data-ng-show="activeTab === 'stream'")
         input.form-control(type='text', autocomplete='off', data-ng-model='searchStream.title', data-ng-minlength='5', data-ng-init="searchStream.title = ''", placeholder='Search for track title in stream')
         button.close(data-ng-show="searchStream.title !== ''", data-ng-click="searchStream.title = ''") ×
-    // search favorites
-    .search(data-ng-show="activeStream === 'favorites'")
+    //- search favorites
+    .search(data-ng-show="activeTab === 'favorites'")
         input.form-control(type='text', autocomplete='off', data-ng-model='searchFavorites.title', data-ng-minlength='5', data-ng-init="searchFavorites.title = ''", placeholder='Search for track title in favorites')
         button.close(data-ng-show="searchFavorites.title !== ''", data-ng-click="searchFavorites.title = ''") ×
-    // search followed users
-    .search(data-ng-show="activeStream === 'followings'")
+    //- search followed users
+    .search(data-ng-show="activeTab === 'followings'")
         input.form-control(type='text', autocomplete='off', data-ng-model='searchFollowed.username', data-ng-minlength='5', data-ng-init="searchFollowed.username = ''", placeholder='Search for followed user')
         button.close(data-ng-show="searchFollowed.username !== ''", data-ng-click="searchFollowed.username = ''") ×
     #new(data-ng-show='newCount')
@@ -30,7 +30,7 @@
         br
         span.last-visit last visit: {{::user.lastFetch}}
     #settings
-        button#reposts-toggle.btn(data-ng-click='helpers.toggleReposts()', data-ng-class="{'reposts': showReposts}", title="{{showReposts ? 'hide reposts' : 'show reposts'}}")
+        button#reposts-toggle.btn(data-ng-click='controls.toggleReposts()', data-ng-class="{'reposts': settings.showReposts}", title="{{settings.showReposts ? 'hide reposts' : 'show reposts'}}")
             span.icon-repost
         button.btn(data-ng-click='toggleThemeChanger()')
             span.icon-themes
@@ -56,16 +56,16 @@
 .loading-overlay(data-ng-if='status.loading')
     .loading
         .spinner
-            div(data-ng-repeat='rect in helpers.getTimes(22) track by $index', class='rect{{::$index}}')
+            div(data-ng-repeat='rect in getTimes(22) track by $index', class='rect{{::$index}}')
             | loading...
-// stream
-#tiles.row.content(data-ng-show="activeStream === 'stream'", data-ng-class="{'loaded': !status.loading}")
-    .item.row(data-ng-repeat='track in stream | filter:searchStream track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying, 'new': track.isNew}", data-ng-show="showReposts || track.type === 'track' || track.type === 'playlist'", data-ng-click='track.isNew = false; helpers.getNewCount()', data-ng-include="'views/item.html'", data-repeat-finished='')
-// favorites
-#favorites.row.content(data-ng-show="activeStream === 'favorites'")
-    .item.row(data-ng-repeat='track in favorites | filter:searchFavorites track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying}", data-ng-include="'views/item.html'")
-// followed users
-#followings.row.content(data-ng-show="activeStream === 'followings'")
-    .item.row(data-ng-repeat='user in followings | filter:searchFollowed track by user.id', data-ng-include="'views/user.html'")
-.row(data-ng-show="activeStream === 'stream'")
+//- stream
+#tiles.row.content(data-ng-show="activeTab === 'stream'", data-ng-class="{'loaded': !status.loading}")
+    .item.row(data-ng-repeat='track in content.stream | filter:searchStream track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying, 'new': track.isNew}", data-ng-show="settings.showReposts || track.type === 'track' || track.type === 'playlist'", data-ng-click='track.isNew = false; helpers.getNewCount()', data-ng-include="'views/item.html'" data-repeat-finished)
+//- favorites
+#favorites.row.content(data-ng-show="activeTab === 'favorites'")
+    .item.row(data-ng-repeat='track in content.favorites | filter:searchFavorites track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying}", data-ng-include="'views/item.html'")
+//- followed users
+#followings.row.content(data-ng-show="activeTab === 'followings'")
+    .item.row(data-ng-repeat='user in content.followings | filter:searchFollowed track by user.id', data-ng-include="'views/user.html'")
+.row(data-ng-show="activeTab === 'stream'")
     button#more.btn(data-ng-click='loadData()', data-ng-show='!status.loading') more

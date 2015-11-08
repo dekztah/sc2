@@ -1,8 +1,8 @@
 'use strict'
 
-angular.module('sc2App').directive 'canvasContext', (canvasService) ->
+angular.module('sc2App').directive 'canvasContext', (CanvasService) ->
     {
         restrict: 'A'
         link: (scope, element, attrs) ->
-            element.append canvasService[attrs.canvasContext].canvas
+            element.append CanvasService.canvases()[attrs.canvasContext].canvas
     }
