@@ -52,7 +52,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                 username: item.origin.user.username
                 userlink: item.origin.user.permalink_url
                 avatar: item.origin.user.avatar_url
-                favoriteFlag: content.favorites.hasOwnProperty(item.origin.id)
+                favoriteFlag: content.favorites.likeIds.indexOf(item.origin.id) > -1
                 followingFlag: content.followings.hasOwnProperty(item.origin.user_id)
                 description: if item.origin.description then HelperService.description(item.origin.description) else false
                 favList: parentIndex < 0
