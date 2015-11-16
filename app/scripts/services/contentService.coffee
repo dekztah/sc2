@@ -94,10 +94,14 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                     content.followings[user.id] = user
 
             favoritesReq = soundcloudGetAll('favorites', UserService.userObj.user.public_favorites_count).then (likes) ->
+                content.favorites =
+                    likeIds: []
+                    tracks: []
 
                 for like, likeIndex in likes
-                    content.favorites[like.id] = getTrackProperties(like, likeIndex, -1)
-                    content.favorites[like.id].favoriteFlag = true
+                    content.favorites.likeIds.push(like.id)
+                    content.favorites.tracks.push(getTrackProperties(like, likeIndex, -1))
+                    content.favorites.tracks[likeIndex].favoriteFlag = true
 
         streamReq = SoundCloudService.res('activities/tracks/affiliated', 'get', '',
             limit: limit

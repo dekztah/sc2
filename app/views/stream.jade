@@ -50,7 +50,7 @@
         span.icon-warning.icon
         | Error reaching SoundCloud service.
         br
-        |         Please check the
+        | Please check the
         a(target='_blank', href='http://status.soundcloud.com/') official SoundCloud status blog
         |  for more info.
 .loading-overlay(data-ng-if='status.loading')
@@ -63,7 +63,7 @@
     .item.row(data-ng-repeat='track in content.stream | filter:searchStream track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying, 'new': track.isNew}", data-ng-show="settings.showReposts || track.type === 'track' || track.type === 'playlist'", data-ng-click='track.isNew = false; helpers.getNewCount()', data-ng-include="'views/item.html'" data-repeat-finished)
 //- favorites
 #favorites.row.content(data-ng-show="activeTab === 'favorites'")
-    .item.row(data-ng-repeat='track in content.favorites | filter:searchFavorites track by track.index', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying}", data-ng-include="'views/item.html'")
+    .item.row(data-ng-repeat='track in content.favorites.tracks | filter:searchFavorites track by track.scid', class='{{::track.type}}', data-ng-class="{'active': track.isPlaying}", data-ng-include="'views/item.html'")
 //- followed users
 #followings.row.content(data-ng-show="activeTab === 'followings'")
     .item.row(data-ng-repeat='user in content.followings | filter:searchFollowed track by user.id', data-ng-include="'views/user.html'")
