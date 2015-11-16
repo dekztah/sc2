@@ -40,7 +40,7 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
     $scope.like = (method, index) ->
         favorited = getPlaylistOrTrackData(index)
         trackId = favorited.scid
-        soundCloudService.res('favorites/', method, trackId, {}).then (response) ->
+        SoundCloudService.res('favorites/', method, trackId, {}).then (response) ->
             if response.status == 201
                 favorited.favoriteFlag = true
             else if response.status == 200 and method == 'delete'
@@ -48,7 +48,7 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
 
     $scope.follow = (method, index) ->
         userId = $scope.followings[index].id
-        soundCloudService.res('followings/', method, userId, {}).then (response) ->
+        SoundCloudService.res('followings/', method, userId, {}).then (response) ->
             if response.status == 201
                 $scope.followings[index].followingFlag = true
             else if response.status == 200 and method == 'delete'
