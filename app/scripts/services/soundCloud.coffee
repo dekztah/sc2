@@ -41,6 +41,8 @@ angular.module('sc2App').service 'SoundCloudService', ($window, $http, $q, sound
                 url: response.data.location
 
     @getWaveformData = (waveformUrl) ->
+        file = waveformUrl.split '/'
+        waveformUrl = soundcloudConfig.waveformServiceUrl + file[3].replace 'png', 'json'
         $http.get(waveformUrl)
 
     @downloadUrl = (id) ->
