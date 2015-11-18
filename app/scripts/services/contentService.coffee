@@ -14,9 +14,10 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             playlists:
                 ids: []
                 items: []
-            favorites: {}
+            favorites: []
             followings: {}
             stream: []
+            likeIds: []
 
         getTrackProperties = (item, i, parentIndex) ->
             index = []
@@ -52,7 +53,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                 username: item.origin.user.username
                 userlink: item.origin.user.permalink_url
                 avatar: item.origin.user.avatar_url
-                favoriteFlag: content.favorites.likeIds.indexOf(item.origin.id) > -1
+                favoriteFlag: content.likeIds.indexOf(item.origin.id) > -1
                 followingFlag: content.followings.hasOwnProperty(item.origin.user_id)
                 description: if item.origin.description then HelperService.description(item.origin.description) else false
                 favList: parentIndex < 0
@@ -94,14 +95,11 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                     content.followings[user.id] = user
 
             favoritesReq = soundcloudGetAll('favorites', UserService.userObj.user.public_favorites_count).then (likes) ->
-                content.favorites =
-                    likeIds: []
-                    tracks: []
 
                 for like, likeIndex in likes
-                    content.favorites.likeIds.push(like.id)
-                    content.favorites.tracks.push(getTrackProperties(like, likeIndex, -1))
-                    content.favorites.tracks[likeIndex].favoriteFlag = true
+                    content.likeIds.push(like.id)
+                    content.favorites.push(getTrackProperties(like, likeIndex, -1))
+                    content.favorites[likeIndex].favoriteFlag = true
 
         streamReq = SoundCloudService.res('activities/tracks/affiliated', 'get', '',
             limit: limit
