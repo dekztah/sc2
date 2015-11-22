@@ -8,7 +8,6 @@ angular.module('sc2App').constant
         # redirectUri: 'http://sc2.local:9000/callback.html'
         redirectUri: 'http://sc2.wavetrip.org/callback.html'
         waveformServiceUrl: 'http://wis.sndcdn.com/'
-    streamUrlServiceUrl: 'http://services.flameflowers.com/redirecturl.php?callback=JSON_CALLBACK'
 
 angular.module('sc2App').config (localStorageServiceProvider) ->
     localStorageServiceProvider.setPrefix 'sc2'

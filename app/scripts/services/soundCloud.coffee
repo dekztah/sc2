@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').service 'SoundCloudService', ($window, $http, $q, soundcloudConfig, UserService, streamUrlServiceUrl) ->
+angular.module('sc2App').service 'SoundCloudService', ($window, $http, $q, soundcloudConfig, UserService) ->
     @connect = ->
         connectDeferred = $q.defer()
         SC = $window.SC
@@ -34,11 +34,12 @@ angular.module('sc2App').service 'SoundCloudService', ($window, $http, $q, sound
 
     # need to check if Access Control headers are present, if not use the secondary player without visualizer
     # http://stackoverflow.com/questions/29778721/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header
-    @checkHeaders = (streamUrl) ->
-        $http.jsonp(streamUrlServiceUrl + '&stream=' + streamUrl + '?client_id=' + soundcloudConfig.apiKey).then (response) ->
+    @getProperStreamUrl = (trackid) ->
+        streamUrl = soundcloudConfig.apiBaseUrl + '/i1/tracks/' + trackid + '/streams?client_id=' + soundcloudConfig.apiKey
+        $http.get(streamUrl).then (response) ->
             canplay =
-                vis: angular.isArray response.data['access-control-allow-origin']
-                url: response.data.location
+                vis: if response.data.hasOwnProperty 'http_mp3_128_url' then response.data.http_mp3_128_url.indexOf('ec-media') > -1
+                url: response.data.http_mp3_128_url
 
     @getWaveformData = (waveformUrl) ->
         file = waveformUrl.split '/'

@@ -67,20 +67,26 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                     if data.previous
                         pause()
                         data.previous.isPlaying = false
-                    SoundCloudService.checkHeaders(data.current.stream).then (response) ->
+                    SoundCloudService.getProperStreamUrl(data.current.scid).then (response) ->
 
-                        if !response.vis
-                            player = audioContext.playerNoVis
-                            scope.status.access = 'Limited access to track, visualizers disabled'
+                        if response.url
+                            if !response.vis
+                                player = audioContext.playerNoVis
+                                scope.status.access = 'Limited access to track, visualizers disabled'
+                            else
+                                player = audioContext.player
+                                scope.status.access = false
+
+                            setEventListeners()
+                            scope.playerData.currentTrack = data.current
+                            scope.playerData.vis = response.vis
+                            player.src = response.url
+                            play()
                         else
-                            player = audioContext.player
-                            scope.status.access = false
-
-                        setEventListeners()
-                        scope.playerData.currentTrack = data.current
-                        scope.playerData.vis = response.vis
-                        player.src = response.url
-                        play()
+                            scope.status.access = 'No playable stream exists'
+                            scope.playerData.currentTrack = undefined
+                            player.src = ''
+                            pause()
 
                     SoundCloudService.getWaveformData(data.current.waveform).then (response) ->
                         # make it 1
