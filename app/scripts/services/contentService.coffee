@@ -32,32 +32,35 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                     index = [ i ]
             else
                 index = [ i ]
-            {
-                index: index
-                isNew: moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch))
-                scDate: item.created_at
-                created: HelperService.customDate(item.created_at, 'MMMM DD YYYY')
-                type: item.type or item.kind
-                repost: if item.type then item.type.indexOf('repost') > -1 else false
-                title: item.origin.title
-                scid: item.origin.id
-                duration: item.origin.duration
-                durationFormatted: HelperService.duration(item.origin.duration)
-                stream: item.origin.stream_url
-                streamable: item.origin.streamable
-                waveform: item.origin.waveform_url
-                artwork: item.origin.artwork_url
-                buy: item.origin.purchase_url
-                downloadlink: if item.origin.downloadable then SoundCloudService.downloadUrl(item.origin.id) else false
-                link: item.origin.permalink_url
-                username: item.origin.user.username
-                userlink: item.origin.user.permalink_url
-                avatar: item.origin.user.avatar_url
-                favoriteFlag: content.likeIds.indexOf(item.origin.id) > -1
-                followingFlag: content.followings.hasOwnProperty(item.origin.user_id)
-                description: if item.origin.description then HelperService.description(item.origin.description) else false
-                favList: parentIndex < 0
-            }
+            if item.origin
+                {
+                    index: index
+                    isNew: moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch))
+                    scDate: item.created_at
+                    created: HelperService.customDate(item.created_at, 'MMMM DD YYYY')
+                    type: item.type or item.kind
+                    repost: if item.type then item.type.indexOf('repost') > -1 else false
+                    title: item.origin.title
+                    scid: item.origin.id
+                    duration: item.origin.duration
+                    durationFormatted: HelperService.duration(item.origin.duration)
+                    stream: item.origin.stream_url
+                    streamable: item.origin.streamable
+                    waveform: item.origin.waveform_url
+                    artwork: item.origin.artwork_url
+                    buy: item.origin.purchase_url
+                    downloadlink: if item.origin.downloadable then SoundCloudService.downloadUrl(item.origin.id) else false
+                    link: item.origin.permalink_url
+                    username: item.origin.user.username
+                    userlink: item.origin.user.permalink_url
+                    avatar: item.origin.user.avatar_url
+                    favoriteFlag: content.likeIds.indexOf(item.origin.id) > -1
+                    followingFlag: content.followings.hasOwnProperty(item.origin.user_id)
+                    description: if item.origin.description then HelperService.description(item.origin.description) else false
+                    favList: parentIndex < 0
+                }
+            else
+                'mysterious undreadable track...'
 
         # repeated load ...
         soundcloudGetAll = (resource, count) ->
