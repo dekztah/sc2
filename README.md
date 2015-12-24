@@ -10,6 +10,7 @@ soundcloud user stream built with AngularJS using Web Audio API
 - oscilloscope
 - playlist support
 - toggle reposts
+- toggle single track playlists
 - list of favorites
 - list of followed users
 - instant local search
