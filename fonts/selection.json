@@ -4,6 +4,30 @@
 		{
 			"icon": {
 				"paths": [
+					"M896 726v-598h-598v598h598zM896 42q34 0 60 26t26 60v598q0 34-26 59t-60 25h-598q-34 0-59-25t-25-59v-598q0-34 25-60t59-26h598zM598 640v-342h-86v-84h170v426h-84zM128 214v682h682v86h-682q-34 0-60-26t-26-60v-682h86z"
+				],
+				"attrs": [],
+				"isMulticolor": false,
+				"tags": [
+					"filter_1"
+				],
+				"grid": 0
+			},
+			"attrs": [],
+			"properties": {
+				"order": 1,
+				"id": 0,
+				"prevSize": 24,
+				"code": 59648,
+				"name": "filter_1"
+			},
+			"setIdx": 0,
+			"setId": 1,
+			"iconIdx": 0
+		},
+		{
+			"icon": {
+				"paths": [
 					"M554 598v-172h-84v172h84zM554 768v-86h-84v86h84zM42 896l470-810 470 810h-940z"
 				],
 				"attrs": [
@@ -21,14 +45,14 @@
 			],
 			"properties": {
 				"order": 1,
-				"id": 2,
+				"id": 0,
 				"prevSize": 24,
 				"code": 57346,
 				"name": "warning",
 				"ligatures": "warning"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 0
 		},
 		{
@@ -51,14 +75,14 @@
 			],
 			"properties": {
 				"order": 5,
-				"id": 22,
+				"id": 1,
 				"prevSize": 24,
 				"code": 57366,
 				"name": "new",
 				"ligatures": "new_releases"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 1
 		},
 		{
@@ -81,14 +105,14 @@
 			],
 			"properties": {
 				"order": 4,
-				"id": 24,
+				"id": 2,
 				"prevSize": 24,
 				"code": 57368,
 				"name": "pause",
 				"ligatures": "pause"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 2
 		},
 		{
@@ -111,14 +135,14 @@
 			],
 			"properties": {
 				"order": 3,
-				"id": 27,
+				"id": 3,
 				"prevSize": 24,
 				"code": 57371,
 				"name": "play",
 				"ligatures": "play_arrow"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 3
 		},
 		{
@@ -141,14 +165,14 @@
 			],
 			"properties": {
 				"order": 2,
-				"id": 35,
+				"id": 4,
 				"prevSize": 24,
 				"code": 57379,
 				"name": "repost",
 				"ligatures": "repeat"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 4
 		},
 		{
@@ -171,14 +195,14 @@
 			],
 			"properties": {
 				"order": 6,
-				"id": 112,
+				"id": 5,
 				"prevSize": 24,
 				"code": 57456,
 				"name": "clear",
 				"ligatures": "clear"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 5
 		},
 		{
@@ -201,14 +225,14 @@
 			],
 			"properties": {
 				"order": 18,
-				"id": 133,
+				"id": 6,
 				"prevSize": 24,
 				"code": 57477,
 				"name": "download",
 				"ligatures": "save"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 6
 		},
 		{
@@ -231,14 +255,14 @@
 			],
 			"properties": {
 				"order": 8,
-				"id": 219,
+				"id": 7,
 				"prevSize": 24,
 				"code": 57563,
 				"name": "playlist",
 				"ligatures": "format_list_bulleted"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 7
 		},
 		{
@@ -261,14 +285,14 @@
 			],
 			"properties": {
 				"order": 9,
-				"id": 221,
+				"id": 8,
 				"prevSize": 24,
 				"code": 57565,
 				"name": "themes",
 				"ligatures": "format_paint"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 8
 		},
 		{
@@ -291,14 +315,14 @@
 			],
 			"properties": {
 				"order": 10,
-				"id": 527,
+				"id": 9,
 				"prevSize": 24,
 				"code": 57871,
 				"name": "more",
 				"ligatures": "keyboard_control"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 9
 		},
 		{
@@ -321,14 +345,14 @@
 			],
 			"properties": {
 				"order": 11,
-				"id": 657,
+				"id": 10,
 				"prevSize": 24,
 				"code": 58001,
 				"name": "like",
 				"ligatures": "favorite"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 10
 		},
 		{
@@ -351,14 +375,14 @@
 			],
 			"properties": {
 				"order": 13,
-				"id": 704,
+				"id": 11,
 				"prevSize": 24,
 				"code": 58048,
 				"name": "logout",
 				"ligatures": "power_settings_new"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 11
 		},
 		{
@@ -381,14 +405,14 @@
 			],
 			"properties": {
 				"order": 14,
-				"id": 714,
+				"id": 12,
 				"prevSize": 24,
 				"code": 58058,
 				"name": "search",
 				"ligatures": "search"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 12
 		},
 		{
@@ -411,14 +435,14 @@
 			],
 			"properties": {
 				"order": 15,
-				"id": 715,
+				"id": 13,
 				"prevSize": 24,
 				"code": 58059,
 				"name": "settings",
 				"ligatures": "settings"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 13
 		},
 		{
@@ -441,14 +465,14 @@
 			],
 			"properties": {
 				"order": 16,
-				"id": 735,
+				"id": 14,
 				"prevSize": 24,
 				"code": 58079,
 				"name": "cart",
 				"ligatures": "shopping_cart"
 			},
-			"setIdx": 0,
-			"setId": 6,
+			"setIdx": 1,
+			"setId": 0,
 			"iconIdx": 14
 		},
 		{
@@ -471,15 +495,15 @@
 			],
 			"properties": {
 				"order": 815,
-				"id": 168,
+				"id": 15,
 				"prevSize": 24,
 				"code": 57512,
 				"name": "track",
 				"ligatures": "graphic_eq"
 			},
-			"setIdx": 2,
-			"setId": 4,
-			"iconIdx": 168
+			"setIdx": 1,
+			"setId": 0,
+			"iconIdx": 15
 		}
 	],
 	"height": 1024,
