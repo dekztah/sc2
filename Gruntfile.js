@@ -51,7 +51,8 @@ module.exports = function (grunt) {
                 tasks: ['jade']
             },
             gruntfile: {
-                files: ['Gruntfile.js']
+                files: ['Gruntfile.js'],
+                tasks: ['ngconstant:development']
             },
             livereload: {
                 options: {
@@ -446,6 +447,30 @@ module.exports = function (grunt) {
             ]
         },
 
+        ngconstant: {
+            options: {
+                name: 'config',
+                template: grunt.file.read('constant.tpl.ejs'),
+                space: ' '
+            },
+            development: {
+                options: {
+                    dest: '<%= yeoman.app %>/scripts/config.js'
+                },
+                constants: {
+                    soundcloudConfig: grunt.file.readJSON('config-dev.json')
+                }
+            },
+            production: {
+                options: {
+                    dest: '<%= yeoman.app %>/scripts/config.js'
+                },
+                constants: {
+                    soundcloudConfig: grunt.file.readJSON('config-prod.json')
+                }
+            }
+        },
+
         // Test settings
         karma: {
             unit: {
@@ -485,6 +510,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'ngconstant:development',
             'wiredep',
             'concurrent:server',
             'postcss:server',
@@ -509,6 +535,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        'ngconstant:production',
         'jade',
         'wiredep',
         'useminPrepare',

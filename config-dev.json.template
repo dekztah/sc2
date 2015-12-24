@@ -1,0 +1,6 @@
+{
+    "apiBaseUrl": "http://api.soundcloud.com",
+    "apiKey": "YOUR API KEY (DEV)",
+    "redirectUri": "YOUR REDIRECT URL (DEV)",
+    "waveformServiceUrl": "http://wis.sndcdn.com/"
+}
