@@ -4,3 +4,6 @@ dist
 .sass-cache
 bower_components
 CNAME
+config-dev.json
+config-prod.json
+app/scripts/config.js

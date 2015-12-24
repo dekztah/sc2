@@ -451,14 +451,17 @@ module.exports = function (grunt) {
             options: {
                 name: 'config',
                 template: grunt.file.read('constant.tpl.ejs'),
-                space: ' '
+                space: ' ',
+                constants: {
+                    appVersion: grunt.file.readJSON('package.json').version
+                }
             },
             development: {
                 options: {
                     dest: '<%= yeoman.app %>/scripts/config.js'
                 },
                 constants: {
-                    soundcloudConfig: grunt.file.readJSON('config-dev.json')
+                    soundcloudConfig: grunt.file.readJSON('config-dev.json'),
                 }
             },
             production: {
@@ -468,6 +471,19 @@ module.exports = function (grunt) {
                 constants: {
                     soundcloudConfig: grunt.file.readJSON('config-prod.json')
                 }
+            }
+        },
+
+        bump: {
+            options: {
+                files: ['package.json'],
+                updateConfigs: [],
+                commit: true,
+                commitMessage: 'Release v%VERSION%',
+                commitFiles: ['package.json'],
+                createTag: false,
+                push: false,
+                prereleaseName: false,
             }
         },
 
@@ -535,6 +551,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        'bump',
         'ngconstant:production',
         'jade',
         'wiredep',

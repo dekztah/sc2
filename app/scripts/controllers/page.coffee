@@ -1,7 +1,9 @@
 'use strict'
-angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, SoundCloudService, ContentService, localStorageService, HelperService) ->
+angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, SoundCloudService, ContentService, localStorageService, HelperService, appVersion) ->
 
     $scope.user = UserService.userObj
+
+    $scope.info = appVersion
     # $scope.user.lastFetch = HelperService.customDate(ContentService.lastFetch, 'ago')
 
     $scope.$on 'userStateChanged', ->
