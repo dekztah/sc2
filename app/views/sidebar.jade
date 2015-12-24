@@ -8,12 +8,11 @@
                 .rectangles
                     .rect(data-ng-repeat='rect in getTimes(7) track by $index', class='rect{{::$index+1}}')
 
-
     #now-playing.fl.clearfix(data-ng-if='playerData.currentTrack')
         .fl
-            button.play.btn.fl(data-ng-click='controlAudio.play(playerData.lastPlayedIndex)', data-ng-show='playerData.playingIndex === null')
+            button.play.btn.fl(data-ng-click='controlAudio.play(playerData.currentTrack.index, playerData.currentTrack.favList)', data-ng-show='!playerData.currentTrack.isPlaying')
                 span.icon-play
-            button.pause.btn.fl(data-ng-click='controlAudio.pause()', data-ng-show='playerData.playingIndex != null')
+            button.pause.btn.fl(data-ng-click='controlAudio.pause()', data-ng-show='playerData.currentTrack.isPlaying')
                 span.icon-pause
             img.user-avatar.fl(data-ng-src='{{playerData.currentTrack.avatar}}')
         .fl
