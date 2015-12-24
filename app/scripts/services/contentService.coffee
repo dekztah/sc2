@@ -89,7 +89,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             deferred.promise
 
         if angular.equals(content.followings, {})
-            followingsReq = soundcloudGetAll('followings', UserService.userObj.user.followings_count).then (users) ->
+            followingsReq = soundcloudGetAll('followings.json', UserService.userObj.user.followings_count).then (users) ->
 
                 for user in users
                     if user.description
