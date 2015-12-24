@@ -4,40 +4,60 @@
         button(data-ng-click="setTab('stream')", data-ng-class="{'active': activeTab === 'stream'}")
             | stream
             span.count {{content.stream.length}}
+
         button(data-ng-click="setTab('favorites')", data-ng-class="{'active': activeTab === 'favorites'}")
             | favorites
             span.count {{user.user.public_favorites_count}}
+
         button(data-ng-click="setTab('followings')", data-ng-class="{'active': activeTab === 'followings'}")
             | following
             span.count {{user.user.followings_count}}
+
     span.icon-search.icon
+
     //- search stream
     .search(data-ng-show="activeTab === 'stream'")
         input.form-control(type='text', autocomplete='off', data-ng-model='searchStream.title', data-ng-minlength='5', data-ng-init="searchStream.title = ''", placeholder='Search for track title in stream')
         button.close(data-ng-show="searchStream.title !== ''", data-ng-click="searchStream.title = ''") ×
+
     //- search favorites
     .search(data-ng-show="activeTab === 'favorites'")
         input.form-control(type='text', autocomplete='off', data-ng-model='searchFavorites.title', data-ng-minlength='5', data-ng-init="searchFavorites.title = ''", placeholder='Search for track title in favorites')
         button.close(data-ng-show="searchFavorites.title !== ''", data-ng-click="searchFavorites.title = ''") ×
+
     //- search followed users
     .search(data-ng-show="activeTab === 'followings'")
         input.form-control(type='text', autocomplete='off', data-ng-model='searchFollowed.username', data-ng-minlength='5', data-ng-init="searchFollowed.username = ''", placeholder='Search for followed user')
         button.close(data-ng-show="searchFollowed.username !== ''", data-ng-click="searchFollowed.username = ''") ×
+
     #new(data-ng-show='newCount')
         span.new-count
             span.icon.icon-new
             span {{newCount}} new
         br
         span.last-visit last visit: {{::user.lastFetch}}
+
     #settings
-        button#reposts-toggle.btn(data-ng-click='controls.toggleReposts()', data-ng-class="{'reposts': settings.showReposts}", title="{{settings.showReposts ? 'hide reposts' : 'show reposts'}}")
+        button#reposts-toggle.btn(
+            data-ng-click='controls.toggleReposts()'
+            data-ng-class="{'reposts': settings.showReposts}"
+            title="{{settings.showReposts ? 'hide reposts' : 'show reposts'}}"
+        )
             span.icon-repost
-        button#single-track-playlists-toggle.btn(data-ng-click='controls.toggleSingleTrackPlaylists()', data-ng-class="{'single-track-playlists': settings.singleTrackPlaylists}", title="{{settings.singleTrackPlaylists ? 'hide single track playlists' : 'show single track playlists'}}")
+
+        button#single-track-playlists-toggle.btn(
+            data-ng-click='controls.toggleSingleTrackPlaylists()'
+            data-ng-class="{'single-track-playlists': settings.singleTrackPlaylists}"
+            title="{{settings.singleTrackPlaylists ? 'hide single track playlists' : 'show single track playlists'}}"
+        )
             span.icon-filter_1
+
         button.btn(data-ng-click='toggleThemeChanger()')
             span.icon-themes
+
         button#logout.btn(data-ng-click='logout()', title='logout')
             span.icon-logout
+
         #theme-changer(data-ng-show='themeChanger')
             span background
             button.bg-default(data-ng-click="changeTheme('default')", data-ng-class="{'active': theme.bgr === 'default'}")
@@ -47,6 +67,7 @@
             button.fg-light(data-ng-click="changeTheme('light', 1)", data-ng-class="{'active': theme.color === 'light'}")
             button.fg-dark(data-ng-click="changeTheme('dark', 1)", data-ng-class="{'active': theme.color === 'dark'}")
             button.fg-transparent(data-ng-click="changeTheme('transparent', 1)", data-ng-class="{'active': theme.color === 'transparent'}")
+
 .error-overlay(data-ng-if='status.error')
     #error.row
         span.icon-warning.icon
