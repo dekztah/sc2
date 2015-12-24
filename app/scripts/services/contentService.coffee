@@ -112,7 +112,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             followingsReq
             favoritesReq
             streamReq
-        ]).then (result) ->
+        ]).then ((result) ->
             stream = result[2]
             streamOffset = stream.data.next_href.split('cursor=')[1]
             content.stream = []
@@ -148,5 +148,8 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             run++
             localStorageService.set 'lastFetch', now
             content
+        ), (reason) ->
+            error = true
+            reason
 
     return
