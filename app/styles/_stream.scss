@@ -105,7 +105,7 @@
         }
         #settings {
             margin: auto 0 auto 20px;
-            flex: 120px;
+            flex: 135px;
             flex-shrink: 0;
             text-align: right;
             border-left: 1px solid #eee;
@@ -145,6 +145,13 @@
     opacity: 0.3;
     transition: opacity 0.3s ease-out;
     &.reposts {
+        opacity: 1;
+    }
+}
+#single-track-playlists-toggle {
+    opacity: 0.3;
+    transition: opacity 0.3s ease-out;
+    &.single-track-playlists {
         opacity: 1;
     }
 }

@@ -23,6 +23,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-filter_1:before {
+    content: "\e900";
+}
 .icon-warning:before {
     content: "\e002";
 }
@@ -71,3 +74,4 @@
 .icon-track:before {
     content: "\e0a8";
 }
+

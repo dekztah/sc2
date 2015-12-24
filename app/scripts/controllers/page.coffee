@@ -16,11 +16,14 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, S
         $window.location.reload()
 
     localStorageService.bind($scope, 'settings.showReposts')
+    localStorageService.bind($scope, 'settings.singleTrackPlaylists')
 
     $scope.controls =
         toggleReposts: ->
             $scope.settings.showReposts = !$scope.settings.showReposts
             # $scope.helpers.getNewCount()
+        toggleSingleTrackPlaylists: ->
+            $scope.settings.singleTrackPlaylists = !$scope.settings.singleTrackPlaylists
 
     $scope.setTab = (tab) ->
         $scope.activeTab = tab

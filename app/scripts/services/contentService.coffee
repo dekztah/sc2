@@ -140,6 +140,9 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                             playlistTrack = getTrackProperties(playlistTrack, playlistTrackIndex, streamItem.index[0])
                             streamItem.tracks.push playlistTrack
 
+                        if streamItem.tracks.length == 1
+                            streamItem.singleTrackPlaylist = true
+
                 content.stream[content.stream.length - 1].last = true
 
             run++
