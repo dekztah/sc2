@@ -149,7 +149,6 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             localStorageService.set 'lastFetch', now
             content
         ), (reason) ->
-            error = true
             reason
 
     return
