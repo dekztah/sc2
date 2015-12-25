@@ -2,10 +2,10 @@
 
 angular.module 'sc2App', [
     'config'
-    'LocalStorageModule'
+    'ngStorage'
     'ngSanitize'
     'ngAnimate'
 ]
 
-.config (localStorageServiceProvider) ->
-    localStorageServiceProvider.setPrefix 'sc2'
+.config ($localStorageProvider) ->
+    $localStorageProvider.setKeyPrefix 'sc2-'

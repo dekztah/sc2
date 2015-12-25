@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, SoundCloudService, ContentService, localStorageService, HelperService, appVersion) ->
+angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, SoundCloudService, ContentService, $localStorage, HelperService, appVersion) ->
 
     $scope.user = UserService.userObj
     $scope.info = appVersion
@@ -18,13 +18,8 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, S
         UserService.logout()
         $window.location.reload()
 
-    $scope.streamFilter =
-        title: ''
-        repost: ''
-        singleTrackPlaylist: ''
-
-    # localStorageService.bind($scope, 'streamFilter.repost')
-    # localStorageService.bind($scope, 'streamFilter.singleTrackPlaylist')
+    $scope.streamFilter = $localStorage.settings.streamFilter
+    $scope.streamFilter.title = ''
 
     $scope.setTab = (tab) ->
         $scope.activeTab = tab

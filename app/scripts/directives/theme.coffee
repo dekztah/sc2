@@ -1,12 +1,10 @@
 'use strict'
 
-angular.module('sc2App').directive 'theme', (localStorageService) ->
+angular.module('sc2App').directive 'theme', ($localStorage) ->
     {
         restrict: 'A'
         link: ($scope) ->
-            $scope.theme = localStorageService.get('theme') or
-                bgr: 'default'
-                color: 'light'
+            $scope.theme = $localStorage.settings.theme
 
             $scope.toggleThemeChanger = ->
                 $scope.themeChanger = !$scope.themeChanger
@@ -16,5 +14,4 @@ angular.module('sc2App').directive 'theme', (localStorageService) ->
                     $scope.theme.color = theme
                 else
                     $scope.theme.bgr = theme
-                localStorageService.set 'theme', $scope.theme
     }
