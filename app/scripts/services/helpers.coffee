@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sc2App').service 'HelperService', ($window) ->
+angular.module('sc2App').service 'HelperService', ($window, $filter) ->
     moment = $window.moment
     scDateFormat = 'YYYY/MM/DD HH:mm:ss ZZ'
     urlRegex = /((("|>)?\b(https?):\/\/|www)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
@@ -34,5 +34,12 @@ angular.module('sc2App').service 'HelperService', ($window) ->
             '<a target="_blank" href="' + url + '">' + url + '</a>'
         )
         formattedDescription.replace /\n/g, '<br>'
+
+    @getNewCount = (stream, reposts) ->
+        filtered = $filter('filter')(stream, isNew: true)
+        if !reposts
+            $filter('filter')(filtered, repost: false).length
+        else
+            filtered.length
 
     return

@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloudService, $filter, ContentService, UserService) ->
+angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloudService, ContentService, UserService, HelperService) ->
 
     $scope.status =
         loading: false
@@ -81,14 +81,18 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
     # generic helper functions
     $scope.helpers =
         getNewCount: ->
-            filtered = $filter('filter')($scope.content.stream, isNew: true)
-            if !$scope.showReposts
-                filtered = $filter('filter')(filtered, repost: false)
-            $scope.newCount = filtered.length
-            if filtered.length > 0
-                $document[0].title = '(' + filtered.length + ') sc2'
+            $scope.newCount = HelperService.getNewCount $scope.content.stream, $scope.settings.showReposts
+            if $scope.newCount > 0
+                $document[0].title = '(' + $scope.newCount + ') sc2'
             else
                 $document[0].title = 'sc2'
+
+    $scope.controls =
+        toggleReposts: ->
+            $scope.settings.showReposts = !$scope.settings.showReposts
+            $scope.helpers.getNewCount()
+        toggleSingleTrackPlaylists: ->
+            $scope.settings.singleTrackPlaylists = !$scope.settings.singleTrackPlaylists
 
     # get tracks if user is already authenticated
     if UserService.userObj
