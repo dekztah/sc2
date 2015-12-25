@@ -142,18 +142,15 @@
     }
 }
 
-#reposts-toggle {
-    opacity: 0.3;
-    transition: opacity 0.3s ease-out;
-    &.reposts {
-        opacity: 1;
-    }
-}
+#reposts-toggle,
 #single-track-playlists-toggle {
     opacity: 0.3;
     transition: opacity 0.3s ease-out;
-    &.single-track-playlists {
+    &.active {
         opacity: 1;
+    }
+    input {
+        display: none !important;
     }
 }
 

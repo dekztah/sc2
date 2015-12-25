@@ -3,7 +3,7 @@
     #active-stream-switch.clearfixx
         button(data-ng-click="setTab('stream')", data-ng-class="{'active': activeTab === 'stream'}")
             | stream
-            span.count {{content.stream.length}}
+            span.count {{filteredStream.length}}
 
         button(data-ng-click="setTab('favorites')", data-ng-class="{'active': activeTab === 'favorites'}")
             | favorites
@@ -14,20 +14,40 @@
             span.count {{user.user.followings_count}}
 
     span.icon-search.icon
-
     //- search stream
     .search(data-ng-show="activeTab === 'stream'")
-        input.form-control(type='text', autocomplete='off', data-ng-model='searchStream.title', data-ng-minlength='5', data-ng-init="searchStream.title = ''", placeholder='Search for track title in stream')
-        button.close(data-ng-show="searchStream.title !== ''", data-ng-click="searchStream.title = ''") ×
+        input.form-control(
+            type='text'
+            autocomplete='off'
+            data-ng-model='streamFilter.title'
+            data-ng-minlength='5'
+            placeholder='Search for track title in stream'
+        )
+        button.close(data-ng-show="streamFilter.title !== ''", data-ng-click="streamFilter.title = ''") ×
+
 
     //- search favorites
     .search(data-ng-show="activeTab === 'favorites'")
-        input.form-control(type='text', autocomplete='off', data-ng-model='searchFavorites.title', data-ng-minlength='5', data-ng-init="searchFavorites.title = ''", placeholder='Search for track title in favorites')
+        input.form-control(
+            type='text'
+            autocomplete='off'
+            data-ng-model='searchFavorites.title'
+            data-ng-minlength='5'
+            data-ng-init="searchFavorites.title = ''"
+            placeholder='Search for track title in favorites'
+        )
         button.close(data-ng-show="searchFavorites.title !== ''", data-ng-click="searchFavorites.title = ''") ×
 
     //- search followed users
     .search(data-ng-show="activeTab === 'followings'")
-        input.form-control(type='text', autocomplete='off', data-ng-model='searchFollowed.username', data-ng-minlength='5', data-ng-init="searchFollowed.username = ''", placeholder='Search for followed user')
+        input.form-control(
+            type='text'
+            autocomplete='off'
+            data-ng-model='searchFollowed.username'
+            data-ng-minlength='5'
+            data-ng-init="searchFollowed.username = ''"
+            placeholder='Search for followed user'
+        )
         button.close(data-ng-show="searchFollowed.username !== ''", data-ng-click="searchFollowed.username = ''") ×
 
     #new(data-ng-show='newCount')
@@ -38,18 +58,21 @@
         span.last-visit last visit: {{::user.lastFetch}}
 
     #settings
-        button#reposts-toggle.btn(
-            data-ng-click='controls.toggleReposts()'
-            data-ng-class="{'reposts': settings.showReposts}"
-            title="{{settings.showReposts ? 'hide reposts' : 'show reposts'}}"
-        )
+        label#reposts-toggle.btn(data-ng-class="{'active': streamFilter.repost !== false}")
+            input(
+                type='checkbox'
+                data-ng-model='streamFilter.repost'
+                data-ng-true-value="''"
+            )
             span.icon-repost
 
-        button#single-track-playlists-toggle.btn(
-            data-ng-click='controls.toggleSingleTrackPlaylists()'
-            data-ng-class="{'single-track-playlists': settings.singleTrackPlaylists}"
-            title="{{settings.singleTrackPlaylists ? 'hide single track playlists' : 'show single track playlists'}}"
-        )
+        label#single-track-playlists-toggle.btn(data-ng-class="{'active': streamFilter.singleTrackPlaylist !== undefined}")
+            input(
+                type='checkbox'
+                data-ng-model='streamFilter.singleTrackPlaylist'
+                data-ng-true-value="''"
+                data-ng-false-value="undefined"
+            )
             span.icon-filter_1
 
         button.btn(data-ng-click='toggleThemeChanger()')
@@ -86,11 +109,19 @@
 
 //- stream
 #tiles.row.content(data-ng-show="activeTab === 'stream'", data-ng-class="{'loaded': !status.loading}")
+    //- .item.row(
+    //-     data-ng-repeat='track in content.stream | filter:searchStream track by track.index'
+    //-     class='{{::track.type}}'
+    //-     data-ng-class="{'active': track.isPlaying, 'new': track.isNew}"
+    //-     data-ng-show="(settings.showReposts || track.type === 'track' || track.type === 'playlist') && (settings.singleTrackPlaylists || !track.singleTrackPlaylist)"
+    //-     data-ng-click='track.isNew = false; helpers.getNewCount()'
+    //-     data-ng-include="'views/item.html'"
+    //-     data-repeat-finished
+    //- )
     .item.row(
-        data-ng-repeat='track in content.stream | filter:searchStream track by track.index'
+        data-ng-repeat='track in filteredStream = (content.stream | filter:streamFilter) track by track.index'
         class='{{::track.type}}'
         data-ng-class="{'active': track.isPlaying, 'new': track.isNew}"
-        data-ng-show="(settings.showReposts || track.type === 'track' || track.type === 'playlist') && (settings.singleTrackPlaylists || !track.singleTrackPlaylist)"
         data-ng-click='track.isNew = false; helpers.getNewCount()'
         data-ng-include="'views/item.html'"
         data-repeat-finished

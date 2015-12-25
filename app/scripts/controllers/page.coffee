@@ -18,8 +18,13 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, S
         UserService.logout()
         $window.location.reload()
 
-    localStorageService.bind($scope, 'settings.showReposts')
-    localStorageService.bind($scope, 'settings.singleTrackPlaylists')
+    $scope.streamFilter =
+        title: ''
+        repost: ''
+        singleTrackPlaylist: ''
+
+    # localStorageService.bind($scope, 'streamFilter.repost')
+    # localStorageService.bind($scope, 'streamFilter.singleTrackPlaylist')
 
     $scope.setTab = (tab) ->
         $scope.activeTab = tab
