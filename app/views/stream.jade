@@ -109,15 +109,6 @@
 
 //- stream
 #tiles.row.content(data-ng-show="activeTab === 'stream'", data-ng-class="{'loaded': !status.loading}")
-    //- .item.row(
-    //-     data-ng-repeat='track in content.stream | filter:searchStream track by track.index'
-    //-     class='{{::track.type}}'
-    //-     data-ng-class="{'active': track.isPlaying, 'new': track.isNew}"
-    //-     data-ng-show="(settings.showReposts || track.type === 'track' || track.type === 'playlist') && (settings.singleTrackPlaylists || !track.singleTrackPlaylist)"
-    //-     data-ng-click='track.isNew = false; helpers.getNewCount()'
-    //-     data-ng-include="'views/item.html'"
-    //-     data-repeat-finished
-    //- )
     .item.row(
         data-ng-repeat='track in filteredStream = (content.stream | filter:streamFilter) track by track.index'
         class='{{::track.type}}'
