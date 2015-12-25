@@ -30,7 +30,7 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
             if content.hasOwnProperty 'status'
                 $scope.status =
                     loading: false
-                    error: true
+                    error: content.status + ' ' + content.statusText
             else
                 $scope.content.stream.push.apply $scope.content.stream, content.stream
                 $scope.content.followings = content.followings

@@ -71,6 +71,8 @@
 .error-overlay(data-ng-if='status.error')
     #error.row
         span.icon-warning.icon
+        | {{status.error}}
+        br
         | Error reaching SoundCloud service.
         br
         | Please check the
