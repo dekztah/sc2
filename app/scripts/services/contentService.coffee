@@ -60,6 +60,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                     favList: parentIndex < 0
                 }
             else
+                console.log item
                 'mysterious undreadable track...'
 
         # repeated load ...
