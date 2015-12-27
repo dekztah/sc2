@@ -13,6 +13,6 @@ angular.module('sc2App').service 'UserService', ($localStorage, $rootScope) ->
         $rootScope.$broadcast 'userStateChanged'
 
     @logout = ->
-        delete $localStorage.settings
+        $localStorage.$reset()
 
     return
