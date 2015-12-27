@@ -5,10 +5,14 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
     limit = 50
     run = 0
 
-    @lastFetch = lastFetch = $localStorage.settings.lastFetch
+    $localStorage.$default(
+        lastFetch: ''
+    )
+
+    @lastFetch = $localStorage.lastFetch
     now = moment().format('YYYY-MM-DD HH:mm:ss')
 
-    @loadContent = () ->
+    @loadContent = () =>
 
         content =
             playlists:
@@ -19,7 +23,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             stream: []
             likeIds: []
 
-        getTrackProperties = (item, i, parentIndex) ->
+        getTrackProperties = (item, i, parentIndex) =>
             index = []
             if Number.isInteger(parentIndex)
                 item.origin = item
@@ -35,7 +39,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             if item.origin
                 {
                     index: index
-                    isNew: moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(lastFetch))
+                    isNew: moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(@lastFetch))
                     scDate: item.created_at
                     created: HelperService.customDate(item.created_at, 'MMMM DD YYYY')
                     type: item.type or item.kind
@@ -113,7 +117,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             followingsReq
             favoritesReq
             streamReq
-        ]).then ((result) ->
+        ]).then ((result) =>
             stream = result[2]
             streamOffset = stream.data.next_href.split('cursor=')[1]
             content.stream = []
@@ -147,7 +151,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                 content.stream[content.stream.length - 1].last = true
 
             run++
-            $localStorage.settings.lastFetch = now
+            @lastFetch = $localStorage.lastFetch = now
             content
         ), (reason) ->
             reason

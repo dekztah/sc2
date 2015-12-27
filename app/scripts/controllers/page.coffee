@@ -4,6 +4,16 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, S
     $scope.user = UserService.userObj
     $scope.info = appVersion
 
+    $localStorage.$default(
+        settings:
+            streamFilter:
+                showReposts: ''
+                showSingleTrackPlaylists: ''
+            theme:
+                bgr: 'default'
+                color: 'light'
+    )
+
     if $scope.user
         $scope.user.lastFetch = HelperService.customDate(ContentService.lastFetch, 'ago')
 

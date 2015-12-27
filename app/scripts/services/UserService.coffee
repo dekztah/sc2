@@ -1,22 +1,15 @@
 'use strict'
 angular.module('sc2App').service 'UserService', ($localStorage, $rootScope) ->
+
     $localStorage.$default(
-        settings:
-            userObj: undefined
-            lastFetch: ''
-            streamFilter:
-                showReposts: ''
-                showSingleTrackPlaylists: ''
-            theme:
-                bgr: 'default'
-                color: 'light'
+        userObj: undefined
     )
 
-    @userObj = $localStorage.settings.userObj
+    @userObj = $localStorage.userObj
 
     @setUser = (credentials) ->
         console.log credentials
-        @userObj = $localStorage.settings.userObj = credentials
+        @userObj = $localStorage.userObj = credentials
         $rootScope.$broadcast 'userStateChanged'
 
     @logout = ->
