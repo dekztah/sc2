@@ -7,8 +7,8 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, S
     $localStorage.$default(
         settings:
             streamFilter:
-                showReposts: ''
-                showSingleTrackPlaylists: ''
+                repost: ''
+                singleTrackPlaylist: ''
             theme:
                 bgr: 'default'
                 color: 'light'
