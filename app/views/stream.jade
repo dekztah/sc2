@@ -66,12 +66,11 @@
             )
             span.icon-repost
 
-        label#single-track-playlists-toggle.btn(data-ng-class="{'active': streamFilter.singleTrackPlaylist !== undefined}")
+        label#single-track-playlists-toggle.btn(data-ng-class="{'active': streamFilter.singleTrackPlaylist !== false}")
             input(
                 type='checkbox'
                 data-ng-model='streamFilter.singleTrackPlaylist'
                 data-ng-true-value="''"
-                data-ng-false-value="undefined"
             )
             span.icon-filter_1
 

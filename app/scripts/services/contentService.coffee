@@ -44,6 +44,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                     created: HelperService.customDate(item.created_at, 'MMMM DD YYYY')
                     type: item.type or item.kind
                     repost: if item.type then item.type.indexOf('repost') > -1 else false
+                    singleTrackPlaylist: false
                     title: item.origin.title
                     scid: item.origin.id
                     duration: item.origin.duration
@@ -144,6 +145,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
                         for playlistTrack, playlistTrackIndex in content.playlists.items[indexInPlaylists].data
                             playlistTrack = getTrackProperties(playlistTrack, playlistTrackIndex, streamItem.index[0])
                             streamItem.tracks.push playlistTrack
+
 
                         if streamItem.tracks.length == 1
                             streamItem.singleTrackPlaylist = true
