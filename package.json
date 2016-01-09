@@ -1,6 +1,6 @@
 {
   "name": "sc2",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^6.0.3",
