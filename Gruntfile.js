@@ -452,8 +452,10 @@ module.exports = function (grunt) {
                 name: 'config',
                 template: grunt.file.read('constant.tpl.ejs'),
                 space: ' ',
-                constants: {
-                    appVersion: grunt.file.readJSON('package.json').version
+                constants: function() {
+                    return {
+                        appVersion: grunt.file.readJSON('package.json').version
+                    };
                 }
             },
             development: {
