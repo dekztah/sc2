@@ -16,7 +16,6 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                         scope.playerData.playingIndex = null
                         scope.playerData.currentTrack.isPlaying = false
                         scope.playerData.currentTime = 0
-                        scope.playerData.currentTrack = false
                         animation.killAnimation()
 
             onCanplay = ->
