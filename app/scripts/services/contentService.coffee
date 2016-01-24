@@ -92,6 +92,12 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
 
             $q.all(promises).then((responses) ->
                 for response in responses
+
+                    # followings returns collection now... be prepared for other assets changing
+                    if response.collection
+                        for data in response.collection
+                            results.push data
+
                     for data in response
                         results.push data
                 deferred.resolve results
@@ -99,7 +105,7 @@ angular.module('sc2App').service 'ContentService', ($q, $window, SoundCloudServi
             deferred.promise
 
         if angular.equals(@content.followings, {})
-            followingsReq = soundcloudGetAll('followings.json', UserService.userObj.user.followings_count).then (users) =>
+            followingsReq = soundcloudGetAll('followings', UserService.userObj.user.followings_count).then (users) =>
 
                 for user in users
                     if user.description
