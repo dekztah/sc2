@@ -11,7 +11,7 @@
     #now-playing.fl.clearfix(data-ng-if='playerData.currentTrack')
         .fl
             button.play.btn.fl(data-ng-click='controlAudio.play(playerData.currentTrack.index, playerData.currentTrack.favList)', data-ng-show='!playerData.currentTrack.isPlaying')
-                span.icon-play
+                span.icon-play_arrow
             button.pause.btn.fl(data-ng-click='controlAudio.pause()', data-ng-show='playerData.currentTrack.isPlaying')
                 span.icon-pause
             img.user-avatar.fl(data-ng-src='{{playerData.currentTrack.avatar}}')
@@ -36,6 +36,7 @@
 
     #visuals.row(data-ng-class="{'disabled': status.access}")
         .status(data-ng-if='status.access')
+            span.icon.icon-warning
             | {{status.access}}
         div
             #osc(canvas-context='oscContext', data-ng-click='helpers.toggleOsc(true)')

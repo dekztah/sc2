@@ -64,7 +64,7 @@
                 data-ng-model='streamFilter.repost'
                 data-ng-true-value="''"
             )
-            span.icon-repost
+            span.icon-repeat
 
         label#single-track-playlists-toggle.btn(data-ng-class="{'active': streamFilter.singleTrackPlaylist !== false}")
             input(
@@ -74,11 +74,18 @@
             )
             span.icon-filter_1
 
+        label#auto-advance.btn(data-ng-class="{'active': settings.autoAdvance}" title='auto advance')
+            input(
+                type='checkbox'
+                data-ng-model='settings.autoAdvance'
+            )
+            span.icon-fast_forward
+
         button.btn(data-ng-click='toggleThemeChanger()')
-            span.icon-themes
+            span.icon-format_paint
 
         button#logout.btn(data-ng-click='logout()', title='logout')
-            span.icon-logout
+            span.icon-power_settings_new
 
         #theme-changer(data-ng-show='themeChanger')
             span background

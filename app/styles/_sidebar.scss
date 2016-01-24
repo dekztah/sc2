@@ -15,6 +15,7 @@ aside {
         border: none;
         height: 64px;
         position: relative;
+        // background: black;
 
         &:after {
             content: '';
@@ -78,14 +79,18 @@ aside {
 
     .status {
         left: 0;
-        top: 50%;
+        top: 20px;
         width: 100%;
-        text-align: center;
         position: absolute;
-        background: red;
-        padding: 0 4px;
-        border-radius: 4px;
         font-weight: bold;
+        z-index: 2;
+
+        .icon {
+            font-size: 30px;
+            margin-right: 10px;
+            color: white;
+            vertical-align: middle;
+        }
     }
 }
 #waveform {
