@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, SoundCloudService, animation) ->
+angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, ContentService, SoundCloudService, animation, $filter) ->
     {
         restrict: 'A'
         link: (scope, element, attrs) ->
@@ -12,9 +12,19 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 scope.$apply ->
                     scope.playerData.currentTime = player.currentTime
                     scope.playerData.currentTimeFormatted = HelperService.duration(player.currentTime * 1000)
-                    if player.currentTime == player.duration
+
+            onEnded = ->
+                scope.$apply ->
+                    scope.playerData.currentTrack.isPlaying = false
+                    if scope.settings.autoAdvance and ContentService.player.nextTrack
+                        scope.playerData.playingIndex = ContentService.player.nextTrack.index
+                        ContentService.player.previousTrack = ContentService.player.currentTrack
+                        ContentService.player.currentTrack = ContentService.player.nextTrack
+                        ContentService.player.currentTrack.isPlaying = true
+                        scope.$emit 'playTrack'
+
+                    else
                         scope.playerData.playingIndex = null
-                        scope.playerData.currentTrack.isPlaying = false
                         scope.playerData.currentTime = 0
                         animation.killAnimation()
 
@@ -49,24 +59,50 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 player.addEventListener 'seeking', onSeeking, false
                 player.addEventListener 'seeked', onSeeked, false
                 player.addEventListener 'progress', onProgress, false
+                player.addEventListener 'ended', onEnded, false
 
             play = ->
+                scope.playerData.currentTrack.isPlaying = true
                 player.play()
                 if !animation.requestId
                     animation.animate()
 
             pause = ->
+
                 player.pause()
                 animation.killAnimation()
 
-            scope.$on 'playTrack', (evt, data) ->
-                if data.replay
+            getNext = ->
+                filtered = $filter('filter')(ContentService.content.stream, scope.streamFilter)
+                found = false
+                for track in filtered
+                    if found
+                        if track.hasOwnProperty 'tracks'
+                            ContentService.player.nextTrack = track.tracks[0]
+                        else
+                            ContentService.player.nextTrack = track
+                        break
+
+                    if track.index[0] == ContentService.player.currentTrack.index[0]
+                        if track.hasOwnProperty 'tracks'
+                            if track.index[1] == ContentService.player.currentTrack.index[1]
+                                found = true
+                        else
+                            found = true
+                        # if track.index[1] == data.current.index[1]
+                        #     console.log 'playlist'
+                        #     # found = true
+
+            scope.$on 'playTrack', (evt) ->
+                getNext()
+
+                if ContentService.player.previousTrack and angular.equals ContentService.player.currentTrack.index, ContentService.player.previousTrack.index
                     play()
                 else
-                    if data.previous
+                    if ContentService.player.previousTrack
                         pause()
-                        data.previous.isPlaying = false
-                    SoundCloudService.getProperStreamUrl(data.current.scid).then (response) ->
+                        ContentService.player.previousTrack.isPlaying = false
+                    SoundCloudService.getProperStreamUrl(ContentService.player.currentTrack.scid).then (response) ->
 
                         if response.url
                             if !response.vis
@@ -77,7 +113,7 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                                 scope.status.access = false
 
                             setEventListeners()
-                            scope.playerData.currentTrack = data.current
+                            scope.playerData.currentTrack = ContentService.player.currentTrack
                             scope.playerData.vis = response.vis
                             player.src = response.url
                             play()
@@ -87,13 +123,14 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                             player.src = ''
                             pause()
 
-                    SoundCloudService.getWaveformData(data.current.waveform).then (response) ->
+                    SoundCloudService.getWaveformData(ContentService.player.currentTrack.waveform).then (response) ->
                         # make it 1
                         CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformContext, 'rgba(255,255,255,0.05)'
                         CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformBufferContext, 'rgba(255,255,255,0.15)'
                         CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformProgressContext, '#ffffff'
 
             scope.$on 'pauseTrack', ->
+                scope.playerData.currentTrack.isPlaying = false
                 pause()
 
             scope.$on 'seekTrack', (evt, data) ->

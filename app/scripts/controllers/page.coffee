@@ -12,6 +12,7 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, S
             theme:
                 bgr: 'default'
                 color: 'light'
+            autoAdvance: false
     )
 
     if $scope.user
@@ -30,6 +31,8 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, S
 
     $scope.streamFilter = $localStorage.settings.streamFilter
     $scope.streamFilter.title = ''
+
+    $scope.settings = $localStorage.settings
 
     $scope.setTab = (tab) ->
         $scope.activeTab = tab

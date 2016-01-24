@@ -62,14 +62,11 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
     # audio player controls
     $scope.controlAudio =
         play: (index) ->
-            replay = angular.equals(prevIndex, index)
-            prevIndex = index
-            currentTrack = getPlaylistOrTrackData(index)
-            currentTrack.isPlaying = true
-            $scope.$broadcast 'playTrack', {current: currentTrack, previous: previousTrack, replay: replay}
-            previousTrack = currentTrack
+            ContentService.player =
+                previousTrack: ContentService.player.currentTrack
+                currentTrack: getPlaylistOrTrackData(index)
+            $scope.$broadcast 'playTrack'
         pause: ->
-            currentTrack.isPlaying = false
             $scope.$broadcast 'pauseTrack'
         seekTo: (event) ->
             xpos = (if event.offsetX == undefined then event.layerX else event.offsetX) / event.target.offsetWidth
