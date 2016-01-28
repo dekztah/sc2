@@ -9,7 +9,7 @@
                 span.icon-pause
         .playlist-mark.fl(data-ng-show="track.type === 'playlist' || track.type === 'playlist-repost'")
             .btn
-                span.icon-playlist
+                span.icon-list
                 span.plno {{::track.tracks.length}}
         .fl(data-ng-if='::track.index.length === 1')
             img.user-avatar(data-ng-src='{{::track.avatar}}')
