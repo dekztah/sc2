@@ -57,6 +57,19 @@ body {
     flex-direction: row;
     flex: 1;
 }
+.system-message {
+    background: red;
+    position: fixed;
+    width: 100%;
+    padding: 20px;
+    z-index: 5;
+
+    a {
+        text-decoration: underline;
+        margin-left: 5px;
+        font-weight: bold;
+    }
+}
 a {
     text-decoration: none;
     color: $white;
@@ -125,6 +138,7 @@ button, .btn {
 #main {
     flex: 2 100%;
     max-width: 1090px;
+    margin-top: 61px;
 }
 
 .user-avatar {
