@@ -1,5 +1,8 @@
 'use strict'
+
 angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloudService, ContentService, UserService, HelperService) ->
+
+    console.log 'streamCtrl init'
 
     $scope.status =
         loading: false
@@ -24,19 +27,18 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
         $scope.loadData()
 
     $scope.loadData = ->
+        console.log 'fetching stream data'
         $scope.status.loading = true
 
-        ContentService.loadContent().then (content) ->
+        ContentService.loadStream().then (content) ->
             if content.hasOwnProperty 'status'
                 $scope.status =
                     loading: false
                     error: content.status + ' ' + content.statusText
             else
-                $scope.content.stream.push.apply $scope.content.stream, content.stream
-                $scope.content.followings = content.followings
-                $scope.content.favorites = content.favorites
+                $scope.content.stream.push.apply $scope.content.stream, content
 
-                $scope.helpers.getNewCount()
+            $scope.helpers.getNewCount()
 
     $scope.$on 'ngRepeatFinished', ->
         $scope.status.loading = false

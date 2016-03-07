@@ -1,0 +1,11 @@
+div(ng-controller='favoritesCtrl')
+    #favorites.row.content
+        .item.row(
+            data-ng-repeat='track in content.favorites | filter:searchFavorites track by track.scid'
+            class='{{::track.type}}'
+            data-ng-class="{'active': track.isPlaying}"
+            data-ng-include="'views/item.html'"
+        )
+
+    .row
+        button#more.btn(data-ng-click='loadData()', data-ng-show='!status.loading') more

@@ -1,0 +1,9 @@
+div(ng-controller='followingsCtrl')
+    #followings.row.content
+        .item.row(
+            data-ng-repeat='user in content.followings | filter:searchFollowed track by user.id'
+            data-ng-include="'views/user.html'"
+        )
+
+    .row
+        button#more.btn(data-ng-click='loadData()', data-ng-show='!status.loading') more

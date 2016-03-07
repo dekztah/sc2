@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, SoundCloudService, ContentService, $localStorage, HelperService, appVersion) ->
+angular.module('sc2App').controller 'pageCtrl', ($scope, $window, $state, UserService, SoundCloudService, ContentService, $localStorage, HelperService, appVersion) ->
 
     $scope.user = UserService.userObj
     $scope.info = appVersion
@@ -34,10 +34,14 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, UserService, S
 
     $scope.settings = $localStorage.settings
 
-    $scope.setTab = (tab) ->
+    $scope.nav = (tab) ->
         $scope.activeTab = tab
+        $state.go tab, {},
+            reload: false
+
+    $scope.$on '$stateChangeSuccess', ->
+        $scope.activeTab = $state.current.url.replace('/', '') #temporary
 
     $scope.getTimes = (n) ->
         new Array(n)
 
-    $scope.setTab 'stream'
