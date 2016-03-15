@@ -1,10 +1,10 @@
 'use strict'
 
-angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloudService, ContentService, UserService, HelperService) ->
+angular.module('sc2App').controller 'streamCtrl', ($scope, $rootScope, $document, SoundCloudService, ContentService, UserService, HelperService) ->
 
     console.log 'streamCtrl init'
 
-    $scope.status =
+    $rootScope.status =
         loading: false
         error: false
 
@@ -67,15 +67,15 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
             ContentService.player =
                 previousTrack: ContentService.player.currentTrack
                 currentTrack: getPlaylistOrTrackData(index)
-            $scope.$broadcast 'playTrack'
+            $rootScope.$broadcast 'playTrack'
         pause: ->
-            $scope.$broadcast 'pauseTrack'
+            $rootScope.$broadcast 'pauseTrack'
         seekTo: (event) ->
             xpos = (if event.offsetX == undefined then event.layerX else event.offsetX) / event.target.offsetWidth
-            $scope.$broadcast 'seekTrack', xpos
+            $rootScope.$broadcast 'seekTrack', xpos
         seekPreview: (event) ->
             xpos = if event.offsetX == undefined then event.layerX else event.offsetX
-            $scope.$broadcast 'seekPreview', {xpos: xpos, width: event.target.clientWidth}
+            $rootScope.$broadcast 'seekPreview', {xpos: xpos, width: event.target.clientWidth}
 
     # generic helper functions
     $scope.helpers =

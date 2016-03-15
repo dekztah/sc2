@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, ContentService, SoundCloudService, animation, $filter) ->
+angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, ContentService, SoundCloudService, animation, $filter, $rootScope) ->
     {
         restrict: 'A'
         link: (scope, element, attrs) ->
@@ -107,10 +107,10 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                         if response.url
                             if !response.vis
                                 player = audioContext.playerNoVis
-                                scope.status.access = 'Limited access to track, visualizers disabled'
+                                $rootScope.status.access = 'Limited access to track, visualizers disabled'
                             else
                                 player = audioContext.player
-                                scope.status.access = false
+                                $rootScope.status.access = false
 
                             setEventListeners()
                             scope.playerData.currentTrack = ContentService.player.currentTrack
@@ -118,7 +118,7 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                             player.src = response.url
                             play()
                         else
-                            scope.status.access = 'No playable stream exists'
+                            $rootScope.status.access = 'No playable stream exists'
                             scope.playerData.currentTrack = undefined
                             player.src = ''
                             pause()

@@ -21,17 +21,24 @@ angular.module('sc2App').service 'ContentService', ($window, $localStorage, Stre
         currentTrack: undefined
         previousTrack: undefined
 
+    @content =
+        stream: StreamService.stream
+
     @loadStream = () =>
-        if @streamInit then StreamService.load()
-        @streamInit = false
+        # if @streamInit then StreamService.load()
+        # @streamInit = false
+        # StreamService.stream
+        StreamService.load()
 
     @loadFavorites = () =>
-        if @favoritesInit then FavoritesService.load()
-        @favoritesInit = false
+        # if @favoritesInit then FavoritesService.load()
+        # @favoritesInit = false
+        FavoritesService.load()
 
     @loadFollowings = () =>
-        if @followingsInit then FollowingsService.load()
-        @followingsInit = false
+        # if @followingsInit then FollowingsService.load()
+        # @followingsInit = false
+        FollowingsService.load()
 
     #     @lastFetch = $localStorage.lastFetch = now
 
