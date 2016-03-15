@@ -1,12 +1,8 @@
 'use strict'
 
-angular.module('sc2App').controller 'streamCtrl', ($scope, $rootScope, $document, SoundCloudService, ContentService, UserService, HelperService) ->
+angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloudService, ContentService, UserService, HelperService) ->
 
     console.log 'streamCtrl init'
-
-    $rootScope.status =
-        loading: false
-        error: false
 
     $scope.content =
         stream: []

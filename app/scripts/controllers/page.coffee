@@ -1,8 +1,12 @@
 'use strict'
-angular.module('sc2App').controller 'pageCtrl', ($scope, $window, $state, UserService, SoundCloudService, ContentService, $localStorage, HelperService, appVersion) ->
+angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $window, $state, UserService, SoundCloudService, ContentService, $localStorage, HelperService, appVersion) ->
 
     $scope.user = UserService.userObj
     $scope.info = appVersion
+
+    $rootScope.status =
+        loading: false
+        error: false
 
     $localStorage.$default(
         settings:
@@ -50,9 +54,9 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, $state, UserSe
     getPlaylistOrTrackData = (values) ->
         data = undefined
         if !isNaN(values[1])
-            data = $scope.content['stream'][values[0]].tracks[values[1]]
+            data = $scope.content[$scope.activeTab][values[0]].tracks[values[1]]
         else
-            data = $scope.content['stream'][values[0]]
+            data = $scope.content[$scope.activeTab][values[0]]
         data
 
     # audio player controls

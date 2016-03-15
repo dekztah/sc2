@@ -23,6 +23,8 @@ angular.module('sc2App').service 'ContentService', ($window, $localStorage, Stre
 
     @content =
         stream: StreamService.stream
+        favorites: FavoritesService.favorites
+        followings: FollowingsService.followings
 
     @loadStream = () =>
         # if @streamInit then StreamService.load()
