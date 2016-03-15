@@ -15,6 +15,8 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, $state, UserSe
             autoAdvance: false
     )
 
+    $scope.content = ContentService.content
+
     if $scope.user
         $scope.user.lastFetch = HelperService.customDate(ContentService.lastFetch, 'ago')
 
@@ -45,3 +47,26 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $window, $state, UserSe
     $scope.getTimes = (n) ->
         new Array(n)
 
+    getPlaylistOrTrackData = (values) ->
+        data = undefined
+        if !isNaN(values[1])
+            data = $scope.content['stream'][values[0]].tracks[values[1]]
+        else
+            data = $scope.content['stream'][values[0]]
+        data
+
+    # audio player controls
+    $scope.controlAudio =
+        play: (index) ->
+            ContentService.player =
+                previousTrack: ContentService.player.currentTrack
+                currentTrack: getPlaylistOrTrackData(index)
+            $scope.$broadcast 'playTrack'
+        pause: ->
+            $scope.$broadcast 'pauseTrack'
+        seekTo: (event) ->
+            xpos = (if event.offsetX == undefined then event.layerX else event.offsetX) / event.target.offsetWidth
+            $scope.$broadcast 'seekTrack', xpos
+        seekPreview: (event) ->
+            xpos = if event.offsetX == undefined then event.layerX else event.offsetX
+            $scope.$broadcast 'seekPreview', {xpos: xpos, width: event.target.clientWidth}

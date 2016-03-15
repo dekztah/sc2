@@ -15,14 +15,6 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $rootScope, $document
     previousTrack = undefined
     prevIndex = undefined
 
-    getPlaylistOrTrackData = (values) ->
-        data = undefined
-        if !isNaN(values[1])
-            data = $scope.content[$scope.activeTab][values[0]].tracks[values[1]]
-        else
-            data = $scope.content[$scope.activeTab][values[0]]
-        data
-
     $scope.$on 'connected', ->
         $scope.loadData()
 
@@ -61,21 +53,7 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $rootScope, $document
             else if response.status == 200 and method == 'delete'
                 $scope.followings[index].followingFlag = false
 
-    # audio player controls
-    $scope.controlAudio =
-        play: (index) ->
-            ContentService.player =
-                previousTrack: ContentService.player.currentTrack
-                currentTrack: getPlaylistOrTrackData(index)
-            $rootScope.$broadcast 'playTrack'
-        pause: ->
-            $rootScope.$broadcast 'pauseTrack'
-        seekTo: (event) ->
-            xpos = (if event.offsetX == undefined then event.layerX else event.offsetX) / event.target.offsetWidth
-            $rootScope.$broadcast 'seekTrack', xpos
-        seekPreview: (event) ->
-            xpos = if event.offsetX == undefined then event.layerX else event.offsetX
-            $rootScope.$broadcast 'seekPreview', {xpos: xpos, width: event.target.clientWidth}
+
 
     # generic helper functions
     $scope.helpers =
