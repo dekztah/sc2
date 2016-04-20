@@ -1,7 +1,7 @@
 'use strict'
 
 angular
-    .module('sc2App').service 'StreamService', ($q, $window, HelperService, SoundCloudService, UserService) ->
+    .module('sc2App').service 'StreamService', ($q, $window, HelperService, SoundCloudService, UserService, $rootScope) ->
         streamOffset = undefined
         limit = 50
         run = 0
@@ -94,6 +94,7 @@ angular
                     @stream[@stream.length - 1].last = true
 
                 run++
+                console.log @stream.length
                 @stream
 
             )

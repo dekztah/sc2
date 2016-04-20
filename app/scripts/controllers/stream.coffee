@@ -2,8 +2,6 @@
 
 angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloudService, ContentService, UserService, HelperService) ->
 
-    console.log 'streamCtrl init'
-
     $scope.content =
         stream: []
 
