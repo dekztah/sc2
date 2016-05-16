@@ -1,21 +1,26 @@
-// LIST ITEM
+//- LIST ITEM
 .flex(data-ng-class="{'open': open && (track.type === 'playlist' || track.type === 'playlist-repost') || desc}")
-    // PLAY OR PLAYLIST icon, user and repost icon
+
+    //- PLAY OR PLAYLIST icon, user and repost icon
     .meta
         .controls.fl(data-ng-if="track.type != 'playlist' && track.type != 'playlist-repost' && track.streamable")
             button.play.btn(data-ng-click='controlAudio.play(track.index, track.favList)', data-ng-hide='track.isPlaying')
                 span.icon-play_arrow
             button.pause.btn(data-ng-click='controlAudio.pause()', data-ng-show='track.isPlaying')
                 span.icon-pause
+
         .playlist-mark.fl(data-ng-show="track.type === 'playlist' || track.type === 'playlist-repost'")
             .btn
                 span.icon-list
                 span.plno {{::track.tracks.length}}
+
         .fl(data-ng-if='::track.index.length === 1')
             img.user-avatar(data-ng-src='{{::track.avatar}}')
             .icon-repeat.icon.repost(data-ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'")
+
         span.icon-fiber_new.new(data-ng-if='::track.index.length === 1')
-    // AUTHOR, DATE, TITLE, description and playlist tracks
+
+    //- AUTHOR, DATE, TITLE, description and playlist tracks
     .details
         .row.head
             .main
@@ -27,6 +32,7 @@
                 .row.toggledesc
                     button.btn(data-ng-init='desc = false', data-ng-click='desc = !desc', data-ng-show='track.description', data-ng-class="{'shown': desc}")
                         span(class="icon-expand_{{desc ? 'less' : 'more'}}")
+
             .buttons
                 span.duration {{::track.durationFormatted}}
                 a.buy.btn(data-ng-if='track.buy', data-ng-href='{{::track.buy}}', target='_blank')
@@ -35,12 +41,16 @@
                     span.icon-save
                 button.like.btn(data-ng-click="track.favoriteFlag ? like('delete', track.index, track.favList) : like('put', track.index, track.favList)", data-ng-class="{'favorite' : track.favoriteFlag}")
                     span.icon-favorite
+
         .row.description(data-ng-show='desc')
             .track-desc(data-ng-bind-html='::track.description')
             img(data-ng-if='track.artwork', data-ng-src='{{::track.artwork}}')
+
         .row.playlist-tracks(data-ng-if="track.type === 'playlist' || track.type === 'playlist-repost'")
             .item.track.row(data-ng-repeat='track in ::track.tracks', data-ng-include="'views/item.html'", data-ng-class='{active: track.isPlaying}')
+
 .track-progress(data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}", data-ng-if="track.isPlaying && track.type !== 'playlist' && track.type !== 'playlist-repost'")
-// SEPARATOR ITEM
+
+//- SEPARATOR ITEM
 .separator(data-ng-if='track.last')
     span.icon.icon-more_horiz

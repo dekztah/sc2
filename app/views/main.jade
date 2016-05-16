@@ -15,7 +15,7 @@
 
     span.icon-search.icon
     //- search stream
-    .search(data-ng-show="activeTab === 'main.stream'")
+    .search(data-ng-show="activeTab === 'stream'")
         input.form-control(
             type='text'
             autocomplete='off'
@@ -27,7 +27,7 @@
 
 
     //- search favorites
-    .search(data-ng-show="activeTab === 'main.favorites'")
+    .search(data-ng-show="activeTab === 'favorites'")
         input.form-control(
             type='text'
             autocomplete='off'
@@ -39,7 +39,7 @@
         button.close(data-ng-show="searchFavorites.title !== ''", data-ng-click="searchFavorites.title = ''") ×
 
     //- search followed users
-    .search(data-ng-show="activeTab === 'main.followings'")
+    .search(data-ng-show="activeTab === 'followings'")
         input.form-control(
             type='text'
             autocomplete='off'

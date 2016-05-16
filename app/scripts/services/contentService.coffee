@@ -2,7 +2,6 @@
 
 angular.module('sc2App').service 'ContentService', ($window, StreamService, FavoritesService, FollowingsService) ->
 
-    console.log 'init content'
     moment = $window.moment
 
     # temporary switch
@@ -21,7 +20,7 @@ angular.module('sc2App').service 'ContentService', ($window, StreamService, Favo
 
     @loadStream = () =>
         # if @streamInit then StreamService.load()
-        # @streamInit = false
+        @streamInit = false
         # StreamService.stream
         StreamService.load()
 

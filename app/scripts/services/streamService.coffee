@@ -87,14 +87,12 @@ angular
                                 playlistTrack = @getTrackProperties(playlistTrack, playlistTrackIndex, streamItem.index[0])
                                 streamItem.tracks.push playlistTrack
 
-
                             if streamItem.tracks.length == 1
                                 streamItem.singleTrackPlaylist = true
 
                     @stream[@stream.length - 1].last = true
 
                 run++
-                console.log @stream.length
                 @stream
 
             )

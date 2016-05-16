@@ -43,7 +43,7 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, 
     $scope.$on '$stateChangeSuccess', ->
         if $state.current.name == 'main'
             $state.go 'main.stream'
-        $scope.activeTab = $state.current.name
+        $scope.activeTab = $state.current.name.split('.')[1]
 
     $scope.getTimes = (n) ->
         new Array(n)
@@ -59,7 +59,6 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, 
     # generic helper functions
     $scope.helpers =
         updateCounters: ->
-            console.log 'update counters at once'
             $scope.counters = HelperService.getCount $scope.content.stream, $scope.streamFilter.repost
 
             if $scope.counters.newCount > 0

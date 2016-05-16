@@ -2,8 +2,9 @@
 
 angular.module('sc2App').controller 'streamCtrl', ($scope, SoundCloudService, ContentService, UserService, HelperService) ->
 
-    $scope.content =
-        stream: []
+    if ContentService.streamInit
+        $scope.content =
+            stream: []
 
     currentTrack = undefined
     previousTrack = undefined
@@ -13,7 +14,6 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, SoundCloudService, Co
         $scope.loadData()
 
     $scope.loadData = ->
-        console.log 'fetching stream data'
         $scope.status.loading = true
 
         ContentService.loadStream().then (content) ->
@@ -22,7 +22,7 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, SoundCloudService, Co
                     loading: false
                     error: content.status + ' ' + content.statusText
             else
-                $scope.content.stream.push.apply $scope.content.stream, content
+                $scope.content.stream = content
 
             $scope.helpers.updateCounters()
 
@@ -48,5 +48,5 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, SoundCloudService, Co
                 $scope.followings[index].followingFlag = false
 
     # get tracks if user is already authenticated
-    if UserService.userObj
+    if UserService.userObj && ContentService.streamInit
         $scope.loadData()
