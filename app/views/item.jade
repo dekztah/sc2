@@ -13,7 +13,7 @@
                 span.plno {{::track.tracks.length}}
         .fl(data-ng-if='::track.index.length === 1')
             img.user-avatar(data-ng-src='{{::track.avatar}}')
-            .icon-repost.icon.repost(data-ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'")
+            .icon-repeat.icon.repost(data-ng-show="track.type === 'track-repost' || track.type === 'playlist-repost'")
         span.icon-fiber_new.new(data-ng-if='::track.index.length === 1')
     // AUTHOR, DATE, TITLE, description and playlist tracks
     .details

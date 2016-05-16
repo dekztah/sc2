@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sc2App').service 'ContentService', ($window, $localStorage, StreamService, FavoritesService, FollowingsService) ->
+angular.module('sc2App').service 'ContentService', ($window, StreamService, FavoritesService, FollowingsService) ->
 
     console.log 'init content'
     moment = $window.moment
@@ -9,13 +9,6 @@ angular.module('sc2App').service 'ContentService', ($window, $localStorage, Stre
     @streamInit = true
     @favoritesInit = true
     @followingsInit = true
-
-    $localStorage.$default(
-        lastFetch: ''
-    )
-
-    @lastFetch = $localStorage.lastFetch
-    now = moment().format('YYYY-MM-DD HH:mm:ss')
 
     @player =
         currentTrack: undefined
@@ -41,7 +34,5 @@ angular.module('sc2App').service 'ContentService', ($window, $localStorage, Stre
         # if @followingsInit then FollowingsService.load()
         # @followingsInit = false
         FollowingsService.load()
-
-    #     @lastFetch = $localStorage.lastFetch = now
 
     return

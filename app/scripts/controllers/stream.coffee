@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloudService, ContentService, UserService, HelperService) ->
+angular.module('sc2App').controller 'streamCtrl', ($scope, SoundCloudService, ContentService, UserService, HelperService) ->
 
     $scope.content =
         stream: []
@@ -46,17 +46,6 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, $document, SoundCloud
                 $scope.followings[index].followingFlag = true
             else if response.status == 200 and method == 'delete'
                 $scope.followings[index].followingFlag = false
-
-
-
-    # generic helper functions
-    $scope.helpers =
-        getNewCount: ->
-            $scope.newCount = HelperService.getNewCount $scope.content.stream, $scope.streamFilter.repost
-            if $scope.newCount > 0
-                $document[0].title = '(' + $scope.newCount + ') sc2'
-            else
-                $document[0].title = 'sc2'
 
     # get tracks if user is already authenticated
     if UserService.userObj

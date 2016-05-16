@@ -24,7 +24,7 @@ angular
             if item.origin
                 {
                     index: index
-                    isNew: moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(@lastFetch))
+                    isNew: moment(item.created_at, 'YYYY/MM/DD HH:mm:ss ZZ').isAfter(moment(HelperService.lastFetch))
                     scDate: item.created_at
                     created: HelperService.customDate(item.created_at, 'MMMM DD YYYY')
                     type: item.type or item.kind

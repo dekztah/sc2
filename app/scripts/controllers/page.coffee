@@ -1,5 +1,5 @@
 'use strict'
-angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $window, $state, UserService, SoundCloudService, ContentService, $localStorage, HelperService, appVersion) ->
+angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, $window, $state, UserService, SoundCloudService, ContentService, $localStorage, HelperService, appVersion) ->
 
     $scope.user = UserService.userObj
     $scope.info = appVersion
@@ -22,7 +22,7 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $window, $s
     $scope.content = ContentService.content
 
     if $scope.user
-        $scope.user.lastFetch = HelperService.customDate(ContentService.lastFetch, 'ago')
+        $scope.user.lastFetch = HelperService.customDate(HelperService.lastFetch, 'ago')
 
     $scope.$on 'userStateChanged', ->
         $scope.user = UserService.userObj
@@ -58,6 +58,15 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $window, $s
         else
             data = $scope.content[$scope.activeTab][values[0]]
         data
+
+    # generic helper functions
+    $scope.helpers =
+        getNewCount: ->
+            $scope.newCount = HelperService.getNewCount $scope.content.stream, $scope.streamFilter.repost
+            if $scope.newCount > 0
+                $document[0].title = '(' + $scope.newCount + ') sc2'
+            else
+                $document[0].title = 'sc2'
 
     # audio player controls
     $scope.controlAudio =
