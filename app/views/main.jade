@@ -1,15 +1,15 @@
 //- SEARCH bar row
 .page-header.row
     #active-stream-switch.clearfix
-        button(ui-sref='main.stream')
+        button(ui-sref='main.stream', ng-class="{'active': activeTab == 'stream'}")
             | stream
             span.count {{counters.streamLength}}
 
-        button(ui-sref='main.favorites')
+        button(ui-sref='main.favorites', ng-class="{'active': activeTab == 'favorites'}")
             | favorites
             span.count {{user.user.public_favorites_count}}
 
-        button(ui-sref='main.followings')
+        button(ui-sref='main.followings', ng-class="{'active': activeTab == 'followings'}")
             | following
             span.count {{user.user.followings_count}}
 
