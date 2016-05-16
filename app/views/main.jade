@@ -1,9 +1,9 @@
 //- SEARCH bar row
 .page-header.row
-    #active-stream-switch.clearfixx
+    #active-stream-switch.clearfix
         button(ng-click="nav('stream')")
             | stream
-            span.count {{content.stream.length}}
+            span.count {{counters.streamLength}}
 
         button(ng-click="nav('favorites')")
             | favorites
@@ -50,10 +50,10 @@
         )
         button.close(data-ng-show="searchFollowed.username !== ''", data-ng-click="searchFollowed.username = ''") ×
 
-    #new(data-ng-show='newCount')
+    #new(data-ng-show='counters.newCount')
         span.new-count
             span.icon.icon-new
-            span {{newCount}} new
+            span {{counters.newCount}} new
         br
         span.last-visit last visit: {{::user.lastFetch}}
 
@@ -62,6 +62,7 @@
             input(
                 type='checkbox'
                 data-ng-model='streamFilter.repost'
+                data-ng-change='helpers.updateCounters()'
                 data-ng-true-value="''"
             )
             span.icon-repeat

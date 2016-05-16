@@ -61,10 +61,12 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, 
 
     # generic helper functions
     $scope.helpers =
-        getNewCount: ->
-            $scope.newCount = HelperService.getNewCount $scope.content.stream, $scope.streamFilter.repost
-            if $scope.newCount > 0
-                $document[0].title = '(' + $scope.newCount + ') sc2'
+        updateCounters: ->
+            console.log 'update counters at once'
+            $scope.counters = HelperService.getCount $scope.content.stream, $scope.streamFilter.repost
+
+            if $scope.counters.newCount > 0
+                $document[0].title = '(' + $scope.counters.newCount + ') sc2'
             else
                 $document[0].title = 'sc2'
 

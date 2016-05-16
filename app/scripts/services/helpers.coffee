@@ -43,12 +43,16 @@ angular.module('sc2App').service 'HelperService', ($window, $filter, $localStora
         )
         formattedDescription.replace /\n/g, '<br>'
 
-    @getNewCount = (stream, reposts) =>
-        # @lastFetch = $localStorage.lastFetch = now
-        filtered = $filter('filter')(stream, isNew: true)
-        if !reposts
-            $filter('filter')(filtered, repost: false).length
+    @getCount = (stream, reposts) =>
+        @lastFetch = $localStorage.lastFetch = now
+        newItems = $filter('filter')(stream, isNew: true)
+        if reposts == false
+            counters =
+                newCount: $filter('filter')(newItems, repost: false).length
+                streamLength: $filter('filter')(stream, repost: false).length + ' (' + stream.length + ')'
         else
-            filtered.length
+            counters =
+                newCount: newItems.length
+                streamLength: stream.length
 
     return

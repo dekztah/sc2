@@ -24,7 +24,7 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, SoundCloudService, Co
             else
                 $scope.content.stream.push.apply $scope.content.stream, content
 
-            $scope.helpers.getNewCount()
+            $scope.helpers.updateCounters()
 
     $scope.$on 'ngRepeatFinished', ->
         $scope.status.loading = false
