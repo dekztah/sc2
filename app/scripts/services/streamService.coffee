@@ -4,7 +4,7 @@ angular
     .module('sc2App').service 'StreamService', ($q, $window, HelperService, SoundCloudService, UserService, $rootScope) ->
         streamOffset = undefined
         limit = 50
-        run = 0
+        streamLength = 0
 
         @stream = []
 
@@ -62,14 +62,19 @@ angular
                 limit: limit
                 cursor: streamOffset
             ).then ((result) =>
+
                 streamOffset = result.data.next_href.split('cursor=')[1]
 
                 for streamItem, streamItemIndex in result.data.collection
-                    streamItem = @getTrackProperties(streamItem, streamItemIndex + run * limit, false)
+                    streamItem = @getTrackProperties(streamItem, streamItemIndex + streamLength, false)
                     @stream.push streamItem
 
                     if streamItem.type == 'playlist' or streamItem.type == 'playlist-repost'
                         @playlists.ids.push streamItem.scid
+
+                # "Because of the complexity of our systems, we cannot guarantee an exact number of items returned for each request." -LOL
+                # https://github.com/soundcloud/soundcloud-ruby/issues/49#issuecomment-197956472 ... and no its not just ruby specific, the whole js api does that too...
+                streamLength += result.data.collection.length
 
                 # load all tracks from all playlists
                 SoundCloudService.getPlaylistTracks(@playlists.ids).then (results) =>
@@ -92,7 +97,6 @@ angular
 
                     @stream[@stream.length - 1].last = true
 
-                run++
                 @stream
 
             )
