@@ -1,1 +1,0 @@
-"use strict";angular.module("config",[]).constant("appVersion","2.0.17").constant("soundcloudConfig",{apiBaseUrl:"http://api.soundcloud.com",apiKey:"88d9f158d0c568aa6ac38772e923f736",redirectUri:"http://sc2.wavetrip.org/callback.html",waveformServiceUrl:"http://wis.sndcdn.com/"});
