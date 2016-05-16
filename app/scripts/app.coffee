@@ -14,17 +14,37 @@ angular.module 'sc2App', [
 
     $localStorageProvider.setKeyPrefix 'sc2-'
 
-    $urlRouterProvider.otherwise '/stream'
+    $urlRouterProvider.otherwise '/'
 
-    $stateProvider.state('stream',
-        url: '/stream'
-        templateUrl: 'views/stream.html')
-    .state('favorites',
-        url: '/favorites'
-        templateUrl: 'views/favorites.html')
-    .state('followings',
-        url: '/followings'
-        templateUrl: 'views/followings.html')
+    $stateProvider
+        .state 'main',
+            url: '/'
+            views:
+                'sidebar':
+                    templateUrl: 'views/sidebar.html'
+                'main':
+                    templateUrl: 'views/main.html'
+
+        .state 'main.stream',
+            url: '/stream'
+            views:
+                'content':
+                    controller: 'streamCtrl'
+                    templateUrl: 'views/stream.html'
+
+        .state 'main.favorites',
+            url: '/favorites'
+            views:
+                'content':
+                    controller: 'favoritesCtrl'
+                    templateUrl: 'views/favorites.html'
+
+        .state 'main.followings',
+            url: '/followings'
+            views:
+                'content':
+                    controller: 'followingsCtrl'
+                    templateUrl: 'views/followings.html'
 
 # https://github.com/angular-ui/ui-router/issues/679
 # lol workaround

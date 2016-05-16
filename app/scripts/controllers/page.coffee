@@ -40,13 +40,10 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, 
 
     $scope.settings = $localStorage.settings
 
-    $scope.nav = (tab) ->
-        $scope.activeTab = tab
-        $state.go tab, {},
-            reload: false
-
     $scope.$on '$stateChangeSuccess', ->
-        $scope.activeTab = $state.current.url.replace('/', '') #temporary
+        if $state.current.name == 'main'
+            $state.go 'main.stream'
+        $scope.activeTab = $state.current.name
 
     $scope.getTimes = (n) ->
         new Array(n)

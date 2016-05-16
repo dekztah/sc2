@@ -1,21 +1,21 @@
 //- SEARCH bar row
 .page-header.row
     #active-stream-switch.clearfix
-        button(ng-click="nav('stream')")
+        button(ui-sref='main.stream')
             | stream
             span.count {{counters.streamLength}}
 
-        button(ng-click="nav('favorites')")
+        button(ui-sref='main.favorites')
             | favorites
             span.count {{user.user.public_favorites_count}}
 
-        button(ng-click="nav('followings')")
+        button(ui-sref='main.followings')
             | following
             span.count {{user.user.followings_count}}
 
     span.icon-search.icon
     //- search stream
-    .search(data-ng-show="activeTab === 'stream'")
+    .search(data-ng-show="activeTab === 'main.stream'")
         input.form-control(
             type='text'
             autocomplete='off'
@@ -27,7 +27,7 @@
 
 
     //- search favorites
-    .search(data-ng-show="activeTab === 'favorites'")
+    .search(data-ng-show="activeTab === 'main.favorites'")
         input.form-control(
             type='text'
             autocomplete='off'
@@ -39,7 +39,7 @@
         button.close(data-ng-show="searchFavorites.title !== ''", data-ng-click="searchFavorites.title = ''") ×
 
     //- search followed users
-    .search(data-ng-show="activeTab === 'followings'")
+    .search(data-ng-show="activeTab === 'main.followings'")
         input.form-control(
             type='text'
             autocomplete='off'
@@ -114,6 +114,6 @@
             div(data-ng-repeat='rect in getTimes(22) track by $index', class='rect{{::$index}}')
             | loading...
 
-#view(ui-view='')
+#view(ui-view='content')
 
 
