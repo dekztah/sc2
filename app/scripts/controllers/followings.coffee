@@ -6,6 +6,12 @@ angular.module('sc2App').controller 'followingsCtrl', ($scope, $document, SoundC
         followings: []
 
     ContentService.loadFollowings().then (content) ->
-        console.log content
-
         $scope.content.followings.push.apply $scope.content.followings, content
+
+    $scope.follow = (method, index) ->
+        userId = $scope.followings[index].id
+        SoundCloudService.res('followings/', method, userId, {}).then (response) ->
+            if response.status == 201
+                $scope.followings[index].followingFlag = true
+            else if response.status == 200 and method == 'delete'
+                $scope.followings[index].followingFlag = false

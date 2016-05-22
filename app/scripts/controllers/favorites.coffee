@@ -6,6 +6,4 @@ angular.module('sc2App').controller 'favoritesCtrl', ($scope, $document, SoundCl
         favorites: []
 
     ContentService.loadFavorites().then (content) ->
-        console.log content
-
         $scope.content.favorites.push.apply $scope.content.favorites, content

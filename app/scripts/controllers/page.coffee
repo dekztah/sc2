@@ -48,7 +48,7 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, 
     $scope.getTimes = (n) ->
         new Array(n)
 
-    getPlaylistOrTrackData = (values) ->
+    $scope.getPlaylistOrTrackData = (values) ->
         data = undefined
         if !isNaN(values[1])
             data = $scope.content[$scope.activeTab][values[0]].tracks[values[1]]
@@ -81,3 +81,13 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, 
         seekPreview: (event) ->
             xpos = if event.offsetX == undefined then event.layerX else event.offsetX
             $scope.$broadcast 'seekPreview', {xpos: xpos, width: event.target.clientWidth}
+
+    # add or remove track from your favorites
+    $scope.like = (method, index) ->
+        favorited = $scope.getPlaylistOrTrackData index
+        trackId = favorited.scid
+        SoundCloudService.res('favorites/', method, trackId, {}).then (response) ->
+            if response.status == 201
+                favorited.favoriteFlag = true
+            else if response.status == 200 and method == 'delete'
+                favorited.favoriteFlag = false
