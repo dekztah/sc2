@@ -23,6 +23,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-github:before {
+    content: "\eab0";
+}
 .icon-error:before {
     content: "\e000";
 }

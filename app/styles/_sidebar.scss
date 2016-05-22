@@ -32,7 +32,7 @@ aside {
 #audioplayer {
     position: fixed;
     width: 510px;
-    top: 61px;
+    top: 0;
     bottom: 0;
     left: 0;
 }
@@ -44,7 +44,7 @@ aside {
     position: fixed;
     z-index: 11;
     left: 15px;
-    top: 76px;
+    top: 15px;
 
     button {
         width: 30px;
@@ -162,7 +162,13 @@ aside {
 .version {
     vertical-align: bottom;
     float: right;
-    margin-top: 100px;
+    margin-top: 57px;
     font-size: 12px;
+
+    a {
+        display: block;
+        font-size: 32px;
+        text-align: center;
+    }
 }
 
