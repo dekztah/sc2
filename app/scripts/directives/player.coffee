@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, ContentService, SoundCloudService, animation, $filter) ->
+angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, ContentService, SoundCloudService, animation, $filter, $rootScope) ->
     {
         restrict: 'A'
         link: (scope, element, attrs) ->
@@ -75,23 +75,20 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
             getNext = ->
                 filtered = $filter('filter')(ContentService.content.stream, scope.streamFilter)
                 found = false
-                for track in filtered
-                    if found
-                        if track.hasOwnProperty 'tracks'
-                            ContentService.player.nextTrack = track.tracks[0]
-                        else
-                            ContentService.player.nextTrack = track
-                        break
 
+                for track, id in filtered
                     if track.index[0] == ContentService.player.currentTrack.index[0]
-                        if track.hasOwnProperty 'tracks'
-                            if track.index[1] == ContentService.player.currentTrack.index[1]
-                                found = true
+
+                        if ContentService.player.currentTrack.index[1]?
+                            if track.tracks.length > ContentService.player.currentTrack.index[1] + 1
+                                ContentService.player.nextTrack = track.tracks[ContentService.player.currentTrack.index[1] + 1]
+                            else
+                                ContentService.player.nextTrack = filtered[id + 1]
                         else
-                            found = true
-                        # if track.index[1] == data.current.index[1]
-                        #     console.log 'playlist'
-                        #     # found = true
+                            if filtered[id + 1].hasOwnProperty 'tracks'
+                                ContentService.player.nextTrack = filtered[id + 1].tracks[0]
+                            else
+                                ContentService.player.nextTrack = filtered[id + 1]
 
             scope.$on 'playTrack', (evt) ->
                 getNext()
@@ -107,10 +104,10 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                         if response.url
                             if !response.vis
                                 player = audioContext.playerNoVis
-                                scope.status.access = 'Limited access to track, visualizers disabled'
+                                $rootScope.status.access = 'Limited access to track, visualizers disabled'
                             else
                                 player = audioContext.player
-                                scope.status.access = false
+                                $rootScope.status.access = false
 
                             setEventListeners()
                             scope.playerData.currentTrack = ContentService.player.currentTrack
@@ -118,7 +115,7 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                             player.src = response.url
                             play()
                         else
-                            scope.status.access = 'No playable stream exists'
+                            $rootScope.status.access = 'No playable stream exists'
                             scope.playerData.currentTrack = undefined
                             player.src = ''
                             pause()

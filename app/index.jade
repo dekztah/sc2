@@ -6,6 +6,7 @@ html.no-js(data-ng-app='sc2App', data-ng-class='[theme.bgr, theme.color]', data-
         meta(name='description', content='')
         meta(name='viewport', content='width=device-width')
         link(rel='shortcut icon', href='sc__.png', type='image/png')
+        //- base(href='/')
 
         // build:css({.tmp,app}) styles/main.css
         link(rel='stylesheet', href='styles/main.css')
@@ -24,13 +25,12 @@ html.no-js(data-ng-app='sc2App', data-ng-class='[theme.bgr, theme.color]', data-
                 button#connect(data-ng-click='connect()')
                     | connect with
                     img(src='images/soundcloud_logo_white.png')
-        .system-message
-            | system message: due to users having bigger amount of favorites and followed users, some refactoring is being done. you can follow the issue
-            a(href='https://github.com/dekztah/sc2/issues/18' target='_blank')
-                | here
-        .hbox(data-ng-show='user', data-ng-cloak='' data-ng-controller='streamCtrl')
-            aside(data-ng-include="'views/sidebar.html'")
-            #main(data-ng-include="'views/stream.html'")
+
+        //- .system-message
+        //-     | system message: code refactoring is being constantly done, you may experience outages and non working states
+        .hbox(data-ng-show='user', data-ng-cloak='')
+            aside(ui-view='sidebar')
+            #main(ui-view='main')
 
         // Google Analytics: change UA-XXXXX-X to be your site's ID
         script.
@@ -41,16 +41,17 @@ html.no-js(data-ng-app='sc2App', data-ng-class='[theme.bgr, theme.color]', data-
             // ga('create', 'UA-XXXXX-X');
             // ga('send', 'pageview');
         script(src='http://connect.soundcloud.com/sdk.js')
+
         // build:js(.) scripts/vendor.js
         // bower:js
-        script(src='bower_components/es5-shim/es5-shim.js')
         script(src='bower_components/angular/angular.js')
-        script(src='bower_components/json3/lib/json3.js')
         script(src='bower_components/angular-animate/angular-animate.js')
         script(src='bower_components/angular-sanitize/angular-sanitize.js')
         script(src='bower_components/momentjs/moment.js')
         script(src='bower_components/ngstorage/ngStorage.js')
+        script(src='bower_components/angular-ui-router/release/angular-ui-router.js')
         // endbower
+
         script(src='bower_components/threejs/build/three.js')
         script(src='bower_components/threejs/examples/js/postprocessing/EffectComposer.js')
         script(src='bower_components/threejs/examples/js/postprocessing/RenderPass.js')
@@ -63,23 +64,33 @@ html.no-js(data-ng-app='sc2App', data-ng-class='[theme.bgr, theme.color]', data-
         script(src='bower_components/threejs/examples/js/shaders/VerticalBlurShader.js')
         script(src='bower_components/threex.badtvpproc/shaders/FilmShader.js')
         // endbuild
+
         // build:js({.tmp,app}) scripts/scripts.js
         script(src='scripts/app.js')
+
         script(src='scripts/services/UserService.js')
         script(src='scripts/services/audiocontext.js')
         script(src='scripts/services/canvasService.js')
         script(src='scripts/services/AdditiveBlendShader.js')
         script(src='scripts/services/soundCloud.js')
+        script(src='scripts/services/streamService.js')
+        script(src='scripts/services/favoritesService.js')
+        script(src='scripts/services/followingsService.js')
         script(src='scripts/services/contentService.js')
         script(src='scripts/services/helpers.js')
         script(src='scripts/services/animation.js')
+
         script(src='scripts/directives/player.js')
         script(src='scripts/directives/canvas.js')
         script(src='scripts/directives/theme.js')
         script(src='scripts/directives/repeatfinished.js')
+
         script(src='scripts/controllers/page.js')
         script(src='scripts/controllers/stream.js')
+        script(src='scripts/controllers/favorites.js')
+        script(src='scripts/controllers/followings.js')
         // endbuild
+
         // build:js({.tmp,app}) scripts/config.js
         script(src='scripts/config.js')
         // endbuild

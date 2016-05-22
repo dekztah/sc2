@@ -1,9 +1,17 @@
 'use strict'
 
-angular.module('sc2App').service 'HelperService', ($window, $filter) ->
+angular.module('sc2App').service 'HelperService', ($window, $filter, $localStorage) ->
     moment = $window.moment
     scDateFormat = 'YYYY/MM/DD HH:mm:ss ZZ'
     urlRegex = /((("|>)?\b(https?):\/\/|www)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+
+    $localStorage.$default(
+        lastFetch: ''
+    )
+
+    now = moment().format('YYYY-MM-DD HH:mm:ss')
+
+    @lastFetch = $localStorage.lastFetch
 
     @duration = (duration) ->
         hours = moment.duration(duration).get('hours')
@@ -35,11 +43,16 @@ angular.module('sc2App').service 'HelperService', ($window, $filter) ->
         )
         formattedDescription.replace /\n/g, '<br>'
 
-    @getNewCount = (stream, reposts) ->
-        filtered = $filter('filter')(stream, isNew: true)
-        if !reposts
-            $filter('filter')(filtered, repost: false).length
+    @getCount = (stream, reposts) =>
+        @lastFetch = $localStorage.lastFetch = now
+        newItems = $filter('filter')(stream, isNew: true)
+        if reposts == false
+            counters =
+                newCount: $filter('filter')(newItems, repost: false).length
+                streamLength: $filter('filter')(stream, repost: false).length + ' (' + stream.length + ')'
         else
-            filtered.length
+            counters =
+                newCount: newItems.length
+                streamLength: stream.length
 
     return
