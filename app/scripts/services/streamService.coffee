@@ -49,7 +49,6 @@ angular
                     userlink: item.origin.user.permalink_url
                     avatar: item.origin.user.avatar_url
                     favoriteFlag: item.user_favorite
-                    # followingFlag: @content.followings.hasOwnProperty(item.origin.user_id)
                     description: if item.origin.description then HelperService.description(item.origin.description) else false
                     favList: parentIndex < 0
                 }
