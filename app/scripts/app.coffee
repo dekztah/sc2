@@ -9,11 +9,8 @@ angular.module 'sc2App', [
 ]
 
 .config ($localStorageProvider, $stateProvider, $locationProvider, $urlRouterProvider) ->
-    # $locationProvider.html5Mode true
-    # $locationProvider.hashPrefix '!'
 
     $localStorageProvider.setKeyPrefix 'sc2-'
-
     $urlRouterProvider.otherwise ''
 
     $stateProvider
@@ -45,11 +42,3 @@ angular.module 'sc2App', [
                 'content':
                     controller: 'followingsCtrl'
                     templateUrl: 'views/followings.html'
-
-# https://github.com/angular-ui/ui-router/issues/679
-# lol workaround
-.run [
-    '$state'
-    ($state) ->
-        return
-    ]
