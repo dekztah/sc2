@@ -14,11 +14,11 @@ angular.module 'sc2App', [
 
     $localStorageProvider.setKeyPrefix 'sc2-'
 
-    $urlRouterProvider.otherwise '/'
+    $urlRouterProvider.otherwise ''
 
     $stateProvider
         .state 'main',
-            url: '/'
+            url: ''
             views:
                 'sidebar':
                     templateUrl: 'views/sidebar.html'
