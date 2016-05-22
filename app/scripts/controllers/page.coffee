@@ -71,7 +71,7 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, 
         play: (index) ->
             ContentService.player =
                 previousTrack: ContentService.player.currentTrack
-                currentTrack: getPlaylistOrTrackData(index)
+                currentTrack: $scope.getPlaylistOrTrackData(index)
             $scope.$broadcast 'playTrack'
         pause: ->
             $scope.$broadcast 'pauseTrack'

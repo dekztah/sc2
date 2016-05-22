@@ -48,7 +48,7 @@ angular
                     username: item.origin.user.username
                     userlink: item.origin.user.permalink_url
                     avatar: item.origin.user.avatar_url
-                    # favoriteFlag: @content.likeIds.indexOf(item.origin.id) > -1
+                    favoriteFlag: item.user_favorite
                     # followingFlag: @content.followings.hasOwnProperty(item.origin.user_id)
                     description: if item.origin.description then HelperService.description(item.origin.description) else false
                     favList: parentIndex < 0
@@ -62,7 +62,6 @@ angular
                 limit: limit
                 cursor: streamOffset
             ).then ((result) =>
-
                 streamOffset = result.data.next_href.split('cursor=')[1]
 
                 for streamItem, streamItemIndex in result.data.collection

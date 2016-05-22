@@ -44,8 +44,6 @@ angular
                     username: item.origin.user.username
                     userlink: item.origin.user.permalink_url
                     avatar: item.origin.user.avatar_url
-                    # favoriteFlag: @content.likeIds.indexOf(item.origin.id) > -1
-                    # followingFlag: @content.followings.hasOwnProperty(item.origin.user_id)
                     description: if item.origin.description then HelperService.description(item.origin.description) else false
                     favList: parentIndex < 0
                 }
@@ -61,7 +59,6 @@ angular
                 console.log result
 
                 for favorite, favIndex in result.data
-                    # @content.likeIds.push(like.id)
                     @favorites.push(@getTrackProperties(favorite, favIndex, -1))
                     @favorites[favIndex].favoriteFlag = true
 
