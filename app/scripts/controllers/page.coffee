@@ -82,11 +82,16 @@ angular.module('sc2App').controller 'pageCtrl', ($scope, $rootScope, $document, 
             xpos = if event.offsetX == undefined then event.layerX else event.offsetX
             $scope.$broadcast 'seekPreview', {xpos: xpos, width: event.target.clientWidth}
 
+    # update favorites and followings count
+    SoundCloudService.res('', 'get', '', {}).then (response) ->
+        UserService.userObj.user.followings_count = response.data.followings_count
+        UserService.userObj.user.public_favorites_count = response.data.public_favorites_count
+
     # add or remove track from your favorites
     $scope.like = (method, index) ->
         favorited = $scope.getPlaylistOrTrackData index
         trackId = favorited.scid
-        SoundCloudService.res('favorites/', method, trackId, {}).then (response) ->
+        SoundCloudService.res('/favorites/', method, trackId, {}).then (response) ->
             if response.status == 201
                 favorited.favoriteFlag = true
             else if response.status == 200 and method == 'delete'

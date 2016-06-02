@@ -52,7 +52,7 @@ angular
                 'mysterious unreadable track...'
 
         @load = () =>
-            SoundCloudService.res('favorites', 'get', '',
+            SoundCloudService.res('/favorites', 'get', '',
                 limit: limit
                 offset: offset
             ).then ((result) =>

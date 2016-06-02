@@ -29,7 +29,7 @@ angular.module('sc2App').service 'SoundCloudService', ($window, $http, $q, sound
         params.oauth_token = UserService.userObj.token
         $http
             method: method
-            url: soundcloudConfig.apiBaseUrl + '/me/' + resource + id
+            url: soundcloudConfig.apiBaseUrl + '/me' + resource + id
             params: params
 
     # need to check if Access Control headers are present, if not use the secondary player without visualizer

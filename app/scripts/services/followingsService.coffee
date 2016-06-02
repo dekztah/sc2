@@ -9,7 +9,7 @@ angular
         @followings = []
 
         @load = () =>
-            SoundCloudService.res('followings', 'get', '',
+            SoundCloudService.res('/followings', 'get', '',
                 limit: limit
                 offset: offset
             ).then ((result) =>

@@ -57,7 +57,7 @@ angular
                 'mysterious unreadable track...'
 
         @load = () =>
-            SoundCloudService.res('activities/tracks/affiliated', 'get', '',
+            SoundCloudService.res('/activities/tracks/affiliated', 'get', '',
                 limit: limit
                 cursor: streamOffset
             ).then ((result) =>
