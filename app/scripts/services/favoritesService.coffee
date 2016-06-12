@@ -44,6 +44,7 @@ angular
                     username: item.origin.user.username
                     userlink: item.origin.user.permalink_url
                     avatar: item.origin.user.avatar_url
+                    favoriteFlag: item.user_favorite
                     description: if item.origin.description then HelperService.description(item.origin.description) else false
                     favList: parentIndex < 0
                 }
@@ -56,10 +57,8 @@ angular
                 limit: limit
                 offset: offset
             ).then ((result) =>
-                console.log result
-
                 for favorite, favIndex in result.data
-                    @favorites.push(@getTrackProperties(favorite, favIndex, -1))
+                    @favorites.push(@getTrackProperties(favorite, favIndex + offset, -1))
                     @favorites[favIndex].favoriteFlag = true
 
                 offset = offset + limit

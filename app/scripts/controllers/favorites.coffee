@@ -5,5 +5,18 @@ angular.module('sc2App').controller 'favoritesCtrl', ($scope, $document, SoundCl
     $scope.content =
         favorites: []
 
-    ContentService.loadFavorites().then (content) ->
-        $scope.content.favorites.push.apply $scope.content.favorites, content
+    $scope.loadData = ->
+        $scope.status.loading = true
+
+        ContentService.loadFavorites().then (content) ->
+            if content.hasOwnProperty 'status'
+                $scope.status =
+                    loading: false
+                    error: content.status + ' ' + content.statusText
+            else
+                $scope.content.favorites = content
+
+    $scope.$on 'ngRepeatFinished', ->
+        $scope.status.loading = false
+
+    $scope.loadData()

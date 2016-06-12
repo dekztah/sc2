@@ -2,7 +2,8 @@
     .item.row(
         data-ng-repeat='user in content.followings | filter:searchFollowed track by user.id'
         data-ng-include="'views/user.html'"
+        data-repeat-finished
     )
 
 .row
-    button#more.btn(data-ng-click='loadData()', data-ng-show='!status.loading') more
+    button#more.btn(data-ng-click='loadData()', data-ng-show='!status.loading && user.user.followings_count != content.followings.length') more
