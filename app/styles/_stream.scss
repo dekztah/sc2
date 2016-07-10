@@ -297,6 +297,7 @@
     }
 
     .toggledesc {
+        margin-top: 3px;
         height: 20px;
         button {
             padding: 0;
@@ -372,6 +373,7 @@
 }
 
 .playlist-tracks {
+    margin-top: 5px;
     .controls {
         margin-left: 10px;
         button {
@@ -400,6 +402,9 @@
             flex: 50px;
         }
 
+    }
+    .toggledesc button {
+        background: none;
     }
     .description {
         margin-bottom: 20px;
