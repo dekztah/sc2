@@ -4,9 +4,9 @@
     //- PLAY OR PLAYLIST icon, user and repost icon
     .meta
         .controls.fl(data-ng-if="track.type != 'playlist' && track.type != 'playlist-repost' && track.streamable")
-            button.play.btn(data-ng-click='controlAudio.play(track.index, track.favList)', data-ng-hide='track.isPlaying')
+            button.play.btn(data-ng-click='controlAudio.play(track.index, track.favList)', data-ng-if='!track.isPlaying')
                 span.icon-play_arrow
-            button.pause.btn(data-ng-click='controlAudio.pause()', data-ng-show='track.isPlaying')
+            button.pause.btn(data-ng-click='controlAudio.pause()', data-ng-if='track.isPlaying')
                 span.icon-pause
 
         .playlist-mark.fl(data-ng-show="track.type === 'playlist' || track.type === 'playlist-repost'")
@@ -49,7 +49,7 @@
         .row.playlist-tracks(data-ng-if="track.type === 'playlist' || track.type === 'playlist-repost'")
             .item.track.row(data-ng-repeat='track in ::track.tracks', data-ng-include="'views/item.html'", data-ng-class='{active: track.isPlaying}')
 
-.track-progress(data-ng-style="{'width': (playerData.currentTime / playerData.duration) * 100 + '%'}", data-ng-if="track.isPlaying && track.type !== 'playlist' && track.type !== 'playlist-repost'")
+.track-progress(data-ng-style="{'width': (trackProgress.currentTime / trackProgress.duration) * 100 + '%'}", data-ng-if="track.isPlaying && track.type !== 'playlist' && track.type !== 'playlist-repost'")
 
 //- SEPARATOR ITEM
 .separator(data-ng-if='track.last')

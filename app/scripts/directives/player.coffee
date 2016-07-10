@@ -1,45 +1,49 @@
 'use strict'
 
-angular.module('sc2App').directive 'player', (audioContext, HelperService, CanvasService, ContentService, SoundCloudService, animation, $filter, $rootScope) ->
-    {
+angular.module('sc2App')
+    .directive 'player', (audioContext, HelperService, CanvasService, ContentService, SoundCloudService, animation, $filter, $rootScope) ->
         restrict: 'A'
-        link: (scope, element, attrs) ->
+        link: ($scope, $element, $attrs) ->
             player = audioContext.player
-            scope.playerData = {}
-            scope.fsScope = false
+            $scope.playerData = {}
+            $scope.fsScope = false
 
             onTimeupdate = ->
-                scope.$apply ->
-                    scope.playerData.currentTime = player.currentTime
-                    scope.playerData.currentTimeFormatted = HelperService.duration(player.currentTime * 1000)
+                $rootScope.$broadcast 'currentTimeUpdated',
+                    data =
+                        currentTime: player.currentTime
+                        duration: player.duration
+                $scope.$apply ->
+                    $scope.playerData.currentTime = player.currentTime
+                    $scope.playerData.currentTimeFormatted = HelperService.duration(player.currentTime * 1000)
 
             onEnded = ->
-                scope.$apply ->
-                    scope.playerData.currentTrack.isPlaying = false
-                    if scope.settings.autoAdvance and ContentService.player.nextTrack
-                        scope.playerData.playingIndex = ContentService.player.nextTrack.index
+                $scope.$apply ->
+                    $scope.playerData.currentTrack.isPlaying = false
+                    if $scope.settings.autoAdvance and ContentService.player.nextTrack
+                        $scope.playerData.playingIndex = ContentService.player.nextTrack.index
                         ContentService.player.previousTrack = ContentService.player.currentTrack
                         ContentService.player.currentTrack = ContentService.player.nextTrack
                         ContentService.player.currentTrack.isPlaying = true
-                        scope.$emit 'playTrack'
+                        $scope.$emit 'playTrack'
 
                     else
-                        scope.playerData.playingIndex = null
-                        scope.playerData.currentTime = 0
+                        $scope.playerData.playingIndex = null
+                        $scope.playerData.currentTime = 0
                         animation.killAnimation()
 
             onCanplay = ->
-                scope.$apply ->
-                    scope.playerData.duration = player.duration
-                    scope.playerData.seeking = false
+                $scope.$apply ->
+                    $scope.playerData.duration = player.duration
+                    $scope.playerData.seeking = false
 
             onSeeking = ->
-                scope.$apply ->
-                    scope.playerData.seeking = true
+                $scope.$apply ->
+                    $scope.playerData.seeking = true
 
             onSeeked = ->
-                scope.$apply ->
-                    scope.playerData.seeking = false
+                $scope.$apply ->
+                    $scope.playerData.seeking = false
 
             onProgress = ->
                 ranges = []
@@ -50,8 +54,8 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                     ]
 
                 if ranges.length
-                    scope.$apply ->
-                        scope.playerData.buffered = ranges[ranges.length - 1][1]
+                    $scope.$apply ->
+                        $scope.playerData.buffered = ranges[ranges.length - 1][1]
 
             setEventListeners = ->
                 player.addEventListener 'timeupdate', onTimeupdate, false
@@ -62,7 +66,7 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 player.addEventListener 'ended', onEnded, false
 
             play = ->
-                scope.playerData.currentTrack.isPlaying = true
+                $scope.playerData.currentTrack.isPlaying = true
                 player.play()
                 if !animation.requestId
                     animation.animate()
@@ -73,7 +77,7 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                 animation.killAnimation()
 
             getNext = ->
-                filtered = $filter('filter')(ContentService.content.stream, scope.streamFilter)
+                filtered = $filter('filter')(ContentService.content.stream, $scope.streamFilter)
                 found = false
 
                 for track, id in filtered
@@ -90,7 +94,7 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                             else
                                 ContentService.player.nextTrack = filtered[id + 1]
 
-            scope.$on 'playTrack', (evt) ->
+            $scope.$on 'playTrack', (evt) ->
                 getNext()
 
                 if ContentService.player.previousTrack and angular.equals ContentService.player.currentTrack.index, ContentService.player.previousTrack.index
@@ -110,13 +114,13 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                                 $rootScope.status.access = false
 
                             setEventListeners()
-                            scope.playerData.currentTrack = ContentService.player.currentTrack
-                            scope.playerData.vis = response.vis
+                            $scope.playerData.currentTrack = ContentService.player.currentTrack
+                            $scope.playerData.vis = response.vis
                             player.src = response.url
                             play()
                         else
                             $rootScope.status.access = 'No playable stream exists'
-                            scope.playerData.currentTrack = undefined
+                            $scope.playerData.currentTrack = undefined
                             player.src = ''
                             pause()
 
@@ -126,24 +130,23 @@ angular.module('sc2App').directive 'player', (audioContext, HelperService, Canva
                         CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformBufferContext, 'rgba(255,255,255,0.15)'
                         CanvasService.drawWaveform response.data.samples, CanvasService.canvases().waveformProgressContext, '#ffffff'
 
-            scope.$on 'pauseTrack', ->
-                scope.playerData.currentTrack.isPlaying = false
+            $scope.$on 'pauseTrack', ->
+                $scope.playerData.currentTrack.isPlaying = false
                 pause()
 
-            scope.$on 'seekTrack', (evt, data) ->
+            $scope.$on 'seekTrack', (evt, data) ->
                 player.currentTime = (data * player.duration).toFixed()
 
-            scope.$on 'seekPreview', (evt, data) ->
-                scope.seekCursor =
+            $scope.$on 'seekPreview', (evt, data) ->
+                $scope.seekCursor =
                     xpos: data.xpos
                     time: HelperService.duration(data.xpos * player.duration * 1000 / data.width)
 
-            scope.helpers =
+            $scope.helpers =
                 setVolume: (value) ->
                     audioContext.gain.value = value * value / 10000
                 toggleOsc: (bool) ->
-                    if !scope.status.access and scope.playerData.playingIndex and bool
-                        scope.fsScope = animation.x3dscope = true
+                    if !$rootScope.status.access and $scope.playerData.playingIndex and bool
+                        $scope.fsScope = animation.x3dscope = true
                     else
-                        scope.fsScope = animation.x3dscope = false
-    }
+                        $scope.fsScope = animation.x3dscope = false

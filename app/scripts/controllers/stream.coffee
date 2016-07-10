@@ -26,6 +26,12 @@ angular.module('sc2App').controller 'streamCtrl', ($scope, SoundCloudService, Co
 
             $scope.helpers.updateCounters()
 
+    $scope.$on 'currentTimeUpdated', (e, data) ->
+        $scope.$apply ->
+            $scope.trackProgress =
+                currentTime: data.currentTime
+                duration: data.duration
+
     $scope.$on 'ngRepeatFinished', ->
         $scope.status.loading = false
 

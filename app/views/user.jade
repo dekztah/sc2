@@ -12,13 +12,13 @@
                         a(data-ng-href='{{::user.website}}', target='_blank') {{::user.website}}
                 .row.toggledesc
                     button.btn(data-ng-init='desc = false', data-ng-click='desc = !desc', data-ng-show='user.description', data-ng-class="{'shown': desc}")
-                        span.icon-more
+                        span(class="icon-expand_{{desc ? 'less' : 'more'}}")
             .buttons
                 span
-                    span.icon-track
+                    span.icon-audiotrack
                     | {{::user.track_count}}
                 span
-                    span.icon-playlist
+                    span.icon-list
                     | {{::user.playlist_count}}
                 button.follow(data-ng-click="user.followingFlag ? follow('delete', user.index) : follow('put', user.index)") {{user.followingFlag ? 'unfollow' : 'follow'}}
         .row.description(data-ng-show='desc')
