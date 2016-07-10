@@ -6,7 +6,7 @@ angular.module('sc2App')
         link: ($scope, $element, $attrs) ->
             player = audioContext.player
             $scope.playerData = {}
-            $scope.fsScope = false
+            $rootScope.fsScope = false
 
             onTimeupdate = ->
                 $rootScope.$broadcast 'currentTimeUpdated',
@@ -146,7 +146,7 @@ angular.module('sc2App')
                 setVolume: (value) ->
                     audioContext.gain.value = value * value / 10000
                 toggleOsc: (bool) ->
-                    if !$rootScope.status.access and $scope.playerData.playingIndex and bool
-                        $scope.fsScope = animation.x3dscope = true
+                    if !$rootScope.status.access and $scope.playerData.currentTrack.isPlaying and bool
+                        $rootScope.fsScope = animation.x3dscope = true
                     else
-                        $scope.fsScope = animation.x3dscope = false
+                        $rootScope.fsScope = animation.x3dscope = false

@@ -1,11 +1,4 @@
-// Generated on 2015-02-27 using generator-angular 0.10.0
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
 
@@ -90,22 +83,6 @@ module.exports = function (grunt) {
                     }
                 }
             },
-            test: {
-                options: {
-                    port: 9001,
-                    middleware: function (connect) {
-                        return [
-                            connect.static('.tmp'),
-                            connect.static('test'),
-                            connect().use(
-                                '/bower_components',
-                                connect.static('./bower_components')
-                            ),
-                            connect.static(appConfig.app)
-                        ];
-                    }
-                }
-            },
             dist: {
                 options: {
                     open: true,
@@ -126,12 +103,6 @@ module.exports = function (grunt) {
                     // '<%= yeoman.app %>/scripts/{,*/}*.js'
                 ]
             },
-            // test: {
-            //     options: {
-            //         jshintrc: 'test/.jshintrc'
-            //     },
-            //     src: ['test/spec/{,*/}*.js']
-            // }
         },
 
         // Empties folders to start fresh
@@ -183,28 +154,6 @@ module.exports = function (grunt) {
                 src: ['<%= yeoman.app %>/index.jade'],
                 ignorePath:  /\.\.\//
             },
-            test: {
-                devDependencies: true,
-                src: '<%= karma.unit.configFile %>',
-                ignorePath:  /\.\.\//,
-                fileTypes:{
-                    coffee: {
-                        block: /(([\s\t]*)#\s*?bower:\s*?(\S*))(\n|\r|.)*?(#\s*endbower)/gi,
-                        detect: {
-                            js: /'(.*\.js)'/gi,
-                            coffee: /'(.*\.coffee)'/gi
-                        },
-                        replace: {
-                            js: '\'{{filePath}}\'',
-                            coffee: '\'{{filePath}}\''
-                        }
-                    },
-                    sass: {
-                        src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                        ignorePath: /(\.\.\/){1,2}bower_components\//
-                    }
-                },
-            },
         },
 
         // Compiles CoffeeScript to JavaScript
@@ -222,19 +171,9 @@ module.exports = function (grunt) {
                     ext: '.js'
                 }]
             },
-            test: {
-                files: [{
-                    expand: true,
-                    cwd: 'test/spec',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/spec',
-                    ext: '.js'
-                }]
-            }
         },
 
         // Compiles Sass to CSS and generates necessary files if requested
-
         sass: {
             options: {
                 sourceMap: true
@@ -434,11 +373,6 @@ module.exports = function (grunt) {
                 'coffee:dist',
                 'sass'
             ],
-            test: [
-                'jade',
-                'coffee',
-                // 'compass'
-            ],
             dist: [
                 'coffee',
                 'sass',
@@ -487,14 +421,6 @@ module.exports = function (grunt) {
             }
         },
 
-        // Test settings
-        karma: {
-            unit: {
-                configFile: 'test/karma.conf.js',
-                singleRun: true
-            }
-        },
-
         // Build control for pushing to github pages
         buildcontrol: {
             options: {
@@ -540,15 +466,6 @@ module.exports = function (grunt) {
         grunt.task.run(['serve:' + target]);
     });
 
-    grunt.registerTask('test', [
-        'clean:server',
-        'wiredep',
-        'concurrent:test',
-        'postcss',
-        'connect:test',
-        'karma'
-    ]);
-
     grunt.registerTask('build', [
         'clean:dist',
         'bump',
@@ -567,11 +484,5 @@ module.exports = function (grunt) {
         'filerev',
         'usemin',
         'htmlmin'
-    ]);
-
-    grunt.registerTask('default', [
-        'newer:jshint',
-        'test',
-        'build'
     ]);
 };
