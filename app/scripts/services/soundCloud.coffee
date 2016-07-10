@@ -37,8 +37,10 @@ angular.module('sc2App').service 'SoundCloudService', ($window, $http, $q, sound
     @getProperStreamUrl = (trackid) ->
         streamUrl = soundcloudConfig.apiBaseUrl + '/i1/tracks/' + trackid + '/streams?client_id=' + soundcloudConfig.apiKey
         $http.get(streamUrl).then (response) ->
+            console.log response
             canplay =
-                vis: if response.data.hasOwnProperty 'http_mp3_128_url' then response.data.http_mp3_128_url.indexOf('ec-media') > -1
+                vis: true
+                # vis: if response.data.hasOwnProperty 'http_mp3_128_url' then response.data.http_mp3_128_url.indexOf('ec-media') > -1
                 url: response.data.http_mp3_128_url
 
     @getWaveformData = (waveformUrl) ->
