@@ -1,3 +1,5 @@
+deprecated due to inconsistent changes to API
+
 ![alt text](https://raw.githubusercontent.com/dekztah/sc2/master/app/images/sc2_small.png)  #sc2
 ---
 ---
